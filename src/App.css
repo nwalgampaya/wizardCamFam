@@ -264,3 +264,24 @@ table.pushright {
   right: 0;
 }
 /* Colonoscopy css *//* Colonoscopy css *//* Colonoscopy css *//* Colonoscopy css *//* Colonoscopy css *//* Colonoscopy css */
+
+/* CancerFamily */
+
+.dialogclassname{
+  /* display: block;  */
+  /* width: 800px;  */
+  /* height: 500px; */
+  padding-left: 0px;
+  font-size: 15px;
+  font-family: 'Open Sans', sans-serif;
+  color: rgb(79, 94, 230);
+}
+
+.modalHeader{
+  font-size: 15px;
+  font-family: 'Open Sans', sans-serif;
+  background-color: aquamarine,
+
+}
+
+/* CancerFamily */

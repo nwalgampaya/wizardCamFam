@@ -2,6 +2,7 @@
 import React from 'react';
 import {Button, DropdownButton, MenuItem, Modal,  OverlayTrigger, Tooltip} from 'react-bootstrap';
 import DatePicker from 'react-date-picker';
+import '../../App.css';
 
 
 export default class CancerInfo extends React.Component {
@@ -18,12 +19,14 @@ export default class CancerInfo extends React.Component {
           }],
         
           show: false,
-        
+          showAddCancer:false,
+
         
 
           selectedId:''
         }
         this.handleShow = this.handleShow.bind(this);
+        this.handleShowAddCancer = this.handleShowAddCancer.bind(this);
         this.handleClose = this.handleClose.bind(this);
         this.handleSave = this.handleSave.bind(this);    
         this.handleTxtChange = this.handleTxtChange.bind(this);
@@ -36,7 +39,7 @@ export default class CancerInfo extends React.Component {
             // const urlProfession = properties.baseUrl + "practitionerscore/" ;
             // fetch saved practitioner rec id
             console.log("SEL this.jsonId%%%%%%%%%%%%%%%%%%% : " + this.state.jsonId)
-            const urlProfession = "http://localhost:8090/ProneSpringBoot/api/practitioners/";
+            const urlProfession = "http://localhost:8090/ProneSpringBoot/api/practitioners/175/";
             fetch(urlProfession)
               .then(response => response.json())
               .then((data) => {
@@ -54,18 +57,27 @@ export default class CancerInfo extends React.Component {
 
     handleClose() {
         this.setState({ show: false });
+        // this.setState({ showAddCancer: false });
       }
     handleSave() {    
-      alert("Saving" + this.state.cancerInfo[this.state.selectedId].age)
+      // alert("Saving" + this.state.cancerInfo[this.state.selectedId].age)
        this.setState({ show: false });
       }
     handleShow(id) {
         console.log("in handleShow"+  id )
         this.setState({ show: true });
+        // this.setState({ showAddCancer: true });
         this.state.selectedId=id
         console.log("in handleShow selectedId ;"+  this.state.selectedId )
       }
 
+    handleShowAddCancer(){
+        // console.log("in handleShow"+  id )
+        // this.setState({ show: false });
+        this.setState({ showAddCancer: true });
+        // this.state.selectedId=id
+        console.log("in handleShow selectedId ;"+  this.state.selectedId )
+      }
     handleTxtChange (e) {  
         //alert("txt" + e.target.value)
         // this.state.textValue= e.target.value;
@@ -126,11 +138,18 @@ export default class CancerInfo extends React.Component {
                     
                     </tbody>
                 </table>
-
-                <Modal show={this.state.show} onHide={this.handleClose} keyboard={false} selectedid={this.state.selectedId}>
+                <td><br/>
+           <Button  bsSize="small"  onClick={this.handleShowAddCancer}>
+             Add Cancer
+           </Button>
+        </td>
+                <div >
                   
-                  <Modal.Header closeButton>
-                    <Modal.Title>Cancer Edit</Modal.Title>
+                <Modal /* backdrop={false} */ dialogClassName="dialogclassname" show={this.state.show} onHide={this.handleClose} keyboard={false} selectedid={this.state.selectedId}>
+                  
+                  <Modal.Header  closeButton={false} >
+                    <Modal.Title >
+                    <div ClassName="modalHeader">Cancer Edit</div></Modal.Title>
                   </Modal.Header>
                   <Modal.Body>
                   {/* value= {}this.state.data[].name */} 
@@ -244,7 +263,128 @@ export default class CancerInfo extends React.Component {
 
                   </Modal.Footer>
                 </Modal>
+                </div>
 
+                <div >
+                <Modal backdrop={false}  dialogClassName="dialogclassname" show={this.state.showAddCancer} onHide={this.handleClose} keyboard={false} selectedid={this.state.selectedId}>
+                  
+                  <Modal.Header  closeButton={false} >
+                    <Modal.Title >
+                    <div ClassName="modalHeader">Add Cancer</div></Modal.Title>
+                  </Modal.Header>
+                  <Modal.Body>
+                  {/* value= {}this.state.data[].name */} 
+                  {/* Condition for the value is needed to render the element at the the initial load */}
+                  {/* <input type="text" onChange={this.handleTxtChange}  value = {this.state.selectedId=='' ? this.state.cancerInfo[0].age : this.state.cancerInfo[this.state.selectedId].age}/> */}
+                    
+                  <div className="row form-check form-check-inline">
+                    <div className="col-sm-5">
+                      Site: *
+                    </div>
+                    <div className="col-sm-5">
+                      <select disabled={this.state.isAlive} className="form-control dorp-box" value={this.state.currentSourceOFDeath} onChange={this.setCurrentSource.bind(this)} name="currentDeathColumn">
+                      {
+                        
+                        <option >{"Hospital Rec"}</option>
+                      }
+                      </select>
+                    </div><br/><br/>
+                  </div>
+                  <div className="row form-check form-check-inline">
+                    <div className="col-sm-5">
+                      Lateral: *
+                    </div>
+                    <div className="col-sm-5">
+                      <select disabled={this.state.isAlive} className="form-control dorp-box" value={this.state.currentSourceOFDeath} onChange={this.setCurrentSource.bind(this)} name="currentDeathColumn">
+                      {
+                        
+                        <option >{"Hospital Rec"}</option>
+                      }
+                      </select>
+                    </div><br/><br/>
+                  </div>
+                  <div className="row form-check form-check-inline">
+                    <div className="col-sm-5">
+                       Histology: 
+                    </div>
+                    <div className="col-sm-5">
+                      <select disabled={this.state.isAlive} className="form-control dorp-box" value={this.state.currentSourceOFDeath} onChange={this.setCurrentSource.bind(this)} name="currentDeathColumn">
+                      {
+                        
+                        <option >{"Hospital Rec"}</option>
+                      }
+                      </select>
+                    </div><br/><br/>
+                  </div>
+                  <div className="row form-check form-check-inline">
+                    <div className="col-sm-5">
+                      Behaviour: 
+                    </div>
+                    <div className="col-sm-5">
+                      <select disabled={this.state.isAlive} className="form-control dorp-box" value={this.state.currentSourceOFDeath} onChange={this.setCurrentSource.bind(this)} name="currentDeathColumn">
+                      {
+                        
+                        <option >{"Hospital Rec"}</option>
+                      }
+                      </select>
+                    </div><br/><br/>
+                  </div>  
+                  <div className="row form-check form-check-inline">
+                      <div className="col-sm-5">
+                        Date Of Diagnosis: :
+                      </div>
+                      <div className="col-sm-4"> 
+                          <DatePicker
+                          // onChange={this.oncurrentDOBChange}
+                          value={this.state.currentDOB}
+                          />
+                      </div><br/><br/>
+                    </div>
+                  <div className="row form-check form-check-inline">
+                    <div className="col-sm-5">
+                    Source:
+                    </div>
+                    <div className="col-sm-5">
+                      <select disabled={this.state.isAlive} className="form-control dorp-box" value={this.state.currentSourceOFDeath} onChange={this.setCurrentSource.bind(this)} name="currentDeathColumn">
+                      {
+                        
+                        <option >{"Hospital Rec"}</option>
+                      }
+                      </select>
+                    </div><br/><br/>
+                  </div>
+                  <div className="row form-check form-check-inline">
+                    <div className="col-sm-5">
+                        Tissue:
+                    </div>
+                    <div className="col-sm-5">
+                      <select disabled={this.state.isAlive} className="form-control dorp-box" value={this.state.currentSourceOFDeath} onChange={this.setCurrentSource.bind(this)} name="currentDeathColumn">
+                      {
+                        
+                        <option >{"Hospital Rec"}</option>
+                      }
+                      </select>
+                    </div><br/><br/>
+                  </div>
+                    <h4>Text in a modal</h4>
+                    <p>
+                      Duis mollis, est non commodo luctus, nisi erat porttitor ligula.
+                    </p>
+
+                    <h4>Tooltips in a modal</h4>
+                  
+
+                    <hr />
+
+                    
+                  </Modal.Body>
+                  <Modal.Footer>
+                    <Button onClick={this.handleClose}>Close</Button>
+                    <Button onClick={this.handleSave}>Save</Button>
+
+                  </Modal.Footer>
+                </Modal>
+                </div>
             </div>
         )
     }

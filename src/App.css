@@ -272,9 +272,9 @@ table.pushright {
   /* width: 800px;  */
   /* height: 500px; */
   padding-left: 0px;
-  font-size: 15px;
+  font-size: 17px;
   font-family: 'Open Sans', sans-serif;
-  color: rgb(79, 94, 230);
+  /* color: rgb(79, 94, 230); */
 }
 
 .modalHeader{
@@ -283,5 +283,20 @@ table.pushright {
   background-color: aquamarine,
 
 }
+
+.asteric-required:after{
+  content:"*";
+  color: rgb(243, 85, 111);
+  /* font-weight:bold; */
+  margin-left: 8px
+}
+
+.inline-error  {
+  display: inline-block;
+  position: relative;
+  font-size: 12px;
+  color: red
+  
+  }
 
 /* CancerFamily */

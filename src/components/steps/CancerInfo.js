@@ -3,9 +3,10 @@ import React from 'react';
 import {Button, DropdownButton, MenuItem, Modal,  OverlayTrigger, Tooltip} from 'react-bootstrap';
 import DatePicker from 'react-date-picker';
 import '../../App.css';
+import { withFormik, Form, Field } from 'formik'
+import * as Yup from 'yup'
 
-
-export default class CancerInfo extends React.Component {
+class CancerInfo extends React.Component {
 
     constructor(props) {
         super(props);
@@ -28,9 +29,14 @@ export default class CancerInfo extends React.Component {
         this.handleShow = this.handleShow.bind(this);
         this.handleShowAddCancer = this.handleShowAddCancer.bind(this);
         this.handleClose = this.handleClose.bind(this);
+        this.handleCloseAddCancer = this.handleCloseAddCancer.bind(this);        
+        this.handleSaveAddCancer = this.handleSaveAddCancer.bind(this);        
+        
         this.handleSave = this.handleSave.bind(this);    
         this.handleTxtChange = this.handleTxtChange.bind(this);
         this.setCurrentSource = this.setCurrentSource.bind(this);
+        // this.handleSubmit = this.handleSubmit.bind(this);
+        // handleSubmit
       }
 
     componentDidMount(){
@@ -39,7 +45,7 @@ export default class CancerInfo extends React.Component {
             // const urlProfession = properties.baseUrl + "practitionerscore/" ;
             // fetch saved practitioner rec id
             console.log("SEL this.jsonId%%%%%%%%%%%%%%%%%%% : " + this.state.jsonId)
-            const urlProfession = "http://localhost:8090/ProneSpringBoot/api/practitioners/175/";
+            const urlProfession = "http://localhost:8090/ProneSpringBoot/api/practitioners/175";
             fetch(urlProfession)
               .then(response => response.json())
               .then((data) => {
@@ -70,7 +76,14 @@ export default class CancerInfo extends React.Component {
         this.state.selectedId=id
         console.log("in handleShow selectedId ;"+  this.state.selectedId )
       }
-
+    handleCloseAddCancer() {
+        this.setState({ showAddCancer: false });
+        // this.setState({ showAddCancer: false });
+      }
+    handleSaveAddCancer() {    
+          // alert("Saving" + this.state.cancerInfo[this.state.selectedId].age)
+          this.setState({ showAddCancer: false });
+          }
     handleShowAddCancer(){
         // console.log("in handleShow"+  id )
         // this.setState({ show: false });
@@ -82,11 +95,19 @@ export default class CancerInfo extends React.Component {
         //alert("txt" + e.target.value)
         // this.state.textValue= e.target.value;
         this.setState({ textValue: e.target.value})
-      }
-      setCurrentSource(){
+    }
+    setCurrentSource(){
 
     }
     render() {
+
+      const {      
+        values,
+        errors,
+        touched,
+        isSubmitting
+      
+      } = this.props;
         let rows = this.state.cancerInfo.map((cancer ,i) => {
           // console.log("in render"+ person.id)
           // console.log("in render i :"+ i)
@@ -139,9 +160,9 @@ export default class CancerInfo extends React.Component {
                     </tbody>
                 </table>
                 <td><br/>
-           <Button  bsSize="small"  onClick={this.handleShowAddCancer}>
-             Add Cancer
-           </Button>
+                <Button  bsSize="small"  onClick={this.handleShowAddCancer}>
+                  Add Cancer
+                </Button>
         </td>
                 <div >
                   
@@ -149,7 +170,7 @@ export default class CancerInfo extends React.Component {
                   
                   <Modal.Header  closeButton={false} >
                     <Modal.Title >
-                    <div ClassName="modalHeader">Cancer Edit</div></Modal.Title>
+                    <div className="modalHeader">Cancer Edit</div></Modal.Title>
                   </Modal.Header>
                   <Modal.Body>
                   {/* value= {}this.state.data[].name */} 
@@ -218,7 +239,15 @@ export default class CancerInfo extends React.Component {
                           value={this.state.currentDOB}
                           />
                       </div><br/><br/>
-                    </div>
+                  </div>
+                  <div className="row form-check form-check-inline">
+                      <div className="col-sm-5">
+                        Age Of Diagnosis: 
+                      </div>
+                      <div className="col-sm-4"> 
+                        <input type= "text" placeholder="age"></input>
+                      </div><br/><br/>
+                  </div>
                   <div className="row form-check form-check-inline">
                     <div className="col-sm-5">
                     Source:
@@ -245,16 +274,7 @@ export default class CancerInfo extends React.Component {
                       </select>
                     </div><br/><br/>
                   </div>
-                    <h4>Text in a modal</h4>
-                    <p>
-                      Duis mollis, est non commodo luctus, nisi erat porttitor ligula.
-                    </p>
-
-                    <h4>Tooltips in a modal</h4>
-                  
-
-                    <hr />
-
+                   
                     
                   </Modal.Body>
                   <Modal.Footer>
@@ -265,12 +285,14 @@ export default class CancerInfo extends React.Component {
                 </Modal>
                 </div>
 
-                <div >
-                <Modal backdrop={false}  dialogClassName="dialogclassname" show={this.state.showAddCancer} onHide={this.handleClose} keyboard={false} selectedid={this.state.selectedId}>
+{/* Modal for Adding New Cancer - START*/}
+                 <Form /* onSubmit={this.handleSubmit} */>
+
+                <Modal backdrop={false}  dialogClassName="dialogclassname" show={this.state.showAddCancer} onHide={this.handleCloseAddCancer} keyboard={false} selectedid={this.state.selectedId}>
                   
                   <Modal.Header  closeButton={false} >
                     <Modal.Title >
-                    <div ClassName="modalHeader">Add Cancer</div></Modal.Title>
+                    <div className="modalHeader">Add Cancer</div></Modal.Title>
                   </Modal.Header>
                   <Modal.Body>
                   {/* value= {}this.state.data[].name */} 
@@ -278,11 +300,11 @@ export default class CancerInfo extends React.Component {
                   {/* <input type="text" onChange={this.handleTxtChange}  value = {this.state.selectedId=='' ? this.state.cancerInfo[0].age : this.state.cancerInfo[this.state.selectedId].age}/> */}
                     
                   <div className="row form-check form-check-inline">
-                    <div className="col-sm-5">
-                      Site: *
+                    <div className="col-sm-5 asteric-required">
+                      Site:
                     </div>
                     <div className="col-sm-5">
-                      <select disabled={this.state.isAlive} className="form-control dorp-box" value={this.state.currentSourceOFDeath} onChange={this.setCurrentSource.bind(this)} name="currentDeathColumn">
+                      <select className="form-control dorp-box" value={this.state.currentSourceOFDeath} onChange={this.setCurrentSource.bind(this)} name="currentDeathColumn">
                       {
                         
                         <option >{"Hospital Rec"}</option>
@@ -291,11 +313,11 @@ export default class CancerInfo extends React.Component {
                     </div><br/><br/>
                   </div>
                   <div className="row form-check form-check-inline">
-                    <div className="col-sm-5">
-                      Lateral: *
+                    <div className="col-sm-5 asteric-required">
+                      Lateral: 
                     </div>
                     <div className="col-sm-5">
-                      <select disabled={this.state.isAlive} className="form-control dorp-box" value={this.state.currentSourceOFDeath} onChange={this.setCurrentSource.bind(this)} name="currentDeathColumn">
+                      <select required="true" disabled={this.state.isAlive} className="form-control dorp-box" value={this.state.currentSourceOFDeath} onChange={this.setCurrentSource.bind(this)} name="currentDeathColumn">
                       {
                         
                         <option >{"Hospital Rec"}</option>
@@ -304,7 +326,7 @@ export default class CancerInfo extends React.Component {
                     </div><br/><br/>
                   </div>
                   <div className="row form-check form-check-inline">
-                    <div className="col-sm-5">
+                    <div className="col-sm-5 asteric-required">
                        Histology: 
                     </div>
                     <div className="col-sm-5">
@@ -317,7 +339,7 @@ export default class CancerInfo extends React.Component {
                     </div><br/><br/>
                   </div>
                   <div className="row form-check form-check-inline">
-                    <div className="col-sm-5">
+                    <div className="col-sm-5 asteric-required">
                       Behaviour: 
                     </div>
                     <div className="col-sm-5">
@@ -330,7 +352,7 @@ export default class CancerInfo extends React.Component {
                     </div><br/><br/>
                   </div>  
                   <div className="row form-check form-check-inline">
-                      <div className="col-sm-5">
+                      <div className="col-sm-5 asteric-required">
                         Date Of Diagnosis: :
                       </div>
                       <div className="col-sm-4"> 
@@ -340,8 +362,19 @@ export default class CancerInfo extends React.Component {
                           />
                       </div><br/><br/>
                     </div>
+                    <div className="row form-check form-check-inline">
+                      <div className="col-sm-5 asteric-required">
+                        Age Of Diagnosis: 
+                      </div>
+                      <div className="col-sm-4"> 
+                      <Field type= "text" placeholder="age" name="ageOfDigColumn" />
+                          <div className="inline-error">{ touched.ageOfDigColumn && errors.ageOfDigColumn && <p>{errors.ageOfDigColumn}</p> }</div>
+                      </div><br/><br/>
+                    </div>
+
+                    
                   <div className="row form-check form-check-inline">
-                    <div className="col-sm-5">
+                    <div className="col-sm-5 asteric-required">
                     Source:
                     </div>
                     <div className="col-sm-5">
@@ -354,7 +387,7 @@ export default class CancerInfo extends React.Component {
                     </div><br/><br/>
                   </div>
                   <div className="row form-check form-check-inline">
-                    <div className="col-sm-5">
+                    <div className="col-sm-5 asteric-required">
                         Tissue:
                     </div>
                     <div className="col-sm-5">
@@ -366,25 +399,21 @@ export default class CancerInfo extends React.Component {
                       </select>
                     </div><br/><br/>
                   </div>
-                    <h4>Text in a modal</h4>
-                    <p>
-                      Duis mollis, est non commodo luctus, nisi erat porttitor ligula.
-                    </p>
-
-                    <h4>Tooltips in a modal</h4>
-                  
-
-                    <hr />
+                    {/* <hr /> */}
 
                     
                   </Modal.Body>
                   <Modal.Footer>
-                    <Button onClick={this.handleClose}>Close</Button>
-                    <Button onClick={this.handleSave}>Save</Button>
+                    <button type="submit" onClick={this.handleCloseAddCancer} >Close</button>
+                    {/* <Button onClick={this.handleCloseAddCancer} >Close</Button> */}
+                    <button  onClick={this.handleSubmit} disabled={isSubmitting}>Save</button>
+                    {/* <Button onClick={this.handleSaveAddCancer}>Save</Button> */}
 
                   </Modal.Footer>
                 </Modal>
-                </div>
+                </Form>
+{/* Modal for Adding New Cancer END*/}                
+
             </div>
         )
     }
@@ -430,3 +459,43 @@ const PersonRow = (props) => {
       </tr>
     );
   }
+  const DialogFormikApp = withFormik({
+    
+
+
+    mapPropsToValues({email,ageOfDigColumn}) {
+    
+        return {
+            email: email || '',
+            // aodeathColumn:'fromDb',
+            // currentaodeathColumn: "testin",
+            ageOfDigColumn:'',
+            vitalStatusColumn: 1,
+        }
+    },
+
+    validationSchema: Yup.object().shape({
+        email: Yup.string().email('Email not valid').required('Email is required'),
+        ageOfDigColumn: Yup.string().required('value is required'),
+        // password: Yup.string().min(9, 'Password must be 9 characters or longer').required('Password is required')
+      }),
+
+      handleSubmit(values, { resetForm, setErrors, setSubmitting }) {
+        console.log("SUBMIT")
+        setTimeout(() => {
+          if (values.email === 'andrew@test.io') {
+            setErrors({ email: 'That email is already taken' })
+          } else {
+            resetForm()
+          }
+          setSubmitting(false)
+        }, 2000)
+      }  
+})(CancerInfo) 
+
+
+
+export default DialogFormikApp;
+
+// TODo
+// {/* <Form /* onSubmit={this.handleSubmit} */>

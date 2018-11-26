@@ -286,9 +286,9 @@ class CancerInfo extends React.Component {
                 </div>
 
 {/* Modal for Adding New Cancer - START*/}
-                 <Form /* onSubmit={this.handleSubmit} */>
 
                 <Modal backdrop={false}  dialogClassName="dialogclassname" show={this.state.showAddCancer} onHide={this.handleCloseAddCancer} keyboard={false} selectedid={this.state.selectedId}>
+                 <Form /* onSubmit={this.handleSubmit} */>
                   
                   <Modal.Header  closeButton={false} >
                     <Modal.Title >
@@ -406,12 +406,14 @@ class CancerInfo extends React.Component {
                   <Modal.Footer>
                     <button type="submit" onClick={this.handleCloseAddCancer} >Close</button>
                     {/* <Button onClick={this.handleCloseAddCancer} >Close</Button> */}
-                    <button  onClick={this.handleSubmit} disabled={isSubmitting}>Save</button>
+                    {/* <button  disabled={isSubmitting}>Save</button> */}
+                    {/* <button  type= "submit" disabled={isSubmitting}>Save</button> */}
+                    <button type="submit">submit</button>
                     {/* <Button onClick={this.handleSaveAddCancer}>Save</Button> */}
 
                   </Modal.Footer>
-                </Modal>
                 </Form>
+                </Modal>
 {/* Modal for Adding New Cancer END*/}                
 
             </div>
@@ -463,19 +465,19 @@ const PersonRow = (props) => {
     
 
 
-    mapPropsToValues({email,ageOfDigColumn}) {
+    mapPropsToValues({ageOfDigColumn}) {
     
         return {
-            email: email || '',
+            // email: email || '',
             // aodeathColumn:'fromDb',
             // currentaodeathColumn: "testin",
             ageOfDigColumn:'',
-            vitalStatusColumn: 1,
+            // vitalStatusColumn: 1,
         }
     },
 
     validationSchema: Yup.object().shape({
-        email: Yup.string().email('Email not valid').required('Email is required'),
+        // email: Yup.string().email('Email not valid').required('Email is required'),
         ageOfDigColumn: Yup.string().required('value is required'),
         // password: Yup.string().min(9, 'Password must be 9 characters or longer').required('Password is required')
       }),

@@ -28,7 +28,8 @@ export default class Wizard extends React.Component {
     this.state = {
       page: 0,
       values: props.initialValues || {},
-      counter:0
+      counter:0,
+      isDialogOpen:false
     }
     // this.baseState = this.state
     // this.previous = this.previous.bind(this);
@@ -113,8 +114,12 @@ export default class Wizard extends React.Component {
       if (this.state.page == 1) {
       this.next(values)
       // return onSubmit(values)
-    } else {
+    } 
+    else {
       this.next(values)
+    // else if(this.state.isDialogOpen){
+    //   console.log("dialog Open")
+    // }
     }
   }
 

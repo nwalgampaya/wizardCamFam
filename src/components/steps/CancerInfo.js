@@ -21,10 +21,14 @@ class CancerInfo extends React.Component {
         
           show: false,
           showAddCancer:false,
-
+          currentSourceOFDeath:2,
         
 
-          selectedId:''
+          selectedId:'',
+
+          //Edit Modal Dialog variables
+          siteData:[],
+          
         }
         this.handleShow = this.handleShow.bind(this);
         this.handleShowAddCancer = this.handleShowAddCancer.bind(this);
@@ -40,12 +44,13 @@ class CancerInfo extends React.Component {
       }
 
     componentDidMount(){
-       
+      
+
         
             // const urlProfession = properties.baseUrl + "practitionerscore/" ;
             // fetch saved practitioner rec id
             console.log("SEL this.jsonId%%%%%%%%%%%%%%%%%%% : " + this.state.jsonId)
-            const urlProfession = "http://localhost:8090/ProneSpringBoot/api/practitioners/175";
+            const urlProfession = "http://localhost:8090/ProneSpringBoot/api/practitioners/ ";
             fetch(urlProfession)
               .then(response => response.json())
               .then((data) => {
@@ -57,10 +62,26 @@ class CancerInfo extends React.Component {
                 });
                 // this.state.profession.push(data);
               })
-        
+              // const = properties.baseUrl +"uageRecs/";
+              // const urlAgegroup = properties.baseUrl + 'ageRecs';
+            const urlAgegroup = "http://localhost:8090/ProneSpringBoot/api/ageRecs/";
+            fetch(urlAgegroup)
+              .then(response => response.json())
+              .then((data) => {
+
+                console.log(data);
+                this.setState({
+
+                  // flats: data
+                  siteData: data
+
+                });
+              })
+
           
     }
 
+    
     // handleSubmit() {
     //   console.log("in handleSubmit AAAA" )
 
@@ -84,7 +105,14 @@ class CancerInfo extends React.Component {
         // this.setState({ showAddCancer: true });
         this.state.selectedId=id
         console.log("in handleShow selectedId ;"+  this.state.selectedId )
+
+        this.loadDataToEditDialog(id);
       }
+    loadDataToEditDialog(id){
+        console.log("handleShow TUmorNo : " + this.state.cancerInfo[id].age)
+
+      this.state.site=this.state.cancerInfo[id].age
+    }
     handleCloseAddCancer() {
         this.setState({ showAddCancer: false });
         // this.props.onOpenDialog("false"); 
@@ -106,8 +134,19 @@ class CancerInfo extends React.Component {
         // this.state.textValue= e.target.value;
         this.setState({ textValue: e.target.value})
     }
+
+// Edit Modal Dialog functions    
     setCurrentSource(){
 
+    }
+    setSite(event) {
+      console.log("Age :" + event.target.value);
+      
+        this.setState({
+          site: event.target.value,
+        });
+      
+      // this.setClearValue()
     }
     closeDialog(){
       console.log("In closeDialog " + this.props.values.ageOfDigColumn)
@@ -209,11 +248,19 @@ this.state.showAddCancer=false;
                       Site: 
                     </div>
                     <div className="col-sm-5">
-                      <select disabled={this.state.isAlive} className="form-control dorp-box" value={this.state.currentSourceOFDeath} onChange={this.setCurrentSource.bind(this)} name="currentDeathColumn">
+                      <select disabled={this.state.isAlive} className="form-control dorp-box" value={this.state.site} onChange={this.setSite.bind(this)} name="currentDeathColumn">
                       {
+                        this.state.siteData.map((siteGroup, i) => {
+                          console.log("location ID :  " + siteGroup.id);
+
+                          this.state.siteGroup = siteGroup.name;
+                          return <option key={siteGroup.value} value={siteGroup.id}>{siteGroup.name}</option>
+  
+                        })
                         
-                        <option >{"Hospital Rec"}</option>
-                      }
+                        // <option >{"Hospital Rec"}</option>
+                        
+                      } 
                       </select>
                     </div><br/><br/>
                   </div>

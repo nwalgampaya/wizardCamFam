@@ -29,7 +29,7 @@ export default class Wizard extends React.Component {
       page: 0,
       values: props.initialValues || {},
       counter:0,
-      isDialogOpen:false
+      isModalOpen:true
     }
     // this.baseState = this.state
     // this.previous = this.previous.bind(this);
@@ -57,6 +57,7 @@ export default class Wizard extends React.Component {
     // }))}
     // else{
     console.log("********************(Next) in else" + this.rndno(0, 4));
+    // this.state.isModalOpen=true
     this.setState(state => ({
       page: Math.min(state.page + 1, this.props.children.length - 1),
       values
@@ -115,12 +116,12 @@ export default class Wizard extends React.Component {
       this.next(values)
       // return onSubmit(values)
     } 
-    else {
-      this.next(values)
-    // else if(this.state.isDialogOpen){
-    //   console.log("dialog Open")
-    // }
+    else if(this.state.isModalOpen){
+      console.log("dialog Open")
     }
+    // else {
+    //   this.next(values)
+    // }
   }
 
   
@@ -210,7 +211,7 @@ export default class Wizard extends React.Component {
                     { page>0 && (<button className="btn btn-primary" type="button" onClick={this.previous}> Exit Record</button>)}
                     {/* { page>0 && (<button className="btn btn-primary" type="button" > Logout</button>)} */}
 
-                    {(!isLastPage ) && page >=0  &&(<button className="btn btn-primary pull-right" type="submit"  >Next</button>)} 
+                    {(!isLastPage ) && page >=0  &&(<button className="btn btn-primary pull-right" type="button" onClick={() =>this.next()} >Next</button>)} 
                     {/* {page ==3  &&(<button className="btn btn-primary pull-right" type="submit"  >Next</button>)}  */}
 
                     {/* {!page == 0 && !page == 1 && !isLastPage && <button className="btn btn-primary pull-right " type="submit">  Next  </button>} */}

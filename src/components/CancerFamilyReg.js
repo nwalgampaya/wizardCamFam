@@ -63,6 +63,8 @@ class CancerFamilyReg extends React.Component {
             // Values from Rest Service
             existingPersonData:[],
 
+            // isModalOpen:'',
+
         };
         this.oncurrentDOBChange = this.oncurrentDOBChange.bind(this);
         this.setCurrentLKDA = this.setCurrentLKDA.bind(this);
@@ -254,6 +256,14 @@ class CancerFamilyReg extends React.Component {
             document.write(error);
         });
     }
+
+
+    // setDialogState(isModalOpenValue){
+        // console.log("isModalOpen&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&& : " + isModalOpenValue)
+        // this.setState({isModalOpen:isModalOpenValue})
+        // this.state.isModalOpen=isModalOpenValue
+        
+    // }
     render() {
 
         // Formik : Passing the props
@@ -267,9 +277,11 @@ class CancerFamilyReg extends React.Component {
 
 
         return (
-            <Wizard>
+            // isModalOpenValue={this.state.isModalOpen}
+            <Wizard >
                  <Wizard.Page>
-                    <CancerInfo/>
+                     {/* onOpenDialog={this.setDialogState} */}
+                    <CancerInfo />
                 </Wizard.Page>
                 <Wizard.Page>
                     <Welcome />

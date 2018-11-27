@@ -61,11 +61,20 @@ class CancerInfo extends React.Component {
           
     }
 
+    // handleSubmit() {
+    //   console.log("in handleSubmit AAAA" )
+
+    //   this.setState({ showAddCancer: false });
+    //   // this.setState({ showAddCancer: false });
+    // }
     handleClose() {
         this.setState({ show: false });
+        
         // this.setState({ showAddCancer: false });
       }
-    handleSave() {    
+    handleSave() {  
+      console.log("in handleSave" )
+
       // alert("Saving" + this.state.cancerInfo[this.state.selectedId].age)
        this.setState({ show: false });
       }
@@ -78,6 +87,7 @@ class CancerInfo extends React.Component {
       }
     handleCloseAddCancer() {
         this.setState({ showAddCancer: false });
+        // this.props.onOpenDialog("false"); 
         // this.setState({ showAddCancer: false });
       }
     handleSaveAddCancer() {    
@@ -99,13 +109,30 @@ class CancerInfo extends React.Component {
     setCurrentSource(){
 
     }
+    closeDialog(){
+      console.log("In closeDialog " + this.props.values.ageOfDigColumn)
+this.state.showAddCancer=false;
+      // this.setState({ show: false });
+    }
+    componentDidUpdate(prevProps) {
+      console.log("In didupdate")
+      const { success: wasSuccess = false } = prevProps.status || {};
+      const { success: isSuccess = false } = this.props.status || {};
+      if (isSuccess ) {
+      console.log("In didupdate IF")
+      // this.state.showAddCancer=false;
+
+         this.closeDialog();
+        // this.htmlForm.submit();
+      }
+    }
     render() {
 
       const {      
         values,
         errors,
         touched,
-        isSubmitting
+        isSubmitting,
       
       } = this.props;
         let rows = this.state.cancerInfo.map((cancer ,i) => {
@@ -288,7 +315,8 @@ class CancerInfo extends React.Component {
 {/* Modal for Adding New Cancer - START*/}
 
                 <Modal backdrop={false}  dialogClassName="dialogclassname" show={this.state.showAddCancer} onHide={this.handleCloseAddCancer} keyboard={false} selectedid={this.state.selectedId}>
-                 <Form /* onSubmit={this.handleSubmit} */>
+                 {/* onSubmit={this.props.handleSubmit} */}
+                 <Form   >
                   
                   <Modal.Header  closeButton={false} >
                     <Modal.Title >
@@ -465,13 +493,14 @@ const PersonRow = (props) => {
     
 
 
-    mapPropsToValues({ageOfDigColumn}) {
+    mapPropsToValues({ageOfDigColumn,show}) {
     
         return {
             // email: email || '',
             // aodeathColumn:'fromDb',
             // currentaodeathColumn: "testin",
             ageOfDigColumn:'',
+            show:false
             // vitalStatusColumn: 1,
         }
     },
@@ -482,8 +511,19 @@ const PersonRow = (props) => {
         // password: Yup.string().min(9, 'Password must be 9 characters or longer').required('Password is required')
       }),
 
-      handleSubmit(values, { resetForm, setErrors, setSubmitting }) {
-        console.log("SUBMIT")
+      handleSubmit(values, { resetForm, setErrors, setSubmitting, setStatus, onOpenDialog }) {
+        console.log("SUBMIT" + values.show)
+        // this.setState({show: false}) ;
+        if(values.show==false){
+          setStatus({ success: true });
+        }else{
+          setStatus({ success: false });
+        }
+
+        // setStatus({showAddCancer:false});
+        // resetForm()
+        //Sending value to parent
+        // onOpenDialog(true);
         setTimeout(() => {
           if (values.email === 'andrew@test.io') {
             setErrors({ email: 'That email is already taken' })
@@ -491,7 +531,7 @@ const PersonRow = (props) => {
             resetForm()
           }
           setSubmitting(false)
-        }, 2000)
+        }, 100)
       }  
 })(CancerInfo) 
 

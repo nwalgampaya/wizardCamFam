@@ -11,23 +11,31 @@ class CancerInfo extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
-          cancerInfo:[{
-            id: 1,
-            name: "Simon Bailey"
-          }, {
-            id: 2 ,
-            name: "Thomas Burleson"
-          }],
+          cancerInfo:[],
         
           show: false,
           showAddCancer:false,
           currentSourceOFDeath:2,
+          
         
 
           selectedId:'',
 
           //Edit Modal Dialog variables
+          isArrayEmpty:false, 
+          cancerInfoEdited:[{id:'',age:'',complaints:''}],          
+          tumorNo:'',
           siteData:[],
+          siteEditDlg:'',
+          changedParameters: [],
+
+          // Object Array
+          changedColumn:{
+            id:'',
+            column:'',
+          },
+
+          arrayEditedData:[],
           
         }
         this.handleShow = this.handleShow.bind(this);
@@ -41,11 +49,12 @@ class CancerInfo extends React.Component {
         this.setCurrentSource = this.setCurrentSource.bind(this);
         // this.handleSubmit = this.handleSubmit.bind(this);
         // handleSubmit
+
       }
 
     componentDidMount(){
       
-
+console.log("LLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLL")
         
             // const urlProfession = properties.baseUrl + "practitionerscore/" ;
             // fetch saved practitioner rec id
@@ -78,9 +87,12 @@ class CancerInfo extends React.Component {
                 });
               })
 
-          
-    }
+            }
+            
+    
 
+  
+    
     
     // handleSubmit() {
     //   console.log("in handleSubmit AAAA" )
@@ -94,25 +106,100 @@ class CancerInfo extends React.Component {
         // this.setState({ showAddCancer: false });
       }
     handleSave() {  
-      console.log("in handleSave" )
-
+      // console.log("in handleSave" + this.state.cancerInfo[200].age)
+      console.log("in handleSave tumorNo " + this.state.tumorNo)
+      
+      
+      this.recordEditedData();
       // alert("Saving" + this.state.cancerInfo[this.state.selectedId].age)
        this.setState({ show: false });
-      }
-    handleShow(id) {
-        console.log("in handleShow"+  id )
-        this.setState({ show: true });
-        // this.setState({ showAddCancer: true });
-        this.state.selectedId=id
-        console.log("in handleShow selectedId ;"+  this.state.selectedId )
 
-        this.loadDataToEditDialog(id);
       }
-    loadDataToEditDialog(id){
-        console.log("handleShow TUmorNo : " + this.state.cancerInfo[id].age)
-
-      this.state.site=this.state.cancerInfo[id].age
+    //capture edited records and compair with the original data   
+    recordEditedData(){
+      // this.state.cancerInfoEdited = this.state.cancerInfo;
+      this.state.cancerInfoEdited[this.state.tumorNo] = [...this.state.cancerInfo[this.state.tumorNo]];
+      this.state.changedParameters[this.state.tumorNo] = [...this.state.cancerInfo[this.state.tumorNo]];
+      if(!this.state.isArrayEmpty){
+        this.makeEmptyArray();
+      }
+      this.createEditedArray();
+      this.getChangedFieldsOnly();
+     
+      // var eq = JSON(this.state.cancerInfoEdited) == JSON(this.state.cancerInfo);
+  
+      // console.log("eq  : " + eq)
     }
+
+    makeEmptyArray(){
+      this.state.changedParameters.map((values,i)=>{
+        values.age=''
+        values.complaints=''
+        values.location=''
+        values.score=''
+        values.sex=''
+        values.specialty=''
+        values.specificcomplaint=''
+        values.issuetype=''
+        values.risk=''
+        
+      })  
+      this.state.isArrayEmpty=true
+    }
+    // This arrary "changedParameters" is declared to capture only the changed values from the Edit dialog.
+
+      createEditedArray(){
+          console.log("in handleSave tumorNo early"  + this.state.cancerInfoEdited[this.state.tumorNo].age)
+
+          console.log("in handleSave tumorNo before"  + this.state.cancerInfoEdited[this.state.tumorNo].age)
+          
+          if(this.state.siteEditDlg!="undefined"){
+            this.state.cancerInfoEdited[this.state.tumorNo].age = this.state.siteEditDlg
+          }
+
+          console.log("in handleSave age after" + this.state.cancerInfoEdited[this.state.tumorNo].age)
+          console.log("in handleSave age after" + this.state.cancerInfo[this.state.tumorNo].age)
+          
+          // console.log("in handleSave complaints after" + this.state.cancerInfoEdited[this.state.tumorNo].complaints)
+          // console.log("in handleSave location after" + this.state.cancerInfoEdited[this.state.tumorNo].location  )
+
+
+      }
+
+      getChangedFieldsOnly(){
+         if( JSON.stringify(this.state.cancerInfoEdited[this.state.tumorNo]) == JSON.stringify(this.state.cancerInfo[this.state.tumorNo])  ){
+        console.log("if equal")
+        
+        }else{
+        console.log("Not equal : " + this.state.tumorNo)
+        console.log("Not equal nn" + this.state.cancerInfo[this.state.tumorNo].age)
+        console.log("Not equal ed  :" + this.state.cancerInfoEdited[this.state.tumorNo].age)
+        
+          if((JSON.stringify(this.state.cancerInfoEdited[this.state.tumorNo].age)!= JSON.stringify(this.state.cancerInfo[this.state.tumorNo].age)) && this.state.siteEditDlg!="undefined"){
+            // this.state.changedParameters[27].age = 1;
+            this.state.changedParameters[this.state.tumorNo].age = this.state.siteEditDlg
+            this.state.changedParameters[this.state.tumorNo].complaints = 22
+
+            this.state.arrayEditedData[this.state.tumorNo] =({id:this.state.tumorNo},{column:"age"})
+                  console.log("changed complaints" + this.state.changedParameters[this.state.tumorNo].complaints)
+                  console.log("changed complaints cancerInfo" + this.state.cancerInfo[this.state.tumorNo].complaints)
+                  console.log("changed complaints aaaaaaaa" + this.state.arrayEditedData[this.state.tumorNo].id)
+                  
+          }
+        }
+        this.printChangedData()
+      }
+
+      printChangedData(){
+        this.state.changedParameters.map((values,i)=>{
+          console.log("i : " + i)
+          console.log("age : " + values.age)
+          console.log("complaints: " + values.complaints)
+
+        })
+        this.props.onSaveChangeInfo(this.state.changedParameters,this.state.arrayEditedData)
+      }
+    
     handleCloseAddCancer() {
         this.setState({ showAddCancer: false });
         // this.props.onOpenDialog("false"); 
@@ -120,7 +207,7 @@ class CancerInfo extends React.Component {
       }
     handleSaveAddCancer() {    
           // alert("Saving" + this.state.cancerInfo[this.state.selectedId].age)
-          this.setState({ showAddCancer: false });
+          // this.setState({ showAddCancer: false });
           }
     handleShowAddCancer(){
         // console.log("in handleShow"+  id )
@@ -136,22 +223,43 @@ class CancerInfo extends React.Component {
     }
 
 // Edit Modal Dialog functions    
+   handleShow(id) {
+        console.log("in handleShow"+  id )
+        console.log("in siteEditDlg"+  this.state.siteEditDlg )
+        
+        this.setState({ show: true });
+        // this.setState({ showAddCancer: true });
+        this.state.selectedId=id
+        // this will be the unique id of the selected record.
+        this.state.tumorNo = id
+        console.log("in handleShow selectedId ;"+  this.state.selectedId )
+
+        this.loadDataToEditDialog(id);
+      }
+    // Values set in here will be displayed in the 'select' boxes in the Edit dialog  
+    loadDataToEditDialog(id){
+        console.log("loadDataToEditDialog TUmorNo : " + this.state.cancerInfo[id].age)
+//ToDu
+// save the changed row in to an array , this will be compaired with the original data in the review.
+      this.state.siteEditDlg=this.state.cancerInfo[id].age
+    } 
     setCurrentSource(){
 
     }
     setSite(event) {
-      console.log("Age :" + event.target.value);
+      console.log("Site :" + event.target.value);
       
         this.setState({
-          site: event.target.value,
+          siteEditDlg: event.target.value,
         });
+        // this.state.cancerInfo[200].age = event.target.value
       
       // this.setClearValue()
     }
     closeDialog(){
-      console.log("In closeDialog " + this.props.values.ageOfDigColumn)
-this.state.showAddCancer=false;
-      // this.setState({ show: false });
+      console.log("CloseDialog Only when Add Cancer save----------------------------" + this.props.values.ageOfDigColumn)
+
+      this.state.showAddCancer=false;
     }
     componentDidUpdate(prevProps) {
       console.log("In didupdate")
@@ -248,7 +356,7 @@ this.state.showAddCancer=false;
                       Site: 
                     </div>
                     <div className="col-sm-5">
-                      <select disabled={this.state.isAlive} className="form-control dorp-box" value={this.state.site} onChange={this.setSite.bind(this)} name="currentDeathColumn">
+                      <select disabled={this.state.isAlive} className="form-control dorp-box" value={this.state.siteEditDlg} onChange={this.setSite.bind(this)} name="currentDeathColumn">
                       {
                         this.state.siteData.map((siteGroup, i) => {
                           console.log("location ID :  " + siteGroup.id);
@@ -558,6 +666,7 @@ const PersonRow = (props) => {
         // password: Yup.string().min(9, 'Password must be 9 characters or longer').required('Password is required')
       }),
 
+      // The value for variable "show=false" is passed to the method componentDidUpdate() and used in closing the dialog.
       handleSubmit(values, { resetForm, setErrors, setSubmitting, setStatus, onOpenDialog }) {
         console.log("SUBMIT" + values.show)
         // this.setState({show: false}) ;

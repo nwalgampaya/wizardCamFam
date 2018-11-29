@@ -11,6 +11,7 @@ import Wizard from '../Wizard'
 import Welcome from './steps/Welcome.js'
 import CancerInfo from "./steps/CancerInfo";
 import BootstrapDialog from "./dialog/BootstrapDialog";
+import PreviewInfo from "./steps/PreviewInfo";
 // import CancerInfo from './steps/CancerInfo'
 // import DropdownMenu, { DropdownItemGroup, DropdownItem } from '@atlaskit/dropdown-menu';
 
@@ -64,6 +65,9 @@ class CancerFamilyReg extends React.Component {
             existingPersonData:[],
 
             // isModalOpen:'',
+
+            //To assign Values from CancerInfo
+            changedParameters:[]
 
         };
         this.oncurrentDOBChange = this.oncurrentDOBChange.bind(this);
@@ -264,6 +268,12 @@ class CancerFamilyReg extends React.Component {
         // this.state.isModalOpen=isModalOpenValue
         
     // }
+
+    handleChangedRecFrmChild = (changedParametersArr,arrayEditedDataArr) => {
+        this.setState({changedParameters: changedParametersArr});
+        this.setState({arrayEditedData: arrayEditedDataArr});
+        
+    }
     render() {
 
         // Formik : Passing the props
@@ -281,8 +291,12 @@ class CancerFamilyReg extends React.Component {
             <Wizard >
                  <Wizard.Page>
                      {/* onOpenDialog={this.setDialogState} */}
-                    <CancerInfo />
+                    <CancerInfo onSaveChangeInfo={this.handleChangedRecFrmChild}/>
                 </Wizard.Page>
+                <Wizard.Page>
+                    <PreviewInfo  changedParameters= {this.state.changedParameters} arrayEditedData= {this.state.arrayEditedData}/>
+                </Wizard.Page>
+
                 <Wizard.Page>
                     <Welcome />
                 </Wizard.Page>

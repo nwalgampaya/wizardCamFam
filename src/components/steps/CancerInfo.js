@@ -33,9 +33,12 @@ class CancerInfo extends React.Component {
           changedColumn:{
             id:'',
             column:'',
+            previousVal:'',
+            newVal:'',
           },
 
           arrayEditedData:[],
+          arrayEditedParam:[],
           
         }
         this.handleShow = this.handleShow.bind(this);
@@ -155,6 +158,7 @@ console.log("LLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLL
           
           if(this.state.siteEditDlg!="undefined"){
             this.state.cancerInfoEdited[this.state.tumorNo].age = this.state.siteEditDlg
+            this.state.cancerInfoEdited[this.state.tumorNo].location= 44
           }
 
           console.log("in handleSave age after" + this.state.cancerInfoEdited[this.state.tumorNo].age)
@@ -174,30 +178,62 @@ console.log("LLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLL
         console.log("Not equal : " + this.state.tumorNo)
         console.log("Not equal nn" + this.state.cancerInfo[this.state.tumorNo].age)
         console.log("Not equal ed  :" + this.state.cancerInfoEdited[this.state.tumorNo].age)
-        
-          if((JSON.stringify(this.state.cancerInfoEdited[this.state.tumorNo].age)!= JSON.stringify(this.state.cancerInfo[this.state.tumorNo].age)) && this.state.siteEditDlg!="undefined"){
-            // this.state.changedParameters[27].age = 1;
-            this.state.changedParameters[this.state.tumorNo].age = this.state.siteEditDlg
-            this.state.changedParameters[this.state.tumorNo].complaints = 22
 
-            this.state.arrayEditedData[this.state.tumorNo] =({id:this.state.tumorNo},{column:"age"})
-                  console.log("changed complaints" + this.state.changedParameters[this.state.tumorNo].complaints)
-                  console.log("changed complaints cancerInfo" + this.state.cancerInfo[this.state.tumorNo].complaints)
-                  console.log("changed complaints aaaaaaaa" + this.state.arrayEditedData[this.state.tumorNo].id)
+        //Creating a new Object every time the save is pressed - if not it will update to the same last object every time
+        
+        // This will capture all the changed fields in the Edit dialog box and put into the 'arrayEditedData'
+        // Complex Array ====> (arrayEditedData [arrayEditedParam{Object cancerInfo}])
+        var i=0;
+        var EditedParam = new Array;
+        for(var param in this.state.cancerInfoEdited[this.state.tumorNo]){
+          var changeCol= new  Object;
+          console.log(param + ':: ' + this.state.cancerInfo[this.state.tumorNo][param]);
+          console.log(param + ':: ' + this.state.cancerInfoEdited[this.state.tumorNo][param]);
+          changeCol.column=param
+          changeCol.previousVal=this.state.cancerInfo[this.state.tumorNo][param]
+          changeCol.newVal=this.state.cancerInfoEdited[this.state.tumorNo][param]
+
+          console.log("--------------------------------" + this.state.tumorNo)
+          // this.state.arrayEditedParam[i] =changeCol;
+          EditedParam[i]=changeCol;
+          i++;
+        }
+        // this.state.arrayEditedData[this.state.tumorNo] = this.state.arrayEditedParam;
+        this.state.arrayEditedData[this.state.tumorNo] = EditedParam;
+        
+        // this.state.arrayEditedData[this.state.tumorNo] =changeCol2;
+        
+          // if((JSON.stringify(this.state.cancerInfoEdited[this.state.tumorNo].age)!= JSON.stringify(this.state.cancerInfo[this.state.tumorNo].age)) && this.state.siteEditDlg!="undefined"){
+            // this.state.changedParameters[27].age = 1;
+            // this.state.changedParameters[this.state.tumorNo].age = this.state.siteEditDlg
+            // this.state.changedParameters[this.state.tumorNo].complaints = 22
+// {id:this.state.tumorNo},{column:"age"}
+            // this.state.changedColumn.id= this.state.tumorNo;
+            // this.state.changedColumn.column="age"
+            // this.state.changedColumn.previousVal=this.state.cancerInfo[this.state.tumorNo].age,
+            // this.state.changedColumn.newVal=this.state.cancerInfoEdited[this.state.tumorNo].age,
+            
+            
+            // this.state.arrayEditedData[this.state.tumorNo] =this.state.changedColumn;
+          //         console.log("changed complaints" + this.state.changedParameters[this.state.tumorNo].complaints)
+          //         console.log("changed complaints cancerInfo" + this.state.cancerInfo[this.state.tumorNo].complaints)
+          //         console.log("changed complaints aaaaaaaa" + this.state.arrayEditedData[this.state.tumorNo].id)
                   
-          }
+          // }
         }
         this.printChangedData()
       }
 
       printChangedData(){
-        this.state.changedParameters.map((values,i)=>{
+        this.state.arrayEditedData.map((values,i)=>{
+          // console.log("i : " + values)
+          values.map((values,i)=>{
           console.log("i : " + i)
-          console.log("age : " + values.age)
-          console.log("complaints: " + values.complaints)
-
+          console.log("previousVal : " + values.previousVal)
+          console.log("newVal: " + values.newVal)
+          })
         })
-        this.props.onSaveChangeInfo(this.state.changedParameters,this.state.arrayEditedData)
+        this.props.onSaveChangeInfo(this.state.cancerInfo,this.state.changedParameters,this.state.arrayEditedData)
       }
     
     handleCloseAddCancer() {
@@ -359,7 +395,7 @@ console.log("LLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLL
                       <select disabled={this.state.isAlive} className="form-control dorp-box" value={this.state.siteEditDlg} onChange={this.setSite.bind(this)} name="currentDeathColumn">
                       {
                         this.state.siteData.map((siteGroup, i) => {
-                          console.log("location ID :  " + siteGroup.id);
+                          // console.log("location ID :  " + siteGroup.id);
 
                           this.state.siteGroup = siteGroup.name;
                           return <option key={siteGroup.value} value={siteGroup.id}>{siteGroup.name}</option>

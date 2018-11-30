@@ -12,8 +12,8 @@ export default class PreviewInfo extends React.Component {
     }
 
     createUI(){
-        return this.props.changedParameters.map((values,i)=> 
-
+        return this.props.arrayEditedData.map((values,i)=> 
+        
         <table>
             <tbody>
                 <tr>
@@ -27,14 +27,25 @@ export default class PreviewInfo extends React.Component {
                             New Value
                         </th>
                 </tr>
+        {values.map((val,i)=>
                 <tr>
                     <td>
-                        {values.age}
+                        {val.column}
                     </td>
                     <td>
-                        {values.id}
+                        {val.previousVal}
+                        {/* {this.props.arrayEditedData[i].age} */}
+
+                    </td>
+                    <td>
+                    {val.newVal}
+
+                    {/* {this.props.changedParameters[i].age} */}
+                    {/* {values.id} */}
                     </td>
                 </tr>
+        )
+    }    
             </tbody>
 
         </table>
@@ -42,7 +53,7 @@ export default class PreviewInfo extends React.Component {
         //        <input type="text" value={el||''} onChange={this.handleChange.bind(this, i)} />
         //        <input type='button' value='remove' onClick={this.removeClick.bind(this, i)}/>
         //     </div>          
-        )
+    )
      }
     render() {
 

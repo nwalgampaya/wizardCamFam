@@ -67,7 +67,8 @@ class CancerFamilyReg extends React.Component {
             // isModalOpen:'',
 
             //To assign Values from CancerInfo
-            changedParameters:[]
+            changedParameters:[],
+            cancerInfoArr:[],
 
         };
         this.oncurrentDOBChange = this.oncurrentDOBChange.bind(this);
@@ -269,8 +270,10 @@ class CancerFamilyReg extends React.Component {
         
     // }
 
-    handleChangedRecFrmChild = (changedParametersArr,arrayEditedDataArr) => {
+    handleChangedRecFrmChild = (cancerInfoArr,changedParametersArr,arrayEditedDataArr) => {
+        this.setState({cancerInfo: cancerInfoArr});
         this.setState({changedParameters: changedParametersArr});
+        
         this.setState({arrayEditedData: arrayEditedDataArr});
         
     }
@@ -294,7 +297,7 @@ class CancerFamilyReg extends React.Component {
                     <CancerInfo onSaveChangeInfo={this.handleChangedRecFrmChild}/>
                 </Wizard.Page>
                 <Wizard.Page>
-                    <PreviewInfo  changedParameters= {this.state.changedParameters} arrayEditedData= {this.state.arrayEditedData}/>
+                    <PreviewInfo  cancerInfo={this.state.cancerInfo} changedParameters= {this.state.changedParameters} arrayEditedData= {this.state.arrayEditedData}/>
                 </Wizard.Page>
 
                 <Wizard.Page>

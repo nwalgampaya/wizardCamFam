@@ -270,10 +270,7 @@ class CancerFamilyReg extends React.Component {
         
     // }
 
-    handleChangedRecFrmChild = (cancerInfoArr,changedParametersArr,arrayEditedDataArr) => {
-        this.setState({cancerInfo: cancerInfoArr});
-        this.setState({changedParameters: changedParametersArr});
-        
+    handleChangedRecFrmChild = (arrayEditedDataArr) => {
         this.setState({arrayEditedData: arrayEditedDataArr});
         
     }
@@ -297,7 +294,7 @@ class CancerFamilyReg extends React.Component {
                     <CancerInfo onSaveChangeInfo={this.handleChangedRecFrmChild}/>
                 </Wizard.Page>
                 <Wizard.Page>
-                    <PreviewInfo  cancerInfo={this.state.cancerInfo} changedParameters= {this.state.changedParameters} arrayEditedData= {this.state.arrayEditedData}/>
+                    <PreviewInfo  arrayEditedData= {this.state.arrayEditedData}/>
                 </Wizard.Page>
 
                 <Wizard.Page>

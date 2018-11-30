@@ -61,15 +61,7 @@ export default class PreviewInfo extends React.Component {
             <div>
                 {this.createUI()}
                 RRRRRRRRR
-                {/* {console.log("ddddddd " + this.props.changedParameters[27].age)} */}
-                {
-                    this.props.changedParameters.map((values,i)=>{
-                {console.log("ddddddd " + i + " : " + this.props.changedParameters[i].age)}
-                {console.log("ddddddd " + i + " : " + this.props.changedParameters[i].id)}
-                {this.props.changedParameters[i].age}
-                    })
                 
-                }
             </div>
         )
     }

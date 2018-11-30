@@ -179,10 +179,11 @@ console.log("LLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLL
         console.log("Not equal nn" + this.state.cancerInfo[this.state.tumorNo].age)
         console.log("Not equal ed  :" + this.state.cancerInfoEdited[this.state.tumorNo].age)
 
-        //Creating a new Object every time the save is pressed - if not it will update to the same last object every time
         
-        // This will capture all the changed fields in the Edit dialog box and put into the 'arrayEditedData'
-        // Complex Array ====> (arrayEditedData [arrayEditedParam{Object cancerInfo}])
+        /** Looping to get all the parameters of the object "cancerInfoEdited" using param (***) 
+         * Creating a new Object every time the save is pressed - if not it will update to the same last object every time
+         *  This will capture all the changed fields in the Edit dialog box and put into the 'arrayEditedData'
+         *  Complex Array ====> (arrayEditedData [arrayEditedParam{Object cancerInfo}]) **/
         var i=0;
         var EditedParam = new Array;
         for(var param in this.state.cancerInfoEdited[this.state.tumorNo]){
@@ -198,33 +199,15 @@ console.log("LLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLL
           EditedParam[i]=changeCol;
           i++;
         }
-        // this.state.arrayEditedData[this.state.tumorNo] = this.state.arrayEditedParam;
+        
         this.state.arrayEditedData[this.state.tumorNo] = EditedParam;
         
-        // this.state.arrayEditedData[this.state.tumorNo] =changeCol2;
         
-          // if((JSON.stringify(this.state.cancerInfoEdited[this.state.tumorNo].age)!= JSON.stringify(this.state.cancerInfo[this.state.tumorNo].age)) && this.state.siteEditDlg!="undefined"){
-            // this.state.changedParameters[27].age = 1;
-            // this.state.changedParameters[this.state.tumorNo].age = this.state.siteEditDlg
-            // this.state.changedParameters[this.state.tumorNo].complaints = 22
-// {id:this.state.tumorNo},{column:"age"}
-            // this.state.changedColumn.id= this.state.tumorNo;
-            // this.state.changedColumn.column="age"
-            // this.state.changedColumn.previousVal=this.state.cancerInfo[this.state.tumorNo].age,
-            // this.state.changedColumn.newVal=this.state.cancerInfoEdited[this.state.tumorNo].age,
-            
-            
-            // this.state.arrayEditedData[this.state.tumorNo] =this.state.changedColumn;
-          //         console.log("changed complaints" + this.state.changedParameters[this.state.tumorNo].complaints)
-          //         console.log("changed complaints cancerInfo" + this.state.cancerInfo[this.state.tumorNo].complaints)
-          //         console.log("changed complaints aaaaaaaa" + this.state.arrayEditedData[this.state.tumorNo].id)
-                  
-          // }
         }
-        this.printChangedData()
+        this.sendDataToParent()
       }
 
-      printChangedData(){
+      sendDataToParent(){
         this.state.arrayEditedData.map((values,i)=>{
           // console.log("i : " + values)
           values.map((values,i)=>{
@@ -233,7 +216,7 @@ console.log("LLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLL
           console.log("newVal: " + values.newVal)
           })
         })
-        this.props.onSaveChangeInfo(this.state.cancerInfo,this.state.changedParameters,this.state.arrayEditedData)
+        this.props.onSaveChangeInfo(this.state.arrayEditedData)
       }
     
     handleCloseAddCancer() {

@@ -12,6 +12,7 @@ export default class PreviewInfo extends React.Component {
     }
 
     createUI(){
+        if(this.props.enableSaveButton){
         return this.props.arrayEditedData.map((values,i)=> 
         
         <table>
@@ -54,13 +55,20 @@ export default class PreviewInfo extends React.Component {
         //        <input type='button' value='remove' onClick={this.removeClick.bind(this, i)}/>
         //     </div>          
     )
+    }else{
+        return( 
+        <div>
+            <h2> Review Details </h2>
+            <p> No data changes have been made. Please Exit Record or make changes to Save to Database.</p>
+        </div>)
+    }
      }
     render() {
 
         return (
             <div>
                 {this.createUI()}
-                RRRRRRRRR
+                
                 
             </div>
         )

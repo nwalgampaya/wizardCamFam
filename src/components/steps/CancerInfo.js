@@ -28,6 +28,7 @@ class CancerInfo extends React.Component {
           siteData:[],
           siteEditDlg:'',
           changedParameters: [],
+          enableSaveButton: false,  // this should be modified to 'true' when each and every individual field is modified in the dialog 
 
           // Object Array
           changedColumn:{
@@ -62,7 +63,7 @@ console.log("LLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLL
             // const urlProfession = properties.baseUrl + "practitionerscore/" ;
             // fetch saved practitioner rec id
             console.log("SEL this.jsonId%%%%%%%%%%%%%%%%%%% : " + this.state.jsonId)
-            const urlProfession = "http://localhost:8090/ProneSpringBoot/api/practitioners/ ";
+            const urlProfession = "http://128.250.143.10:8090/ProneSpringBoot/api/practitionersTest/";
             fetch(urlProfession)
               .then(response => response.json())
               .then((data) => {
@@ -76,7 +77,7 @@ console.log("LLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLL
               })
               // const = properties.baseUrl +"uageRecs/";
               // const urlAgegroup = properties.baseUrl + 'ageRecs';
-            const urlAgegroup = "http://localhost:8090/ProneSpringBoot/api/ageRecs/";
+            const urlAgegroup = "http://128.250.143.10:8090/ProneSpringBoot/api/ageRecs/";
             fetch(urlAgegroup)
               .then(response => response.json())
               .then((data) => {
@@ -216,7 +217,7 @@ console.log("LLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLL
           console.log("newVal: " + values.newVal)
           })
         })
-        this.props.onSaveChangeInfo(this.state.arrayEditedData)
+        this.props.onSaveChangeInfo(this.state.arrayEditedData,this.state.enableSaveButton)
       }
     
     handleCloseAddCancer() {
@@ -271,6 +272,12 @@ console.log("LLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLL
         this.setState({
           siteEditDlg: event.target.value,
         });
+
+        if(this.state.siteEditDlg!=event.target.value){
+          this.state.enableSaveButton = true;
+        }else{
+          this.state.enableSaveButton = false;
+        }
         // this.state.cancerInfo[200].age = event.target.value
       
       // this.setClearValue()
@@ -357,6 +364,8 @@ console.log("LLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLL
                   Add Cancer
                 </Button>
         </td>
+
+{/* Modal for Editing New Cancer - START*/}
                 <div >
                   
                 <Modal /* backdrop={false} */ dialogClassName="dialogclassname" show={this.state.show} onHide={this.handleClose} keyboard={false} selectedid={this.state.selectedId}>
@@ -480,12 +489,12 @@ console.log("LLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLL
                   </Modal.Body>
                   <Modal.Footer>
                     <Button onClick={this.handleClose}>Close</Button>
-                    <Button onClick={this.handleSave}>Save</Button>
+                    <Button disabled= {!this.state.enableSaveButton} onClick={this.handleSave}>Save</Button>
 
                   </Modal.Footer>
                 </Modal>
                 </div>
-
+{/* Modal for Editing New Cancer - END*/}
 {/* Modal for Adding New Cancer - START*/}
 
                 <Modal backdrop={false}  dialogClassName="dialogclassname" show={this.state.showAddCancer} onHide={this.handleCloseAddCancer} keyboard={false} selectedid={this.state.selectedId}>

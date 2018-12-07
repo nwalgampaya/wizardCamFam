@@ -12,6 +12,9 @@ import Welcome from './steps/Welcome.js'
 import CancerInfo from "./steps/CancerInfo";
 import BootstrapDialog from "./dialog/BootstrapDialog";
 import PreviewInfo from "./steps/PreviewInfo";
+import ChoosePath from "./steps/ChoosePath";
+import Individual from "./steps/Individual";
+import Family from "./steps/Family";
 // import CancerInfo from './steps/CancerInfo'
 // import DropdownMenu, { DropdownItemGroup, DropdownItem } from '@atlaskit/dropdown-menu';
 
@@ -69,6 +72,10 @@ class CancerFamilyReg extends React.Component {
             //To assign Values from CancerInfo
             changedParameters:[],
             cancerInfoArr:[],
+            enableSaveButton:'',
+
+            //Used to get the selection between the family and the individual
+            choosePathFamily:'',
 
         };
         this.oncurrentDOBChange = this.oncurrentDOBChange.bind(this);
@@ -270,9 +277,23 @@ class CancerFamilyReg extends React.Component {
         
     // }
 
-    handleChangedRecFrmChild = (arrayEditedDataArr) => {
+    handleChangedRecFrmChild = (arrayEditedDataArr, enableSaveButton) => {
         this.setState({arrayEditedData: arrayEditedDataArr});
+        this.setState({enableSaveButton : enableSaveButton});
         
+    }
+    handleChooseOption = (chooseTheFamily) => {
+        this.setState({choosePathFamily: chooseTheFamily});
+        
+    }
+    choosePath(){
+       console.log("choose path : " + this.state.choosePathFamily)
+            if(this.state.choosePathFamily){
+                return <Family/>
+            }else {
+                return <Individual />
+            }
+
     }
     render() {
 
@@ -289,17 +310,27 @@ class CancerFamilyReg extends React.Component {
         return (
             // isModalOpenValue={this.state.isModalOpen}
             <Wizard >
-                 <Wizard.Page>
+                <Wizard.Page>
+                    <Welcome />
+                </Wizard.Page> 
+                <Wizard.Page>
+                    <ChoosePath onChooseOption={this.handleChooseOption}/>
+                </Wizard.Page>
+                <Wizard.Page>
+                    
+                    {this.choosePath()}
+                    
+                </Wizard.Page>
+
+                <Wizard.Page>
                      {/* onOpenDialog={this.setDialogState} */}
                     <CancerInfo onSaveChangeInfo={this.handleChangedRecFrmChild}/>
                 </Wizard.Page>
                 <Wizard.Page>
-                    <PreviewInfo  arrayEditedData= {this.state.arrayEditedData}/>
+                    <PreviewInfo  arrayEditedData= {this.state.arrayEditedData} enableSaveButton={this.state.enableSaveButton}/>
                 </Wizard.Page>
 
-                <Wizard.Page>
-                    <Welcome />
-                </Wizard.Page>
+                
                 <Wizard.Page>
                     <div className="row">
                         {/* <div className="form-horizontal"> */}

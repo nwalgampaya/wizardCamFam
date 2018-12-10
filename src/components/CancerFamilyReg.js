@@ -309,29 +309,29 @@ class CancerFamilyReg extends React.Component {
 
         return (
             // isModalOpenValue={this.state.isModalOpen}
-            <Wizard >
-                <Wizard.Page>
-                    <Welcome />
-                </Wizard.Page> 
-                <Wizard.Page>
-                    <ChoosePath onChooseOption={this.handleChooseOption}/>
-                </Wizard.Page>
-                <Wizard.Page>
+            // <Wizard >
+            //     <Wizard.Page>
+            //         <Welcome />
+            //     </Wizard.Page> 
+            //     <Wizard.Page>
+            //         <ChoosePath onChooseOption={this.handleChooseOption}/>
+            //     </Wizard.Page>
+            //     <Wizard.Page>
                     
-                    {this.choosePath()}
+            //         {this.choosePath()}
                     
-                </Wizard.Page>
+            //     </Wizard.Page>
 
-                <Wizard.Page>
-                     {/* onOpenDialog={this.setDialogState} */}
-                    <CancerInfo onSaveChangeInfo={this.handleChangedRecFrmChild}/>
-                </Wizard.Page>
-                <Wizard.Page>
-                    <PreviewInfo  arrayEditedData= {this.state.arrayEditedData} enableSaveButton={this.state.enableSaveButton}/>
-                </Wizard.Page>
+                    //  {/* onOpenDialog={this.setDialogState} */}
+                // {/* <Wizard.Page>
+                //     <CancerInfo onSaveChangeInfo={this.handleChangedRecFrmChild}/>
+                // </Wizard.Page>
+                // <Wizard.Page>
+                //     <PreviewInfo  arrayEditedData= {this.state.arrayEditedData} enableSaveButton={this.state.enableSaveButton}/>
+                // </Wizard.Page> */}
 
-                
-                <Wizard.Page>
+                <div>
+                {/* <Wizard.Page> */}
                     <div className="row">
                         {/* <div className="form-horizontal"> */}
                         <div className="modal-body row">
@@ -712,13 +712,17 @@ class CancerFamilyReg extends React.Component {
                             {/* </div> */}
                         </div>
                     </div>
-                </Wizard.Page>
-                {/* <Wizard.Page>
-                    <CancerInfo/>
-                </Wizard.Page> */}
-                    {/* <BootstrapDialogOld/> */}
-                    {/* <BootstrapDialog/> */}
-            </Wizard>
+            </div>
+                // </Wizard.Page>
+                // <Wizard.Page>
+                //     <CancerInfo onSaveChangeInfo={this.handleChangedRecFrmChild}/>
+                // </Wizard.Page>
+                // <Wizard.Page>
+                //     <PreviewInfo  arrayEditedData= {this.state.arrayEditedData} enableSaveButton={this.state.enableSaveButton}/>
+                // </Wizard.Page>
+                //     {/* <BootstrapDialogOld/> */}
+                    // {/* <BootstrapDialog/> */}
+            // </Wizard>
 
 
         );

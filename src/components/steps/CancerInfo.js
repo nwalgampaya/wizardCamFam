@@ -40,6 +40,7 @@ class CancerInfo extends React.Component {
 
           arrayEditedData:[],
           arrayEditedParam:[],
+          editedRecordCount:0,
           
         }
         this.handleShow = this.handleShow.bind(this);
@@ -58,7 +59,7 @@ class CancerInfo extends React.Component {
 
     componentDidMount(){
       
-console.log("LLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLL")
+console.log("LLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLL" )
         
             // const urlProfession = properties.baseUrl + "practitionerscore/" ;
             // fetch saved practitioner rec id
@@ -125,7 +126,7 @@ console.log("LLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLL
       this.state.cancerInfoEdited[this.state.tumorNo] = [...this.state.cancerInfo[this.state.tumorNo]];
       this.state.changedParameters[this.state.tumorNo] = [...this.state.cancerInfo[this.state.tumorNo]];
       if(!this.state.isArrayEmpty){
-        this.makeEmptyArray();
+        // this.makeEmptyArray();
       }
       this.createEditedArray();
       this.getChangedFieldsOnly();
@@ -185,7 +186,22 @@ console.log("LLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLL
          * Creating a new Object every time the save is pressed - if not it will update to the same last object every time
          *  This will capture all the changed fields in the Edit dialog box and put into the 'arrayEditedData'
          *  Complex Array ====> (arrayEditedData [arrayEditedParam{Object cancerInfo}]) **/
-        var i=0;
+        // this.state.arrayEditedData[this.state.tumorNo] = [...this.state.arrayEditedData[this.state.tumorNo]];
+         var i=0;
+        //  if (this.props.editedRecordCount=="undefined"){
+        //       console.log("RECORD COUNT BEFORE Undefined:" )
+           
+        //       i = this.props.editedRecordCount 
+        //     }else if (this.props.editedRecordCount!="undefined"){
+        //       console.log("RECORD COUNT BEFORE esle" )
+              
+              // i = 0;
+           
+        //  }
+        
+        // this.state.arrayEditedData[this.state.tumorNo]== "undefined" ?i=0: i=this.state.arrayEditedData[this.state.tumorNo].length
+        console.log("RECORD COUNT BEFORE " + i )
+
         var EditedParam = new Array;
         for(var param in this.state.cancerInfoEdited[this.state.tumorNo]){
           var changeCol= new  Object;
@@ -198,11 +214,16 @@ console.log("LLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLL
           console.log("--------------------------------" + this.state.tumorNo)
           // this.state.arrayEditedParam[i] =changeCol;
           EditedParam[i]=changeCol;
+          // this.state.editedRecordCount++;
           i++;
         }
         
         this.state.arrayEditedData[this.state.tumorNo] = EditedParam;
+        this.state.editedRecordCount=i;
+        // this.setState({editedRecordCount:i })
+        // this.state.editedRecordCount=i;
         
+console.log("RECORD COUNT " + i)
         
         }
         this.sendDataToParent()
@@ -246,6 +267,7 @@ console.log("LLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLL
    handleShow(id) {
         console.log("in handleShow"+  id )
         console.log("in siteEditDlg"+  this.state.siteEditDlg )
+console.log("handleShow RECORD COUNT " + this.state.editedRecordCount)
         
         this.setState({ show: true });
         // this.setState({ showAddCancer: true });

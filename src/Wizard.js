@@ -58,10 +58,34 @@ export default class Wizard extends React.Component {
     // else{
     console.log("********************(Next) in else" + this.rndno(0, 4));
     // this.state.isModalOpen=true
-    this.setState(state => ({
-      page: Math.min(state.page + 1, this.props.children.length - 1),
-      values
-    }))
+    if(this.props.choosePathFamily==true && this.state.page>1){
+      console.log("PAGE NO : "+ this.state.page)
+        if( this.state.page>5){
+              this.setState(state => ({
+                      page: Math.min(state.page + 1, this.props.children.length - 1),
+                      values
+                    }))     
+        }else{
+
+          this.setState(state => ({
+            page: Math.min(state.page + 4, this.props.children.length - 1),
+            values
+            }))      
+        }
+    }else{
+        if(this.state.page>4){
+           this.setState(state => ({
+            page: Math.min(state.page + 3, this.props.children.length - 1),
+            values
+        }))
+        }else{
+
+            this.setState(state => ({
+            page: Math.min(state.page + 1, this.props.children.length - 1),
+            values
+          }))
+        }
+    } 
     // }
   }
   // this.setState(state => ({

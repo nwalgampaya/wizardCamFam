@@ -32,21 +32,23 @@ export default class StartPageRegistry extends React.Component {
     choosePath(){
         console.log("choose path : " + this.state.choosePathFamily)
              if(this.state.choosePathFamily){
-                 this.state.firstPage= <FormikApp />
-                 this.state.secoundPage=<CancerInfo onSaveChangeInfo={this.handleChangedRecFrmChild}/>
-                 this.state.thirdPage = <PreviewInfo  arrayEditedData= {this.state.arrayEditedData} enableSaveButton={this.state.enableSaveButton}/>
-                //  fourthPage:'',
-
+                 //  fourthPage:'',
+                 
                  return <Family/>
-             }else {
+                }else {
+                    this.state.firstPage= <FormikApp />
+                    this.state.secoundPage=<CancerInfo onSaveChangeInfo={this.handleChangedRecFrmChild} />
+                    this.state.thirdPage = <PreviewInfo  arrayEditedData= {this.state.arrayEditedData} enableSaveButton={this.state.enableSaveButton} />
                  return <Individual />
              }
  
      }
 
-    handleChangedRecFrmChild = (arrayEditedDataArr, enableSaveButton) => {
+    handleChangedRecFrmChild = (arrayEditedDataArr, enableSaveButton ) => {
         this.setState({arrayEditedData: arrayEditedDataArr});
         this.setState({enableSaveButton : enableSaveButton});
+        
+        
         
     }
 
@@ -54,7 +56,10 @@ export default class StartPageRegistry extends React.Component {
 
         return (
             // isModalOpenValue={this.state.isModalOpen}
-            <Wizard >
+            // The wizard.page are choesn depending on the flag "choosePathFamily" if true the pages from Six onwards are traversed
+            // IMPORTANT "next()" and "previous() functions of the "wizard.js" page should be modified for the selection of the right pages.
+             
+            <Wizard choosePathFamily={this.state.choosePathFamily}>
                 <Wizard.Page>
                     <Welcome />
                 </Wizard.Page> 
@@ -62,26 +67,36 @@ export default class StartPageRegistry extends React.Component {
                     <ChoosePath onChooseOption={this.handleChooseOption}/>
                 </Wizard.Page>
                 <Wizard.Page>
-                    
                     {this.choosePath()}
-                    
                 </Wizard.Page>
-
+{/* Pages for the INDIVIDUAL flow START                 */}                
                 <Wizard.Page>
-                    {/* <FormikApp />  */}
                     {this.state.firstPage}
-
                 </Wizard.Page> 
-                {/* <div  className="hidden"> */}
                 <Wizard.Page >
-                    {/* <CancerInfo onSaveChangeInfo={this.handleChangedRecFrmChild}/> */}
                     {this.state.secoundPage}
                 </Wizard.Page>
-                {/* </div> */}
-
                 <Wizard.Page>
-                    {/* <PreviewInfo  arrayEditedData= {this.state.arrayEditedData} enableSaveButton={this.state.enableSaveButton}/> */}
                     {this.state.thirdPage}
+                </Wizard.Page>
+{/* Pages for the INDIVIDUAL flow END                 */}                
+
+{/* Pages for the Family flow START                 */}
+                <Wizard.Page>
+                    <div>
+                        Six
+                    </div>
+                </Wizard.Page>
+                <Wizard.Page>
+                    <div>
+                        Seven
+                    </div>
+                </Wizard.Page>
+{/* Pages for the Family flow END                 */}                
+                <Wizard.Page>
+                    <div>
+                        Last
+                    </div>
                 </Wizard.Page>
             </Wizard>
         )

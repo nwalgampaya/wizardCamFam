@@ -6,12 +6,14 @@ export default class PreviewInfo extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
-     
+            editedRecordCount:0,
      
         }
     }
 
     createUI(){
+        this.state.editedRecordCount= this.props.editedRecordCount;
+        console.log("&&&&&&&&&&&&&&&&&&&&&&&  :" + this.props.editedRecordCount)
         if(this.props.enableSaveButton){
         return this.props.arrayEditedData.map((values,i)=> 
         

@@ -77,6 +77,15 @@ class CancerFamilyReg extends React.Component {
             //Used to get the selection between the family and the individual
             choosePathFamily:'',
 
+            //This object is used to carry the edited data to the preview screen
+            changedField:{
+                id:'',
+                column:'',
+                previousVal:'',
+                newVal:'',
+              },
+            arrayOfChangedFields:[],
+            countChangedFields:0,
         };
         this.oncurrentDOBChange = this.oncurrentDOBChange.bind(this);
         this.setCurrentLKDA = this.setCurrentLKDA.bind(this);
@@ -84,11 +93,30 @@ class CancerFamilyReg extends React.Component {
         this.setcurrentRelationshipCode = this.setcurrentRelationshipCode.bind(this);
     }
 
+    // This function is used to fill an array to carry the data to the preview screen
+    setPreviewScreenData(columnName, previousValue, nextValue){
+        
+        this.state.changedField.column=columnName;
+        this.state.changedField.previousVal=previousValue;
+        this.state.changedField.newVal= nextValue;
+
+        this.state.arrayOfChangedFields[this.state.countChangedFields] = this.state.changedFiel;
+        
+        this.setState({
+            
+            countChangedFields : this.state.countChangedFields++ 
+        })
+
+    }
     setSex(event) {
+        
         console.log("Sex :" + event.target.value);
         this.setState({
             currentGender: event.target.value,
         });
+        
+        this.setPreviewScreenData("Gender",this.state.gender,event.target.value)
+
     }
     oncurrentDOBChange(currentDOB) {
             console.log("Sex :" + currentDOB);
@@ -295,6 +323,8 @@ class CancerFamilyReg extends React.Component {
             }
 
     }
+
+
     render() {
 
         // Formik : Passing the props
@@ -742,7 +772,9 @@ const FormikApp = withFormik({
             vitalStatusColumn: 1,
         }
     },
-
+    handleSubmit(){
+        console.log("CancerFamilyReg SUBMIT " )
+    },
     validationSchema: Yup.object().shape({
         email: Yup.string().email('Email not valid').required('Email is required'),
         // password: Yup.string().min(9, 'Password must be 9 characters or longer').required('Password is required')

@@ -58,9 +58,16 @@ class CancerInfo extends React.Component {
       }
 
     componentDidMount(){
-      
-console.log("LLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLL" )
-        
+
+      this.state.editedRecordCoun=this.props.editedRecordCoun;
+      // if(this.props.editedRecordCoun=='undefined'){
+
+      //   this.state.editedRecordCoun= 0;
+      // }else {
+      // }
+console.log("LLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLL" + this.props.editedRecordCount)
+console.log("LLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLL Length" + this.state.arrayEditedData.length)
+
             // const urlProfession = properties.baseUrl + "practitionerscore/" ;
             // fetch saved practitioner rec id
             console.log("SEL this.jsonId%%%%%%%%%%%%%%%%%%% : " + this.state.jsonId)
@@ -187,43 +194,37 @@ console.log("LLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLL
          *  This will capture all the changed fields in the Edit dialog box and put into the 'arrayEditedData'
          *  Complex Array ====> (arrayEditedData [arrayEditedParam{Object cancerInfo}]) **/
         // this.state.arrayEditedData[this.state.tumorNo] = [...this.state.arrayEditedData[this.state.tumorNo]];
-         var i=0;
-        //  if (this.props.editedRecordCount=="undefined"){
-        //       console.log("RECORD COUNT BEFORE Undefined:" )
-           
-        //       i = this.props.editedRecordCount 
-        //     }else if (this.props.editedRecordCount!="undefined"){
-        //       console.log("RECORD COUNT BEFORE esle" )
-              
-              // i = 0;
-           
-        //  }
+         
+                /**  This will be in play when back is pressed in "Preview" screen, will add new records on top of previous values. **/
+                if(this.props.arrayEditedData!= undefined){
+                  this.state.arrayEditedData = this.props.arrayEditedData;
+                  // this.setState((prevState, props) => ({
+                  //   arrayEditedData: [this.state.arrayEditedData,...prevState.arrayEditedData]
+                  // }));
+                }
+
         
-        // this.state.arrayEditedData[this.state.tumorNo]== "undefined" ?i=0: i=this.state.arrayEditedData[this.state.tumorNo].length
-        console.log("RECORD COUNT BEFORE " + i )
 
         var EditedParam = new Array;
         for(var param in this.state.cancerInfoEdited[this.state.tumorNo]){
           var changeCol= new  Object;
-          console.log(param + ':: ' + this.state.cancerInfo[this.state.tumorNo][param]);
-          console.log(param + ':: ' + this.state.cancerInfoEdited[this.state.tumorNo][param]);
+          // console.log(param + ':: ' + this.state.cancerInfo[this.state.tumorNo][param]);
+          // console.log(param + ':: ' + this.state.cancerInfoEdited[this.state.tumorNo][param]);
           changeCol.column=param
           changeCol.previousVal=this.state.cancerInfo[this.state.tumorNo][param]
           changeCol.newVal=this.state.cancerInfoEdited[this.state.tumorNo][param]
 
           console.log("--------------------------------" + this.state.tumorNo)
-          // this.state.arrayEditedParam[i] =changeCol;
-          EditedParam[i]=changeCol;
-          // this.state.editedRecordCount++;
-          i++;
+          EditedParam[this.state.editedRecordCount]=changeCol;
+          this.state.editedRecordCount++;
         }
         
-        this.state.arrayEditedData[this.state.tumorNo] = EditedParam;
-        this.state.editedRecordCount=i;
-        // this.setState({editedRecordCount:i })
-        // this.state.editedRecordCount=i;
+        // console.log("before i /////////////////////////////// : " )
+
+
+        this.state.arrayEditedData[this.state.tumorNo] =EditedParam;
+       
         
-console.log("RECORD COUNT " + i)
         
         }
         this.sendDataToParent()
@@ -238,7 +239,7 @@ console.log("RECORD COUNT " + i)
           console.log("newVal: " + values.newVal)
           })
         })
-        this.props.onSaveChangeInfo(this.state.arrayEditedData,this.state.enableSaveButton)
+        this.props.onSaveChangeInfo(this.state.arrayEditedData,this.state.enableSaveButton )
       }
     
     handleCloseAddCancer() {

@@ -37,8 +37,8 @@ export default class StartPageRegistry extends React.Component {
                  return <Family/>
                 }else {
                     this.state.firstPage= <FormikApp />
-                    this.state.secoundPage=<CancerInfo onSaveChangeInfo={this.handleChangedRecFrmChild} />
-                    this.state.thirdPage = <PreviewInfo  arrayEditedData= {this.state.arrayEditedData} enableSaveButton={this.state.enableSaveButton} />
+                    this.state.secoundPage=<CancerInfo onSaveChangeInfo={this.handleChangedRecFrmChild} arrayEditedData= {this.state.arrayEditedData}/>
+                    this.state.thirdPage = <PreviewInfo  arrayEditedData= {this.state.arrayEditedData} enableSaveButton={this.state.enableSaveButton}  />
                  return <Individual />
              }
  
@@ -47,11 +47,11 @@ export default class StartPageRegistry extends React.Component {
     handleChangedRecFrmChild = (arrayEditedDataArr, enableSaveButton ) => {
         this.setState({arrayEditedData: arrayEditedDataArr});
         this.setState({enableSaveButton : enableSaveButton});
-        
-        
-        
+       
     }
-
+    onSubmit(e){
+        console.log("in SUBMIT =============================")
+    }
     render(){
 
         return (
@@ -59,7 +59,7 @@ export default class StartPageRegistry extends React.Component {
             // The wizard.page are choesn depending on the flag "choosePathFamily" if true the pages from Six onwards are traversed
             // IMPORTANT "next()" and "previous() functions of the "wizard.js" page should be modified for the selection of the right pages.
              
-            <Wizard choosePathFamily={this.state.choosePathFamily}>
+            <Wizard choosePathFamily={this.state.choosePathFamily} onSubmit={this.onSubmit.bind(this)}>
                 <Wizard.Page>
                     <Welcome />
                 </Wizard.Page> 

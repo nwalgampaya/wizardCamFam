@@ -87,12 +87,54 @@ class CancerFamilyReg extends React.Component {
             arrayOfChangedFields:[],
             countChangedFields:0,
             columnExist:false,
+
+
+            //Transfered from StartPageRegistry
+            firstPage:'',
+            secoundPage:'',
+            thirdPage:'',
+            fourthPage:'',
+
+            //Get data from child
+            // arrayOfChangedFields:[],
+            //Transfered from StartPageRegistry
         };
         this.oncurrentDOBChange = this.oncurrentDOBChange.bind(this);
         this.setCurrentLKDA = this.setCurrentLKDA.bind(this);
         this.setCurrentDeath = this.setCurrentDeath.bind(this);
         this.setcurrentRelationshipCode = this.setcurrentRelationshipCode.bind(this);
     }
+
+            //Transfered from StartPageRegistry
+
+            // handleChooseOption = (chooseTheFamily) => {
+            //     this.setState({choosePathFamily: chooseTheFamily});
+                
+            // }
+        
+            choosePath(){
+                console.log("choose path : " + this.state.choosePathFamily)
+                     if(this.state.choosePathFamily){
+                         //  fourthPage:'',
+                         
+                         return <Family/>
+                        }else {
+                            // this.state.firstPage= <FormikApp />
+                            // this.state.secoundPage=<CancerInfo onSaveChangeInfo={this.handleChangedRecFrmChild} arrayEditedData= {this.state.arrayEditedData}/>
+                            // this.state.firstPage= <FormikApp />
+                            this.state.secoundPage=<CancerInfo onSaveChangeInfo={this.handleChangedRecFrmChild} arrayEditedData= {this.state.arrayEditedData}/>
+                            this.state.thirdPage = <PreviewInfo  arrayEditedData= {this.state.arrayEditedData} enableSaveButton={this.state.enableSaveButton} arrayOfChangedFields={this.state.arrayOfChangedFields} />
+                         return <Individual />
+                     }
+         
+             }
+        
+            handleChangedRecFrmChild = (arrayEditedDataArr, enableSaveButton ) => {
+                this.setState({arrayEditedData: arrayEditedDataArr});
+                this.setState({enableSaveButton : enableSaveButton});
+               
+            }
+            //Transfered from StartPageRegistry
 
     // This function is used to fill an array to carry the data to the preview screen
     setPreviewScreenData(columnName, previousValue, nextValue){
@@ -358,15 +400,15 @@ console.log("countChangedFields"+ this.state.countChangedFields)
         this.setState({choosePathFamily: chooseTheFamily});
         
     }
-    choosePath(){
-       console.log("choose path : " + this.state.choosePathFamily)
-            if(this.state.choosePathFamily){
-                return <Family/>
-            }else {
-                return <Individual />
-            }
+    // choosePath(){
+    //    console.log("choose path : " + this.state.choosePathFamily)
+    //         if(this.state.choosePathFamily){
+    //             return <Family/>
+    //         }else {
+    //             return <Individual />
+    //         }
 
-    }
+    // }
 
 
     render() {
@@ -403,7 +445,18 @@ console.log("countChangedFields"+ this.state.countChangedFields)
                 // <Wizard.Page>
                 //     <PreviewInfo  arrayEditedData= {this.state.arrayEditedData} enableSaveButton={this.state.enableSaveButton}/>
                 // </Wizard.Page> */}
-
+<Wizard choosePathFamily={this.state.choosePathFamily}>
+                <Wizard.Page>
+                    <Welcome />
+                </Wizard.Page> 
+                <Wizard.Page>
+                    <ChoosePath onChooseOption={this.handleChooseOption}/>
+                </Wizard.Page>
+                <Wizard.Page>
+                    {this.choosePath()}
+                </Wizard.Page>
+{/* Pages for the INDIVIDUAL flow START                 */}                
+                <Wizard.Page>
                 <div>
                 {/* <Wizard.Page> */}
                     <div className="row">
@@ -787,6 +840,34 @@ console.log("countChangedFields"+ this.state.countChangedFields)
                         </div>
                     </div>
             </div>
+            </Wizard.Page> 
+                <Wizard.Page >
+                    {this.state.secoundPage}
+                    {/* <CancerInfo onSaveChangeInfo={this.handleChangedRecFrmChild} arrayEditedData= {this.state.arrayEditedData}/> */}
+                </Wizard.Page>
+                <Wizard.Page>
+                    {this.state.thirdPage}
+                </Wizard.Page>
+{/* Pages for the INDIVIDUAL flow END                 */}                
+
+{/* Pages for the Family flow START                 */}
+                <Wizard.Page>
+                    <div>
+                        Six
+                    </div>
+                </Wizard.Page>
+                <Wizard.Page>
+                    <div>
+                        Seven
+                    </div>
+                </Wizard.Page>
+{/* Pages for the Family flow END                 */}                
+                <Wizard.Page>
+                    <div>
+                        Last
+                    </div>
+                </Wizard.Page>
+            </Wizard>
                 // </Wizard.Page>
                 // <Wizard.Page>
                 //     <CancerInfo onSaveChangeInfo={this.handleChangedRecFrmChild}/>

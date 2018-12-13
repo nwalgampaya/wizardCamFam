@@ -12,9 +12,9 @@ import StartPageRegistry from"./components/StartPageRegistry"
 const template = (
   // <MyDate/>
   // <BootstrapDialogOld/>
-  // <FormikApp/>
+  <FormikApp/>
   // <CancerInfo/>
-  <StartPageRegistry/>
+  // <StartPageRegistry/>
 );
 
 ReactDOM.render(template, document.getElementById("root"));

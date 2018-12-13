@@ -78,14 +78,15 @@ class CancerFamilyReg extends React.Component {
             choosePathFamily:'',
 
             //This object is used to carry the edited data to the preview screen
-            changedField:{
-                id:'',
-                column:'',
-                previousVal:'',
-                newVal:'',
-              },
+            // changedField:{
+            //     id:'',
+            //     column:'',
+            //     previousVal:'',
+            //     newVal:'',
+            //   },
             arrayOfChangedFields:[],
             countChangedFields:0,
+            columnExist:false,
         };
         this.oncurrentDOBChange = this.oncurrentDOBChange.bind(this);
         this.setCurrentLKDA = this.setCurrentLKDA.bind(this);
@@ -95,16 +96,54 @@ class CancerFamilyReg extends React.Component {
 
     // This function is used to fill an array to carry the data to the preview screen
     setPreviewScreenData(columnName, previousValue, nextValue){
-        
-        this.state.changedField.column=columnName;
-        this.state.changedField.previousVal=previousValue;
-        this.state.changedField.newVal= nextValue;
 
-        this.state.arrayOfChangedFields[this.state.countChangedFields] = this.state.changedFiel;
-        
-        this.setState({
+        // var columnExist = false;
+
+        //Have to initiate a fresh object of 'changedField' in every scenario or will get fault results 
+        var changedField= new  Object;
+        if(this.state.arrayOfChangedFields.length!=0){
+            this.state.arrayOfChangedFields.map((value,i)=>{
+                if(value.column==columnName){
+                    changedField.column=columnName;
+                    changedField.previousVal=previousValue;
+                    changedField.newVal= nextValue;
+                    this.state.arrayOfChangedFields[i] = changedField;
+                    console.log("values :"+i + " : "+ value.column)
+                    this.state.columnExist=true;
+                }
+            })
+
+            if(!this.state.columnExist){
+                changedField.column=columnName;
+                changedField.previousVal=previousValue;
+                changedField.newVal= nextValue;
+                this.state.arrayOfChangedFields[ this.state.countChangedFields] =changedField;
+                console.log("values noteq :"+this.state.countChangedFields + " : "+columnName)
+                // this.state.columnExist=false;
+
+                this.setState({countChangedFields : ++this.state.countChangedFields })
+
+            }
+                this.state.columnExist=false;
             
-            countChangedFields : this.state.countChangedFields++ 
+        }else {
+            // var changedField= new  Object;
+            changedField.column=columnName;
+            changedField.previousVal=previousValue;
+            changedField.newVal= nextValue;
+            this.state.arrayOfChangedFields[this.state.countChangedFields] = changedField;
+            console.log("First Time: "+this.state.countChangedFields + " : ")
+            
+            this.setState({countChangedFields : ++this.state.countChangedFields })
+        }
+
+console.log("countChangedFields"+ this.state.countChangedFields)
+        
+       
+        this.state.arrayOfChangedFields.map((value,i)=>{
+            console.log("values :"+i + " : "+ value.column)
+            console.log("values :"+i + " : "+ value.newVal)
+
         })
 
     }
@@ -140,6 +179,9 @@ class CancerFamilyReg extends React.Component {
         this.setState({
             currentStatus: event.target.value,
           });
+
+        this.setPreviewScreenData("Vital Status",this.state.currentStatus,event.target.value)
+
     }
 
     setCurrentDeath(currentDeath){

@@ -7,6 +7,7 @@ export default class PreviewInfo extends React.Component {
         super(props);
         this.state = {
             editedRecordCount:0,
+            arrayOfChangedFields:[],
      
         }
     }
@@ -14,6 +15,13 @@ export default class PreviewInfo extends React.Component {
     createUI(){
         this.state.editedRecordCount= this.props.editedRecordCount;
         console.log("&&&&&&&&&&&&&&&&&&&&&&&  :" + this.props.editedRecordCount)
+        this.state.arrayOfChangedFields = this.props.arrayOfChangedFields;
+
+        // this.state.arrayOfChangedFields.map((values,i)=>{
+        //     console.log("&&&&&&&&&&&&&&&&&&&&&&&  arrayOfChangedFields:" + values.column)
+
+        // })
+
         if(this.props.enableSaveButton){
         return this.props.arrayEditedData.map((values,i)=> 
         

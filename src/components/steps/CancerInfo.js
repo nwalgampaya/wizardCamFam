@@ -57,6 +57,7 @@ class CancerInfo extends React.Component {
 
       }
 
+    
     componentDidMount(){
 
       this.state.editedRecordCoun=this.props.editedRecordCoun;

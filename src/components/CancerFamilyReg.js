@@ -146,6 +146,8 @@ console.log("countChangedFields"+ this.state.countChangedFields)
 
         })
 
+        // Send the filled Array to parent as and when data is filled
+        // this.props.onSendDataToPreview(this.state.arrayOfChangedFields)
     }
     setSex(event) {
         

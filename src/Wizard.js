@@ -79,7 +79,7 @@ export default class Wizard extends React.Component {
             values
         }))
         }else{
-
+                    
             this.setState(state => ({
             page: Math.min(state.page + 1, this.props.children.length - 1),
             values

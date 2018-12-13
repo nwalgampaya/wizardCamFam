@@ -21,6 +21,9 @@ export default class StartPageRegistry extends React.Component {
             secoundPage:'',
             thirdPage:'',
             fourthPage:'',
+
+            //Get data from child
+            arrayOfChangedFields:[],
         }
     }
 
@@ -52,13 +55,26 @@ export default class StartPageRegistry extends React.Component {
     onSubmit(e){
         console.log("in SUBMIT =============================")
     }
+
+    // sendDataToPreview(arrayOfChangedFields) {
+    //     console.log("In end sendDataToPreview *******8888888888888888888888")
+    //     arrayOfChangedFields.map((value,i)=>{
+    //         console.log("value" + value.column)
+            
+    //         // this.state.arrayOfChangedFields= value;
+    //     })
+
+        // this.setState({arrayOfChangedFields: arrayOfChangedFieldsArr})
+        // window.location.reload(),
+          
+    //   }
     render(){
 
         return (
             // isModalOpenValue={this.state.isModalOpen}
             // The wizard.page are choesn depending on the flag "choosePathFamily" if true the pages from Six onwards are traversed
             // IMPORTANT "next()" and "previous() functions of the "wizard.js" page should be modified for the selection of the right pages.
-             
+            
             <Wizard choosePathFamily={this.state.choosePathFamily} onSubmit={this.onSubmit.bind(this)}>
                 <Wizard.Page>
                     <Welcome />

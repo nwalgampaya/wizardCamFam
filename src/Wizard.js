@@ -93,6 +93,11 @@ export default class Wizard extends React.Component {
   //   values
   // }))}
 
+  ExitRecord = () =>
+  this.setState(state => ({
+    page: 0
+  }))
+
   previous = () =>
     this.setState(state => ({
       page: Math.max(state.page - 1, 0)
@@ -231,11 +236,17 @@ export default class Wizard extends React.Component {
                     {/* Invisible button to get the next button allignment correctly */}
                     {  page == 0 &&( <button className="invisible" type="button" ></button>)}
 
-                    { page == 3 && (<button className="btn btn-primary" type="button" onClick={this.previous}> Back</button>)}
-                    { page>0 && (<button className="btn btn-primary" type="button" onClick={this.previous}> Exit Record</button>)}
+                    {/* { page == 3 && (<button className="btn btn-primary" type="button" onClick={this.previous}> Back</button>)} */}
+                    { page>0 && page!=3 && (<button className="btn btn-primary" type="button" onClick={this.previous}> Previous</button>)}
+
+                    { (page==3 || page==4 || page==5) && (<button className="invisible" type="button" >Invisible Invisible Invisible Invisible Invisible </button>)}
+                    { (page==3 || page==4 || page==5) && (<button className="btn btn-primary" type="button" onClick={this.ExitRecord}> Exit Record</button>)}
+                    { (page==3 || page==4 || page==5) && (<button className="invisible" type="button" >ga </button>)}
+                    { (page==3 || page==4 || page==5) && (<button className="btn btn-primary" type="button" onClick={this.ExitRecord}> Logout</button>)}
+
                     {/* { page>0 && (<button className="btn btn-primary" type="button" > Logout</button>)} */}
 
-                    {(!isLastPage ) && page >=0  &&(<button className="btn btn-primary pull-right" type="button" onClick={() =>this.next()} >Next</button>)} 
+                    {(!isLastPage ) && page >=0  &&(<button className="btn btn-primary pull-right" type="button" onClick={() =>this.next()} >Proceed</button>)} 
                     {/* {page ==3  &&(<button className="btn btn-primary pull-right" type="submit"  >Next</button>)}  */}
 
                     {/* {!page == 0 && !page == 1 && !isLastPage && <button className="btn btn-primary pull-right " type="submit">  Next  </button>} */}
@@ -246,9 +257,9 @@ export default class Wizard extends React.Component {
                     {/* {(page == 3 &&
                       <button className="btn btn-primary pull-right" type="submit" disabled={submitting}>Next</button>
                     )} */}
-                    {(page ==3  &&
+                    {/* {(page ==3  &&
                       <button className="btn btn-primary pull-right" type="button" disabled={submitting} onClick={this.selectCategory}>Categorise colonoscopy</button>
-                    )}
+                    )} */}
 
                   </div>
 

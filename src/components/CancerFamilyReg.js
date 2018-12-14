@@ -447,17 +447,17 @@ console.log("countChangedFields"+ this.state.countChangedFields)
                 // </Wizard.Page> */}
 <Wizard choosePathFamily={this.state.choosePathFamily}>
                 <Wizard.Page>
-                    <Welcome />
+                    <Welcome />  {/* Page 0 */}
                 </Wizard.Page> 
                 <Wizard.Page>
-                    <ChoosePath onChooseOption={this.handleChooseOption}/>
+                    <ChoosePath onChooseOption={this.handleChooseOption}/>    {/* Page 1 */}
                 </Wizard.Page>
                 <Wizard.Page>
-                    {this.choosePath()}
+                    {this.choosePath()}                                       {/* Page 2 */}  
                 </Wizard.Page>
 {/* Pages for the INDIVIDUAL flow START                 */}                
                 <Wizard.Page>
-                <div>
+                <div>                                                          {/* Page 3 */} 
                 {/* <Wizard.Page> */}
                     <div className="row">
                         {/* <div className="form-horizontal"> */}
@@ -842,29 +842,29 @@ console.log("countChangedFields"+ this.state.countChangedFields)
             </div>
             </Wizard.Page> 
                 <Wizard.Page >
-                    {this.state.secoundPage}
+                    {this.state.secoundPage}                                           {/* Page 4 -- Dialog page */} 
                     {/* <CancerInfo onSaveChangeInfo={this.handleChangedRecFrmChild} arrayEditedData= {this.state.arrayEditedData}/> */}
                 </Wizard.Page>
                 <Wizard.Page>
-                    {this.state.thirdPage}
+                    {this.state.thirdPage}                                              {/* Page 5 -- Preview Page */}
                 </Wizard.Page>
 {/* Pages for the INDIVIDUAL flow END                 */}                
 
 {/* Pages for the Family flow START                 */}
                 <Wizard.Page>
                     <div>
-                        Six
+                        Six                                                               {/* Page 6 */}      
                     </div>
                 </Wizard.Page>
                 <Wizard.Page>
                     <div>
-                        Seven
+                        Seven                                                               {/* Page 7 */}      
                     </div>
                 </Wizard.Page>
 {/* Pages for the Family flow END                 */}                
                 <Wizard.Page>
                     <div>
-                        Last
+                        Last                                                               {/* Page 8 */}      
                     </div>
                 </Wizard.Page>
             </Wizard>

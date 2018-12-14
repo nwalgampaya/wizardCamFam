@@ -56,7 +56,7 @@ export default class Wizard extends React.Component {
     //   values  
     // }))}
     // else{
-    console.log("********************(Next) in else" + this.rndno(0, 4));
+    console.log("********************(Next) in else" + this.page);
     // this.state.isModalOpen=true
     if(this.props.choosePathFamily==true && this.state.page>1){
       console.log("PAGE NO : "+ this.state.page)
@@ -98,10 +98,36 @@ export default class Wizard extends React.Component {
     page: 0
   }))
 
-  previous = () =>
-    this.setState(state => ({
-      page: Math.max(state.page - 1, 0)
-    }))
+  previous = () => {
+    if (this.props.choosePathFamily == true && this.state.page > 1) {
+      if (this.state.page == 6) {
+        this.setState(state => ({
+          page: 1
+        }))
+      } else {
+        this.setState(state => ({
+          page: Math.max(state.page - 1, 0)
+        }))
+      }
+    } else {
+      if (this.state.page > 5) {
+        this.setState(state => ({
+          page: 5
+          
+        }))
+      } else {
+
+        this.setState(state => ({
+          page:Math.max(state.page - 1, 0)
+          
+        }))
+      }
+    }
+  }
+  // previous = () =>
+  //   this.setState(state => ({
+  //     page: Math.max(state.page - 1, 0)
+  //   }))
 
   endSession= () =>{
     this.setState(state => ({

@@ -15,6 +15,7 @@ import PreviewInfo from "./steps/PreviewInfo";
 import ChoosePath from "./steps/ChoosePath";
 import Individual from "./steps/Individual";
 import Family from "./steps/Family";
+import FamilySearch from "./steps/FamilySearch";
 // import CancerInfo from './steps/CancerInfo'
 // import DropdownMenu, { DropdownItemGroup, DropdownItem } from '@atlaskit/dropdown-menu';
 
@@ -95,6 +96,10 @@ class CancerFamilyReg extends React.Component {
             thirdPage:'',
             fourthPage:'',
 
+            //Family path
+            sixthPage:'',
+            sevenththPage:'',
+
             //Get data from child
             // arrayOfChangedFields:[],
             //Transfered from StartPageRegistry
@@ -116,6 +121,7 @@ class CancerFamilyReg extends React.Component {
                 console.log("choose path : " + this.state.choosePathFamily)
                      if(this.state.choosePathFamily){
                          //  fourthPage:'',
+                         this.state.sixthPage=<FamilySearch />
                          
                          return <Family/>
                         }else {
@@ -853,7 +859,7 @@ console.log("countChangedFields"+ this.state.countChangedFields)
 {/* Pages for the Family flow START                 */}
                 <Wizard.Page>
                     <div>
-                        Six                                                               {/* Page 6 */}      
+                        {this.state.sixthPage}                                                               {/* Page 6 */}      
                     </div>
                 </Wizard.Page>
                 <Wizard.Page>

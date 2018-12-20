@@ -31,7 +31,7 @@ export default class FamilySearch extends React.Component {
     }
 
     setfamilyId(event){
-        console.log("Sex :" + event.target.id);
+        console.log("Sex :" + event.target.value);
     // this.setState
     this.setState({
         familyId: event.target.value,
@@ -41,7 +41,7 @@ export default class FamilySearch extends React.Component {
         console.log("In showFamily")
         return (this.state.familyData.map((value, i) => 
             <tr>
-                <td><input onChange={this.setfamilyId.bind(this)} id={i} type="radio" name="familyId"/></td>
+                <td><input onChange={this.setfamilyId.bind(this)} value={i} type="radio" name="familyId"/></td>
                 <td>{value.id}</td>
             </tr>
         ))

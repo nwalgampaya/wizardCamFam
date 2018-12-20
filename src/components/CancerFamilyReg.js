@@ -318,7 +318,7 @@ console.log("countChangedFields"+ this.state.countChangedFields)
     assignDbDataToFields(){
 
         this.state.existingPersonData.map((read, i) => {
-            this.state.gender= read.gender,
+            this.state.gender= 'Female', //read.gender,
             this.state.dateOFDOB= read.dateOFDOB,
             this.state.status= read.status,
             this.state.dateOfDeath= read.dateOfDeath,
@@ -481,7 +481,7 @@ console.log("countChangedFields"+ this.state.countChangedFields)
 
                                         <div className="col-sm-12">
                                             {/* <span>{this.state.gender}</span> */}
-                                            <Field type="email" name="email" placeholder="Email"/><br/>
+                                            <Field type="email" name="email" value={this.state.gender} placeholder="Email"/><br/>
                                             <div className="validationMsg">
                                             {/* <Error name="ageColumn" /> */}
                                                 { touched.email && errors.email && <p>{errors.email}</p> }

@@ -289,6 +289,11 @@ console.log("handleShow RECORD COUNT " + this.state.editedRecordCount)
     } 
     setCurrentSource(){
 
+      console.log("setCurrentSource  setCurrentSource setCurrentSourcsetCurrentSource")
+
+    }
+    setSiteNew(event){
+      console.log("setSiteNew setSiteNew setSiteNew")
     }
     setSite(event) {
       console.log("Site :" + event.target.value);
@@ -539,10 +544,16 @@ console.log("handleShow RECORD COUNT " + this.state.editedRecordCount)
                       Site:
                     </div>
                     <div className="col-sm-5">
-                      <select className="form-control dorp-box" value={this.state.currentSourceOFDeath} onChange={this.setCurrentSource.bind(this)} name="currentDeathColumn">
-                      {
+                      <select className="form-control dorp-box" value={this.state.currentSourceOFDeath} onChange={this.setSiteNew.bind(this)} name="currentDeathColumn">
+                      {                       
+                                                this.state.siteData.map((siteGroup, i) => {
+                                                  // console.log("location ID :  " + siteGroup.id);
                         
-                        <option >{"Hospital Rec"}</option>
+                                                  this.state.siteGroup = siteGroup.name;
+                                                  return <option key={siteGroup.value} value={siteGroup.id}>{siteGroup.name}</option>
+                          
+                                                })
+                        // <option >{"Hospital Rec"}</option>
                       }
                       </select>
                     </div><br/><br/>

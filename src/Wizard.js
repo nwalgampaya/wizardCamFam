@@ -267,7 +267,7 @@ export default class Wizard extends React.Component {
 
                     { (page==3 || page==4 || page==5) && (<button className="invisible" type="button" >Invisible Invisible Invisible Invisible Invisible </button>)}
                     { (page==3 || page==4 || page==5) && (<button className="btn btn-primary" type="button" onClick={this.ExitRecord}> Exit Record</button>)}
-                    { (page==3 || page==4 || page==5) && (<button className="invisible" type="button" >ga </button>)}
+                    { (page==3 || page==4 || page==5) && (<button className="invisible" type="button" >xx </button>)}
                     { (page==3 || page==4 || page==5) && (<button className="btn btn-primary" type="button" onClick={this.ExitRecord}> Logout</button>)}
 
                     {/* { page>0 && (<button className="btn btn-primary" type="button" > Logout</button>)} */}

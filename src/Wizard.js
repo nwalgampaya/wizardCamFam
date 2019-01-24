@@ -155,6 +155,7 @@ export default class Wizard extends React.Component {
  */
 
   validate = values => {
+    console.log("validate in wizard page")
     const activePage = React.Children.toArray(this.props.children)[
       this.state.page
     ]
@@ -171,12 +172,13 @@ export default class Wizard extends React.Component {
       this.next(values)
       // return onSubmit(values)
     } 
-    else if(this.state.isModalOpen){
-      console.log("dialog Open")
-    }
-    // else {
-    //   this.next(values)
+    // else if(this.state.isModalOpen){
+    //   console.log("dialog Open")
     // }
+    else {
+      this.next(values)
+      return onSubmit(values)
+    }
   }
 
   
@@ -272,8 +274,9 @@ export default class Wizard extends React.Component {
 
                     {/* { page>0 && (<button className="btn btn-primary" type="button" > Logout</button>)} */}
 
-                    {(!isLastPage ) && page >=0  &&(<button className="btn btn-primary pull-right" type="button" onClick={() =>this.next()} >Proceed</button>)} 
-                    {/* {page ==3  &&(<button className="btn btn-primary pull-right" type="submit"  >Next</button>)}  */}
+                    {(!isLastPage ) && page >=0 && page !=3 &&(<button className="btn btn-primary pull-right" type="button" onClick={() =>this.next()} >Proceed</button>)} 
+                    {/* Need to be type of submit in order to get the formik validation. */}
+                    {page ==3  &&(<button className="btn btn-primary pull-right" type="submit"  >Next</button>)} 
 
                     {/* {!page == 0 && !page == 1 && !isLastPage && <button className="btn btn-primary pull-right " type="submit">  Next  </button>} */}
                     {/* {page == 1 && (<button className="btn btn-primary pull-right" type="submit" disabled={submitting}>

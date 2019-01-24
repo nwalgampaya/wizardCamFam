@@ -27,7 +27,8 @@ class CancerFamilyReg extends React.Component {
         super(props)
         this.state = {
 // Values form Db
-            gender: 'Male',
+            gender: 'Male@gmail.com',
+            // gender: '',
             dateOFDOB: 'mm/dd/yyyy',
             status:'zzz',
             dateOfDeath:'1/1/1',
@@ -36,16 +37,36 @@ class CancerFamilyReg extends React.Component {
             sourceOFDeath:'',
             courseOFDeath:'',
             dateOfLKDA:'',
-            sourceOfLiveDate:'',
-            fPI1Status:'',
-            fPI2Status:'',
-            fPI3Status:'',
-            fPI4Status:'',
+            sourceOfLiveDate:
+                            {   id:'',
+                                code:'',
+                                description:''},
+
+            fPI1Status:
+                        {   id:'',
+                            code:'',
+                            description:''},
+            fPI2Status:
+                        {   id:'',
+                            code:'',
+                            description:''},
+
+            fPI3Status:
+                        {   id:'',
+                            code:'',
+                            description:''},
+
+            fPI4Status:
+                        {   id:'',
+                            code:'',
+                            description:''},
+
             relationshipCode:'',
 
 // current values
             currentGender:'',
-            currentDOB: '',
+            currentDOB: '', // Date picker can display only this format.
+            sendCurrentDOB:'', // Same value as , but different format to send, 
             currentStatus:'',
             currentDeath:'',
             //todu
@@ -103,11 +124,15 @@ class CancerFamilyReg extends React.Component {
             //Get data from child
             // arrayOfChangedFields:[],
             //Transfered from StartPageRegistry
+
+            patientDataValue : []
         };
         this.oncurrentDOBChange = this.oncurrentDOBChange.bind(this);
         this.setCurrentLKDA = this.setCurrentLKDA.bind(this);
         this.setCurrentDeath = this.setCurrentDeath.bind(this);
         this.setcurrentRelationshipCode = this.setcurrentRelationshipCode.bind(this);
+        this.assignDbDataToFields = this.assignDbDataToFields.bind(this)
+        this.setAgeOfDeath = this.setAgeOfDeath.bind(this)
     }
 
             //Transfered from StartPageRegistry
@@ -130,7 +155,7 @@ class CancerFamilyReg extends React.Component {
                             // this.state.firstPage= <FormikApp />
                             this.state.secoundPage=<CancerInfo onSaveChangeInfo={this.handleChangedRecFrmChild} arrayEditedData= {this.state.arrayEditedData}/>
                             this.state.thirdPage = <PreviewInfo  arrayEditedData= {this.state.arrayEditedData} enableSaveButton={this.state.enableSaveButton} arrayOfChangedFields={this.state.arrayOfChangedFields} />
-                         return <Individual />
+                         return <Individual onInsertPatientId={this.assignDbDataToFields}/>
                      }
          
              }
@@ -208,11 +233,44 @@ console.log("countChangedFields"+ this.state.countChangedFields)
 
     }
     oncurrentDOBChange(currentDOB) {
-            console.log("Sex :" + currentDOB);
+            console.log("currentDOB :" + currentDOB);
     this.setState ({
+        // currentDOB: currentDOB
             currentDOB: currentDOB
         });
+
+        this.state.sendCurrentDOB = this.convert(currentDOB)
+        console.log("currentDOB : ddddddddddddddddddddddd : " + this.state.sendCurrentDOB);
+
     }
+    convert(str) {
+        console.log("ddddddddddddddddddddddd"+ str)
+        var str2= ""+str
+        
+        // var mnth = str2.slice(4,7)
+        // var date = str2.slice(9,10)
+        // var year = str2.slice(12,15)
+        
+        // console.log("Mnt" + mnth)
+        var mnths = { 
+            Jan:"01", Feb:"02", Mar:"03", Apr:"04", May:"05", Jun:"06",
+            Jul:"07", Aug:"08", Sep:"09", Oct:"10", Nov:"11", Dec:"12"
+        },
+        date = str2.split(" ");
+        
+        console.log("date new 1" + date[1])
+        console.log("date new 2" + date[2])
+        console.log("date new 3" + date[3])
+        // return [ date[3], mnths[date[1]], date[2] ].join("-");
+        return [ date[3], mnths[date[1]], date[2] ].join("");
+    }
+    
+    // convert(str) {
+    //     var date = new Date(str),
+    //         mnth = ("0" + (date.getMonth()+1)).slice(-2),
+    //         day  = ("0" + date.getDate()).slice(-2);
+    //     return [ date.getFullYear(), mnth, day ].join("-");
+    // }
     // onnewdobChange = newdob => this.setState({ newdob })
 
     setCurrentStatus(event){
@@ -239,7 +297,12 @@ console.log("countChangedFields"+ this.state.countChangedFields)
             currentDeath: currentDeath,
           });
     }
-
+    setAgeOfDeath(event){
+        console.log(" aOD"+ event.target.value)
+        this.setState({
+            currentaodeath: event.target.value,
+          });
+    }
     setCurrentSource(event){
         this.setState({
             currentSourceOFDeath: event.target.value,
@@ -315,27 +378,115 @@ console.log("countChangedFields"+ this.state.countChangedFields)
     }
 
     // To assign values form data base to 'Existing Details" variables.
-    assignDbDataToFields(){
+    assignDbDataToFields(patientData){
 
-        this.state.existingPersonData.map((read, i) => {
-            this.state.gender= 'Female', //read.gender,
-            this.state.dateOFDOB= read.dateOFDOB,
-            this.state.status= read.status,
-            this.state.dateOfDeath= read.dateOfDeath,
-            //this.state.= //this.existingPersonData.//u
-            this.state.aodeath= read.aodeath,
-            this.state.sourceOFDeath= read.sourceOFDeath,
-            this.state.courseOFDeath= read.courseOFDeath,
-            this.state.dateOfLKDA= read.dateOfLKDA,
-            this.state.sourceOfLiveDate= read.sourceOfLiveDate,
-            this.state.fPI1Status= read.fPI1Status,
-            this.state.fPI2Status= read.fPI2Status,
-            this.state.fPI3Status= read.fPI3Status,
-            this.state.fPI4Status= read.fPI4Status,
-            this.state.relationshipCode= read.relationshipCode
-        })    
+        console.log("EEEEEEEEEEEEEEEEEEEEEEEEEEEEEE" + patientData.dateOfBirth)
+        this.state.patientDataValue = patientData
+            this.state.gender= patientData.intGender, //read.gender,
+            // this.state.dateOFDOB= patientData.dateOfBirth,
+            this.setState({
+                gender: patientData.intGender,
+    
+            });
+            this.setState({
+                dateOFDOB: this.convertDateFormat(patientData.dateOfBirth),
+    
+            });
+            console.log("dft: " + this.convertDateFormat(patientData.dateOfBirth) )
+            this.state.status= patientData.vitalStatus
+
+        console.log("EEEEEEEEEEEEEEEEEEEEEEEEEEEEEE" + this.state.dateOFDOB)
+            this.setState({
+                dateOfDeath: this.convertDateFormat(patientData.dateOfDeath),
+                
+            });
+
+            // this.state.dateOfDeath= patientData.dateOfDeath,
+            // //this.state.= //this.existingPersonData.//u
+            // this.state.aodeath= patientData.aodeath,
+            
+            this.setState({
+                aodeath: patientData.ageOfDeath,
+    
+            });
+            // this.state.sourceOFDeath= patientData.sourceOFDeath,
+            // this.state.courseOFDeath= patientData.courseOFDeath,
+            // this.state.dateOfLKDA= patientData.dateOfLKDA,
+            // this.state.sourceOfLiveDate= patientData.sourceOfLiveDate,
+            
+            this.setState({
+                sourceOfLiveDate:{
+                    
+                    id: patientData.sourceOfLiveDate.id,
+                    code: patientData.sourceOfLiveDate.code,
+                    description: patientData.sourceOfLiveDate.description,
+                } 
+    
+            });
+            this.setState({
+                fPI1Status:{
+                    
+                    id: patientData.fPI1Status !=null ? patientData.fPI1Status.id:'',
+                    code: patientData.fPI1Status !=null? patientData.fPI1Status.code:'',
+                    description: patientData.fPI1Status !=null? patientData.fPI1Status.description:'',
+                } 
+    
+            });
+            this.setState({
+                fPI2Status:{
+                    
+                    id: patientData.fPI2Status !=null ? patientData.fPI2Status.id:'',
+                    code: patientData.fPI2Status !=null? patientData.fPI2Status.code:'',
+                    description: patientData.fPI2Status !=null? patientData.fPI2Status.description:'',
+                } 
+    
+            });
+            this.setState({
+                fPI3Status:{
+                    
+                    id: patientData.fPI3Status !=null ? patientData.fPI3Status.id:'',
+                    code: patientData.fPI3Status !=null? patientData.fPI3Status.code:'',
+                    description: patientData.fPI3Status !=null? patientData.fPI3Status.description:'',
+                } 
+    
+            });
+            this.setState({
+                fPI4Status:{
+                    
+                    id: patientData.fPI4Status !=null ? patientData.fPI4Status.id:'',
+                    code: patientData.fPI4Status !=null? patientData.fPI4Status.code:'',
+                    description: patientData.fPI4Status !=null? patientData.fPI4Status.description:'',
+                } 
+    
+            });
+            // this.state.fPI1Status= patientData.fPI1Status,
+            // this.state.fPI2Status= patientData.fPI2Status,
+            // this.state.fPI3Status= patientData.fPI3Status,
+            // this.state.fPI4Status= patientData.fPI4Status,
+            // this.state.relationshipCode= patientData.relationshipCode
+        
     }
+//  // To assign values form data base to 'Existing Details" variables.
+//     assignDbDataToFields(patientData){
 
+//         this.state.existingPersonData.map((read, i) => {
+//             this.state.gender= 'Female', //read.gender,
+//             this.state.dateOFDOB= read.dateOFDOB,
+//             this.state.status= read.status,
+//             this.state.dateOfDeath= read.dateOfDeath,
+//             //this.state.= //this.existingPersonData.//u
+//             this.state.aodeath= read.aodeath,
+//             this.state.sourceOFDeath= read.sourceOFDeath,
+//             this.state.courseOFDeath= read.courseOFDeath,
+//             this.state.dateOfLKDA= read.dateOfLKDA,
+//             this.state.sourceOfLiveDate= read.sourceOfLiveDate,
+//             this.state.fPI1Status= read.fPI1Status,
+//             this.state.fPI2Status= read.fPI2Status,
+//             this.state.fPI3Status= read.fPI3Status,
+//             this.state.fPI4Status= read.fPI4Status,
+//             this.state.relationshipCode= read.relationshipCode
+//         })    
+//     }
     // Used for saving 'New Details' to the db
     postRequest() {
         let data = {
@@ -416,9 +567,36 @@ console.log("countChangedFields"+ this.state.countChangedFields)
 
     // }
 
+    convertDateFormat(date){
+        var formatDatestr = date
+        // console.log( "year: "+ str.slice(0,4) )
+        // console.log( "mon: "+ str.slice(4,6) )
+        // console.log( "date: "+ str.slice(6,8) )
 
+        // formatDatestr = formatDatestr!=null ? formatDatestr : 0;
+        if(formatDatestr != null)
+            formatDatestr = formatDatestr.slice(4,6)+"/"+formatDatestr.slice(6,8)+"/"+formatDatestr.slice(0,4)
+        else
+            formatDatestr= 'N/A';
+
+        return formatDatestr
+    }
+    onSubmit(e) {
+        console.log("in Submit")
+        // e.preventDefault();
+       
+        //  }
+      }
     render() {
-
+        const Error = ({ name }) => (
+            <Field
+              name={name}
+              subscribe={{ touched: true, error: true }}
+              render={({ meta: { touched, error } }) =>
+                touched && error ? <span>{error}</span> : null
+              }
+            />
+            )
         // Formik : Passing the props
         const {      
             values,
@@ -451,7 +629,9 @@ console.log("countChangedFields"+ this.state.countChangedFields)
                 // <Wizard.Page>
                 //     <PreviewInfo  arrayEditedData= {this.state.arrayEditedData} enableSaveButton={this.state.enableSaveButton}/>
                 // </Wizard.Page> */}
-<Wizard choosePathFamily={this.state.choosePathFamily}>
+<Wizard 
+    choosePathFamily={this.state.choosePathFamily}
+    onSubmit={this.onSubmit.bind(this)}>
                 <Wizard.Page>
                     <Welcome />  {/* Page 0 */}
                 </Wizard.Page> 
@@ -462,7 +642,19 @@ console.log("countChangedFields"+ this.state.countChangedFields)
                     {this.choosePath()}                                       {/* Page 2 */}  
                 </Wizard.Page>
 {/* Pages for the INDIVIDUAL flow START                 */}                
-                <Wizard.Page>
+                <Wizard.Page validate={values => {
+                    const errors = {}
+                    // specificComplaintcolumn:[]
+                    console.log("in validation %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% 1111" + this.state.complaints)
+
+
+                    if (this.state.dateOfDeath =='') {
+                        // alert("In error")
+                        errors.ageColumn = 'Please enter an appropriate value'
+                    }
+                    return errors
+                }}>
+
                 <div>                                                          {/* Page 3 */} 
                 {/* <Wizard.Page> */}
                     <div className="row">
@@ -481,7 +673,8 @@ console.log("countChangedFields"+ this.state.countChangedFields)
 
                                         <div className="col-sm-12">
                                             {/* <span>{this.state.gender}</span> */}
-                                            <Field type="email" name="email" value={this.state.gender} placeholder="Email"/><br/>
+                                            <Field type="text" name="email" value={this.state.gender} placeholder="Email"/><br/>
+                                            {/* <input type="text" name="currentaodeathColumn" /> */}
                                             <div className="validationMsg">
                                             {/* <Error name="ageColumn" /> */}
                                                 { touched.email && errors.email && <p>{errors.email}</p> }
@@ -515,7 +708,8 @@ console.log("countChangedFields"+ this.state.countChangedFields)
                                         </div>
 
                                         <div className="col-sm-12">
-                                            <span><label className="form-check-label" name ="aodeathColumn"  >{values.aodeathColumn}</label></span>
+                                            {/* <span><label className="form-check-label" name ="aodeathColumn"  >{values.aodeathColumn}</label></span> */}
+                                            <span>{this.state.aodeath}</span>
                                             {/* {this.state.aodeath} */}
                                         </div><br/>
                                         
@@ -548,7 +742,7 @@ console.log("countChangedFields"+ this.state.countChangedFields)
                                         </div>
 
                                         <div className="col-sm-12">
-                                            <span>{this.state.sourceOfLiveDate}</span>
+                                            <span>{this.state.sourceOfLiveDate.description}</span>
                                         </div><br/>
 
                                         <div className="col-sm-12">
@@ -556,7 +750,7 @@ console.log("countChangedFields"+ this.state.countChangedFields)
                                         </div>
 
                                         <div className="col-sm-12">
-                                            <span>{this.state.fPI1Status}</span>
+                                            <span>{this.state.fPI1Status.description}</span>
                                         </div><br/>
 
                                         <div className="col-sm-12">
@@ -564,7 +758,7 @@ console.log("countChangedFields"+ this.state.countChangedFields)
                                         </div>
 
                                         <div className="col-sm-12">
-                                            <span>{this.state.fPI2Status}</span>
+                                            <span>{this.state.fPI2Status.description}</span>
                                         </div><br/>
 
                                         <div className="col-sm-12">
@@ -572,7 +766,7 @@ console.log("countChangedFields"+ this.state.countChangedFields)
                                         </div>
 
                                         <div className="col-sm-12">
-                                            <span>{this.state.fPI3Status}</span>
+                                            <span>{this.state.fPI3Status.description}</span>
                                         </div><br/>
 
 
@@ -581,7 +775,7 @@ console.log("countChangedFields"+ this.state.countChangedFields)
                                         </div>
 
                                         <div className="col-sm-12">
-                                            <span>{this.state.fPI4Status}</span>
+                                            <span>{this.state.fPI4Status.description}</span>
                                         </div><br/>
                                      </div>
 
@@ -645,7 +839,7 @@ console.log("countChangedFields"+ this.state.countChangedFields)
                                         </div>
                                         <div className="col-sm-4">
                                             {/* <span disabled={this.state.isAlive} name ="currentaodeathColumn" > </span> */}
-                                            <input type="text" name="currentaodeathColumn" disabled={this.state.isAlive}/> 
+                                            <input type="text" name="currentaodeathColumn" disabled={this.state.isAlive} onChange={this.setAgeOfDeath.bind(this)}/> 
                                                 {/* // {this.state.currentaodeath}
                                                 value={"values.currentaodeathColumn"} */}
                                              {/* <label type="label" name ="currentaodeathColumn" value={values.currentaodeathColumn}></input> */}
@@ -897,8 +1091,8 @@ const FormikApp = withFormik({
     mapPropsToValues({email,aodeathColumn, currentaodeathColumn}) {
     
         return {
-            email: email || '',
-            aodeathColumn:'fromDb',
+            email: '',
+            // aodeathColumn:'fromDb',
             currentaodeathColumn: "testin",
             vitalStatusColumn: 1,
         }

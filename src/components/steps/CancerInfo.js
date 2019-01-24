@@ -655,6 +655,8 @@ console.log("handleShow RECORD COUNT " + this.state.editedRecordCount)
                     {/* <button  disabled={isSubmitting}>Save</button> */}
                     {/* <button  type= "submit" disabled={isSubmitting}>Save</button> */}
                     <button type="submit">submit</button>
+                    {/* <Button disabled= {!this.state.enableSaveButton} onClick={this.handleSave}>Save</Button> */}
+
                     {/* <Button onClick={this.handleSaveAddCancer}>Save</Button> */}
 
                   </Modal.Footer>

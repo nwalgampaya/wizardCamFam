@@ -5,6 +5,7 @@ import DatePicker from 'react-date-picker';
 import '../../App.css';
 import { withFormik, Form, Field } from 'formik'
 import * as Yup from 'yup'
+import { properties } from '../../properties.js';
 
 class CancerInfo extends React.Component {
 
@@ -58,50 +59,38 @@ class CancerInfo extends React.Component {
       }
 
     
-    componentDidMount(){
+  componentDidMount() {
 
-      this.state.editedRecordCoun=this.props.editedRecordCoun;
-      // if(this.props.editedRecordCoun=='undefined'){
+    this.state.editedRecordCoun = this.props.editedRecordCoun;
+    // if(this.props.editedRecordCoun=='undefined'){
 
-      //   this.state.editedRecordCoun= 0;
-      // }else {
-      // }
-console.log("LLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLL" + this.props.editedRecordCount)
-console.log("LLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLL Length" + this.state.arrayEditedData.length)
+    //   this.state.editedRecordCoun= 0;
+    // }else {
+    // }
+    console.log("LLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLL" + this.props.editedRecordCount)
+    console.log("LLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLL Length" + this.state.arrayEditedData.length)
 
-            // const urlProfession = properties.baseUrl + "practitionerscore/" ;
-            // fetch saved practitioner rec id
-            console.log("SEL this.jsonId%%%%%%%%%%%%%%%%%%% : " + this.state.jsonId)
-            const urlProfession = "http://128.250.143.10:8090/ProneSpringBoot/api/practitionersTest/";
-            fetch(urlProfession)
-              .then(response => response.json())
-              .then((data) => {
-        
-                console.log("score" + data);
-                this.setState({
-                    cancerInfo: data,
-        
-                });
-                // this.state.profession.push(data);
-              })
-              // const = properties.baseUrl +"uageRecs/";
-              // const urlAgegroup = properties.baseUrl + 'ageRecs';
-            const urlAgegroup = "http://128.250.143.10:8090/ProneSpringBoot/api/ageRecs/";
-            fetch(urlAgegroup)
-              .then(response => response.json())
-              .then((data) => {
+    // const urlProfession = properties.baseUrl + "practitionerscore/" ;
+    // fetch saved practitioner rec id
+    
+    // const urlCancerInfo = properties.baseUrl + "patients/" + personID + "cancers";
+    //TODO - remove the hard code
+    const urlCancerInfo = properties.baseUrl + "patients/" + "121000186001" + "/cancers";
+    fetch(urlCancerInfo)
+      .then(response => response.json())
+      .then((data) => {
 
-                console.log(data);
-                this.setState({
+        console.log(data);
+        this.setState({
+          cancerInfo: data,
 
-                  // flats: data
-                  siteData: data
+        });
+        // this.state.profession.push(data);
+      })
 
-                });
-              })
 
-            }
-            
+  }
+
     
 
   
@@ -671,35 +660,41 @@ console.log("handleShow RECORD COUNT " + this.state.editedRecordCount)
 
 
 const PersonRow = (props) => {
+  
     return (
       <tr>
         <td>
-          { props.cancerInfo.id }
+          { props.cancerInfo.tumorNo }
+        </td>
+        
+        <td>
+          { props.cancerInfo.site.description }
         </td>
         <td>
-          { props.cancerInfo.age }
+          { props.cancerInfo.lateral.description }
         </td>
         <td>
-          { props.cancerInfo.complaints }
+          { props.cancerInfo.histology.description }
         </td>
         <td>
-          { props.cancerInfo.location }
+          { props.cancerInfo.behaviour.description }
         </td>
         <td>
-          { props.cancerInfo.score }
+          {props.cancerInfo.dateOfDiagnosis!= null? props.cancerInfo.dateOfDiagnosis.slice(4,6)+"/"+props.cancerInfo.dateOfDiagnosis.slice(6,8)+"/"+props.cancerInfo.dateOfDiagnosis.slice(0,4):"N/A" }
+        </td>
+         <td>
+          { props.cancerInfo.ageDiagnosis }
         </td>
         <td>
-          { props.cancerInfo.sex }
+          { props.cancerInfo.diagSource.description }
         </td>
+        
         <td>
-          { props.cancerInfo.specialty }
+          { props.cancerInfo.tissue!=null ? props.cancerInfo.tissue.description: null }
         </td>
-        <td>
-          { props.cancerInfo.specificcomplaint }
-        </td>
-        <td>
+        {/*<td>
           { props.cancerInfo.issuetype }
-        </td>
+        </td> */}
         <td>
            <Button  bsSize="small" onClick={()=> props.handleShow(props.rowId)} >
              Edit

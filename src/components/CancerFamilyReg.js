@@ -16,6 +16,7 @@ import ChoosePath from "./steps/ChoosePath";
 import Individual from "./steps/Individual";
 import Family from "./steps/Family";
 import FamilySearch from "./steps/FamilySearch";
+import { properties } from '../properties.js';
 // import CancerInfo from './steps/CancerInfo'
 // import DropdownMenu, { DropdownItemGroup, DropdownItem } from '@atlaskit/dropdown-menu';
 
@@ -66,14 +67,16 @@ class CancerFamilyReg extends React.Component {
 // current values
             currentGender:'',
             currentDOB: '', // Date picker can display only this format.
-            sendCurrentDOB:'', // Same value as , but different format to send, 
+            sendCurrentDOB:'', // Same value as currentDOB, but different format to send, 
             currentStatus:'',
             currentDeath:'',
+            sendCurrentDateDeath:'',  // Same value as currentDeath, but different format to send, 
             //todu
             currentaodeath:'',
             currentSourceOFDeath:'',
             currentCourseOFDeath:'',
             currentLKDA:'',
+            sendCurrentLKDA:'',
             // currentsourceOfLiveDate:'',
             currentCourseOfLiveDate:'',
             currentfPI1Status:'',
@@ -88,6 +91,9 @@ class CancerFamilyReg extends React.Component {
 
             // Values from Rest Service
             existingPersonData:[],
+            fupcodesRest:[],
+            srcOfDeathRest:[],
+            lastKnownDatesRest:[],
 
             // isModalOpen:'',
 
@@ -129,7 +135,7 @@ class CancerFamilyReg extends React.Component {
         };
         this.oncurrentDOBChange = this.oncurrentDOBChange.bind(this);
         this.setCurrentLKDA = this.setCurrentLKDA.bind(this);
-        this.setCurrentDeath = this.setCurrentDeath.bind(this);
+        this.setCurrentDateDeath = this.setCurrentDateDeath.bind(this);
         this.setcurrentRelationshipCode = this.setcurrentRelationshipCode.bind(this);
         this.assignDbDataToFields = this.assignDbDataToFields.bind(this)
         this.setAgeOfDeath = this.setAgeOfDeath.bind(this)
@@ -258,9 +264,9 @@ console.log("countChangedFields"+ this.state.countChangedFields)
         },
         date = str2.split(" ");
         
-        console.log("date new 1" + date[1])
-        console.log("date new 2" + date[2])
-        console.log("date new 3" + date[3])
+        // console.log("date new 1" + date[1])
+        // console.log("date new 2" + date[2])
+        // console.log("date new 3" + date[3])
         // return [ date[3], mnths[date[1]], date[2] ].join("-");
         return [ date[3], mnths[date[1]], date[2] ].join("");
     }
@@ -292,10 +298,12 @@ console.log("countChangedFields"+ this.state.countChangedFields)
 
     }
 
-    setCurrentDeath(currentDeath){
+    setCurrentDateDeath(currentDeath){
         this.setState({
             currentDeath: currentDeath,
           });
+          this.state.sendCurrentDateDeath = this.convert(currentDeath)
+        console.log("sendCurrentDateDeath : ddddddddddddddddddddddd : " + this.state.sendCurrentDateDeath);
     }
     setAgeOfDeath(event){
         console.log(" aOD"+ event.target.value)
@@ -309,11 +317,19 @@ console.log("countChangedFields"+ this.state.countChangedFields)
           });
     }
     
+    setCurrentCauseDeath(event){
+        console.log("currentCourseOFDeath :" + event.target.value);
+        this.setState({
+            currentCourseOFDeath: event.target.value,
+          });
+    }
     setCurrentLKDA(currentLKDA) {
         console.log("setCurrentLKDA :" + currentLKDA);
         this.setState ({
             currentLKDA: currentLKDA
         });
+        this.state.sendCurrentLKDA = this.convert(currentLKDA)
+        console.log("sendCurrentDateDeath : ddddddddddddddddddddddd : " + this.state.sendCurrentLKDA);
     }
 
     setSourceLKD(event){
@@ -377,6 +393,49 @@ console.log("countChangedFields"+ this.state.countChangedFields)
 
     }
 
+    componentDidMount() {
+
+        const urlFupcodes = properties.baseUrl + "fupcodes/";
+        fetch(urlFupcodes)
+          .then(response => response.json())
+          .then((data) => {
+    
+            console.log(data);
+            this.setState({
+                fupcodesRest: data,
+    
+            });
+            // this.state.profession.push(data);
+          })
+        const urlSrcOfDeath = properties.baseUrl + "srcDeathcodes/";
+            fetch(urlSrcOfDeath)
+            .then(response => response.json())
+            .then((data) => {
+        
+                console.log(data);
+                this.setState({
+                    srcOfDeathRest: data,
+        
+                });
+                // this.state.profession.push(data);
+            })
+        
+        const urlLastKnownDates = properties.baseUrl + "srlcodes/";
+            fetch(urlLastKnownDates)
+            .then(response => response.json())
+            .then((data) => {
+        
+                console.log(data);
+                this.setState({
+                    lastKnownDatesRest: data,
+        
+                });
+                // this.state.profession.push(data);
+            })
+
+
+        }
+
     // To assign values form data base to 'Existing Details" variables.
     assignDbDataToFields(patientData){
 
@@ -409,6 +468,25 @@ console.log("countChangedFields"+ this.state.countChangedFields)
                 aodeath: patientData.ageOfDeath,
     
             });
+            
+            this.setState({
+                sourceOFDeath: patientData.sourceOfDeath,
+                
+                        });
+            this.setState({
+                courseOFDeath: patientData.CourseOfDeath,
+                
+                        });            
+                                                
+            this.setState({
+                sourceOfLiveDate: patientData.sourceOfLiveDate,
+                
+                        });   
+                         
+              this.setState({
+                dateOfLKDA: this.convertDateFormat(patientData.liveDate),
+                
+                        });                                           
             // this.state.sourceOFDeath= patientData.sourceOFDeath,
             // this.state.courseOFDeath= patientData.courseOFDeath,
             // this.state.dateOfLKDA= patientData.dateOfLKDA,
@@ -487,18 +565,22 @@ console.log("countChangedFields"+ this.state.countChangedFields)
 //             this.state.relationshipCode= read.relationshipCode
 //         })    
 //     }
+
     // Used for saving 'New Details' to the db
     postRequest() {
-        let data = {
+        let postData = {
             currentGender:this.state.currentGender,
-            currentDOB:this.state.currentDOB, 
+            // currentDOB:this.state.currentDOB, 
+            currentDOB:this.state.sendCurrentDOB, 
             currentStatus:this.state.currentStatus,
-            currentDeath:this.state.currentDeath,
+            // currentDeath:this.state.currentDeath,
+            currentDeath:this.state.sendCurrentDateDeath,
             // todu
             currentaodeath:this.state.currentaodeath,
             currentSourceOFDeath:this.state.currentSourceOFDeath,
             currentCourseOFDeath:this.state.currentCourseOFDeath,
-            currentLKDA:this.state.currentLKDA,
+            // currentLKDA:this.state.currentLKDA,
+            currentLKDA:this.state.sendCurrentLKDA,
             // this.state.urrentsourceOfLiveDate,
             currentCourseOfLiveDate:this.state.currentCourseOfLiveDate,
             currentfPI1Status:this.state.currentfPI1Status,
@@ -507,37 +589,38 @@ console.log("countChangedFields"+ this.state.countChangedFields)
             currentfPI4Status:this.state.currentfPI4Status,
             currentRelationshipCode:this.state.currentRelationshipCode,
         }
+        console.log("postData <><><><><><><><><><><><>"+ postData.currentfPI1Status)
 
         // const url = properties.baseUrl + 'practitioners/create';
-        const url = 'practitioners/create';
+        // const url = 'practitioners/create';
 
-        var request = new Request(url, {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(data),
-        mode: "cors",
-        credentials: "same-origin",
-        crossDomain: true
+        // var request = new Request(url, {
+        // method: 'POST',
+        // headers: { 'Content-Type': 'application/json' },
+        // body: JSON.stringify(postData),
+        // mode: "cors",
+        // credentials: "same-origin",
+        // crossDomain: true
 
-        });
+        // });
 
-        fetch(request)
-        .then((response) => {
-            return response.json();
-        })
-        .then((jsonObject) => {
-            console.log("CREATED ID :" + jsonObject.id);
-            this.state.jsonId = jsonObject.id;
-            // document.write(`ID ${jsonObject.id} was created!`);
-        })
-        .then(() => {
-            if (this.state.jsonId.length !== 0) {
-            this.fetchPractitionerId(this.state.jsonId)
-            }
-        })
-        .catch((error) => {
-            document.write(error);
-        });
+        // fetch(request)
+        // .then((response) => {
+        //     return response.json();
+        // })
+        // .then((jsonObject) => {
+        //     console.log("CREATED ID :" + jsonObject.id);
+        //     this.state.jsonId = jsonObject.id;
+        //     // document.write(`ID ${jsonObject.id} was created!`);
+        // })
+        // .then(() => {
+        //     if (this.state.jsonId.length !== 0) {
+        //     this.fetchPractitionerId(this.state.jsonId)
+        //     }
+        // })
+        // .catch((error) => {
+        //     document.write(error);
+        // });
     }
 
 
@@ -582,8 +665,9 @@ console.log("countChangedFields"+ this.state.countChangedFields)
         return formatDatestr
     }
     onSubmit(e) {
-        console.log("in Submit")
+        console.log("in Submit 1234")
         // e.preventDefault();
+        this.postRequest()
        
         //  }
       }
@@ -777,6 +861,15 @@ console.log("countChangedFields"+ this.state.countChangedFields)
                                         <div className="col-sm-12">
                                             <span>{this.state.fPI4Status.description}</span>
                                         </div><br/>
+
+                                        <div className="col-sm-12">
+                                            Relationship Code:  
+                                        </div>
+                                        
+                                        <div className="col-sm-12">
+                                            <span>{this.state.relationshipCode}</span>
+                                        </div><br/>
+
                                      </div>
 
 
@@ -830,7 +923,7 @@ console.log("countChangedFields"+ this.state.countChangedFields)
 
                                         <div  className="col-sm-5"> 
                                             <DatePicker disabled={this.state.isAlive}
-                                            onChange={this.setCurrentDeath}
+                                            onChange={this.setCurrentDateDeath}
                                             value={this.state.currentDeath}
                                             />
                                         </div><br/>
@@ -853,15 +946,15 @@ console.log("countChangedFields"+ this.state.countChangedFields)
                                         <div className="col-sm-5">
                                             <select disabled={this.state.isAlive} className="form-control dorp-box" value={this.state.currentSourceOFDeath} onChange={this.setCurrentSource.bind(this)} name="currentDeathColumn">
                                             {
-                                                // this.state.ageData.map((ageGroup, i) => {
-                                                    
-                                                //     this.state.ageGroup = ageGroup.name;
-                                                //     console.log("location ID :  " + ageGroup.id);
-                                                //     return <option key={ageGroup.value} value={ageGroup.id}>{ageGroup.name}</option>
-                                                    
-                                                // })
+                                               
+                                               this.state.srcOfDeathRest.map((read, i) => {
+                                                this.state.read = read.description;
+                                                // console.log("profession ID :  " + read.id);
+                                                return <option key={read.value} value={read.id}>{read.description}</option>
+                                              })
+                                            }
                                                 
-                                                <option >{"Hospital Rec"}</option>
+                                                {/* <option >{"Hospital Rec"}</option> */}
                                             }
                                             </select>
                                         </div><br/>
@@ -893,7 +986,7 @@ console.log("countChangedFields"+ this.state.countChangedFields)
 
                                         <div className="form-check-inline col-sm-12">
                                             <div className="col-sm-6">
-                                                <input type="text" name="currentCourseOFDeathColumn" disabled={this.state.isAlive}/> 
+                                                <input type="text" name="currentCourseOFDeathColumn" disabled={this.state.isAlive} onChange={this.setCurrentCauseDeath.bind(this)}/> 
                                             </div>
                                             
                                             {/* <div className="col-sm-1"></div> */}
@@ -921,15 +1014,15 @@ console.log("countChangedFields"+ this.state.countChangedFields)
                                         <div className="col-sm-5">
                                             <select className="form-control dorp-box" value={this.state.currentCourseOfLiveDate} onChange={this.setSourceLKD.bind(this)} name="sourceLKDColumn">
                                             {
-                                                // this.state.ageData.map((ageGroup, i) => {
+                                                this.state.lastKnownDatesRest.map((ageGroup, i) => {
                                                     
-                                                //     this.state.ageGroup = ageGroup.name;
-                                                //     console.log("location ID :  " + ageGroup.id);
-                                                //     return <option key={ageGroup.value} value={ageGroup.id}>{ageGroup.name}</option>
+                                                    this.state.ageGroup = ageGroup.description;
+                                                    // console.log("location ID :  " + ageGroup.id);
+                                                    return <option key={ageGroup.value} value={ageGroup.id}>{ageGroup.description}</option>
                                                     
-                                                // })
+                                                })
                                                 
-                                                <option >{"Hospital Rec"}</option>
+                                                // <option >{"Hospital Rec"}</option>
                                             }
                                             </select>
                                         </div><br/>
@@ -939,15 +1032,15 @@ console.log("countChangedFields"+ this.state.countChangedFields)
                                         <div className="col-sm-5">
                                             <select className="form-control dorp-box" value={this.state.currentfPI1Status} onChange={this.setcurrentfPI1Status.bind(this)} name="fPI1StatusColumn">
                                             {
-                                                // this.state.ageData.map((ageGroup, i) => {
-                                                    
-                                                //     this.state.ageGroup = ageGroup.name;
-                                                //     console.log("location ID :  " + ageGroup.id);
-                                                //     return <option key={ageGroup.value} value={ageGroup.id}>{ageGroup.name}</option>
-                                                    
-                                                // })
+                                                this.state.fupcodesRest.map((read, i) => {
+                                                    this.state.read = read.description;
+                                                    // console.log("profession ID :  " + read.id);
+                                                    return <option key={read.value} value={read.id}>{read.description}</option>
+                                                  })
+                                                }
+                                               
                                                 
-                                                <option >{"Hospital Rec"}</option>
+                                                {/* <option >{"Hospital Rec"}</option> */}
                                             }
                                             </select>
                                         </div><br/>
@@ -957,15 +1050,14 @@ console.log("countChangedFields"+ this.state.countChangedFields)
                                         <div className="col-sm-5">
                                             <select className="form-control dorp-box" value={this.state.currentfPI2Status} onChange={this.setcurrentfPI2Status.bind(this)} name="fPI2StatusColumn">
                                             {
-                                                // this.state.ageData.map((ageGroup, i) => {
-                                                    
-                                                //     this.state.ageGroup = ageGroup.name;
-                                                //     console.log("location ID :  " + ageGroup.id);
-                                                //     return <option key={ageGroup.value} value={ageGroup.id}>{ageGroup.name}</option>
-                                                    
-                                                // })
+                                                this.state.fupcodesRest.map((read, i) => {
+                                                    this.state.read = read.description;
+                                                    // console.log("profession ID :  " + read.id);
+                                                    return <option key={read.value} value={read.id}>{read.description}</option>
+                                                  })
+                                                }
                                                 
-                                                <option >{"Hospital Rec"}</option>
+                                                {/* <option >{"Hospital Rec"}</option> */}
                                             }
                                             </select>
                                         </div><br/>
@@ -975,15 +1067,14 @@ console.log("countChangedFields"+ this.state.countChangedFields)
                                         <div className="col-sm-5">
                                             <select className="form-control dorp-box" value={this.state.currentfPI3Status} onChange={this.setcurrentfPI3Status.bind(this)} name="fPI3StatusColumn">
                                             {
-                                                // this.state.ageData.map((ageGroup, i) => {
-                                                    
-                                                //     this.state.ageGroup = ageGroup.name;
-                                                //     console.log("location ID :  " + ageGroup.id);
-                                                //     return <option key={ageGroup.value} value={ageGroup.id}>{ageGroup.name}</option>
-                                                    
-                                                // })
+                                                this.state.fupcodesRest.map((read, i) => {
+                                                    this.state.read = read.description;
+                                                    // console.log("profession ID :  " + read.id);
+                                                    return <option key={read.value} value={read.id}>{read.description}</option>
+                                                  })
+                                                }
                                                 
-                                                <option >{"Hospital Rec"}</option>
+                                                {/* <option >{"Hospital Rec"}</option> */}
                                             }
                                             </select>
                                         </div><br/>
@@ -993,15 +1084,14 @@ console.log("countChangedFields"+ this.state.countChangedFields)
                                         <div className="col-sm-5">
                                             <select className="form-control dorp-box" value={this.state.currentfPI4Status} onChange={this.setcurrentfPI4Status.bind(this)} name="fPI4StatusColumn">
                                             {
-                                                // this.state.ageData.map((ageGroup, i) => {
-                                                    
-                                                //     this.state.ageGroup = ageGroup.name;
-                                                //     console.log("location ID :  " + ageGroup.id);
-                                                //     return <option key={ageGroup.value} value={ageGroup.id}>{ageGroup.name}</option>
-                                                    
-                                                // })
+                                                this.state.fupcodesRest.map((read, i) => {
+                                                    this.state.read = read.description;
+                                                    // console.log("profession ID 4:  " + read.id);
+                                                    return <option key={read.value} value={read.id}>{read.description}</option>
+                                                  })
+                                                }
                                                 
-                                                <option >{"Hospital Rec"}</option>
+                                                {/* <option >{"Hospital Rec"}</option> */}
                                             }
                                             </select>
                                         </div><br/>
@@ -1042,7 +1132,7 @@ console.log("countChangedFields"+ this.state.countChangedFields)
             </div>
             </Wizard.Page> 
                 <Wizard.Page >
-                    {this.state.secoundPage}                                           {/* Page 4 -- Dialog page */} 
+                    {this.state.secoundPage}                                           {/* Page 4 -- Dialog page CancerInfo.js*/} 
                     {/* <CancerInfo onSaveChangeInfo={this.handleChangedRecFrmChild} arrayEditedData= {this.state.arrayEditedData}/> */}
                 </Wizard.Page>
                 <Wizard.Page>

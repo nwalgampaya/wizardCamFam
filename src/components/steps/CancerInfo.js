@@ -27,7 +27,19 @@ class CancerInfo extends React.Component {
           cancerInfoEdited:[{id:'',age:'',complaints:''}],          
           tumorNo:'',
           siteData:[],
+          latralcodeData:[],
+          histocodesData:[],
+          behaviourcodesData:[],
+          ageDiagnosisData:[],
+          diagSourceData:[],
+          tissueData:[],
           siteEditDlg:'',
+          lateralFromDb:'',
+          histocodesFromDb:'',
+          behaviourcodesFromDb:'',
+          ageDiagnosisFromDb:'',
+          diagSourceFromDb:'',
+          tissueFromDb:'',
           changedParameters: [],
           enableSaveButton: false,  // this should be modified to 'true' when each and every individual field is modified in the dialog 
 
@@ -80,7 +92,7 @@ class CancerInfo extends React.Component {
       .then(response => response.json())
       .then((data) => {
 
-        console.log(data);
+        // console.log(data);
         this.setState({
           cancerInfo: data,
 
@@ -88,8 +100,98 @@ class CancerInfo extends React.Component {
         // this.state.profession.push(data);
       })
 
+    const urlIcdcodes = properties.baseUrl + "icdcodes";
+    fetch(urlIcdcodes)
+      .then(response => response.json())
+      .then((data) => {
 
-  }
+        // console.log("siteData : "+ data);
+        this.setState({
+          siteData: data,
+
+        });
+        // this.state.profession.push(data);
+      })
+
+      
+      const urlLatralcodes = properties.baseUrl + "latralcodes";
+      fetch(urlLatralcodes)
+        .then(response => response.json())
+        .then((data) => {
+  
+          // console.log("siteData : "+ data);
+          this.setState({
+            latralcodeData: data,
+  
+          });
+          // this.state.profession.push(data);
+        })
+
+      const urlHistocodes = properties.baseUrl + "histocodes";
+      fetch(urlHistocodes)
+        .then(response => response.json())
+        .then((data) => {
+  
+          // console.log("histocodes : "+ data);
+          this.setState({
+            histocodesData: data,
+  
+          });
+          // this.state.profession.push(data);
+        })
+      const urlBehaviourcode = properties.baseUrl + "behaviourcodes";
+      fetch(urlBehaviourcode)
+        .then(response => response.json())
+        .then((data) => {
+  
+          // console.log("urlBehaviourcode : "+ data);
+          this.setState({
+            behaviourcodesData: data,
+  
+          });
+          // this.state.profession.push(data);
+        })
+
+        // const urlAgeDiagnosis = properties.baseUrl + "behaviourcodes";
+        // fetch(urlAgeDiagnosis)
+        //   .then(response => response.json())
+        //   .then((data) => {
+    
+        //     console.log("ageDiagnosisData : "+ data);
+        //     this.setState({
+        //       ageDiagnosisData: data,
+    
+        //     });
+        //     // this.state.profession.push(data);
+        //   })
+
+          const urlSource = properties.baseUrl + "srlcodes";
+          fetch(urlSource)
+            .then(response => response.json())
+            .then((data) => {
+      
+              // console.log("urlBehaviourcode : "+ data);
+              this.setState({
+                diagSourceData: data,
+      
+              });
+              // this.state.profession.push(data);
+            })
+
+            const urltissue = properties.baseUrl + "tissuestatus";
+            fetch(urltissue)
+              .then(response => response.json())
+              .then((data) => {
+        
+                console.log("urlBehaviourcode : "+ data);
+                this.setState({
+                  tissueData: data,
+        
+                });
+                // this.state.profession.push(data);
+              })
+
+      }
 
     
 
@@ -271,10 +373,20 @@ console.log("handleShow RECORD COUNT " + this.state.editedRecordCount)
       }
     // Values set in here will be displayed in the 'select' boxes in the Edit dialog  
     loadDataToEditDialog(id){
-        console.log("loadDataToEditDialog TUmorNo : " + this.state.cancerInfo[id].age)
+        console.log("loadDataToEditDialog TUmorNo : " + this.state.cancerInfo[id].site.code)
 //ToDu
 // save the changed row in to an array , this will be compaired with the original data in the review.
-      this.state.siteEditDlg=this.state.cancerInfo[id].age
+      // this.state.siteEditDlg= this.state.cancerInfo[id].site.code
+      this.setState({ siteEditDlg : this.state.cancerInfo[id].site.code + " | " +this.state.cancerInfo[id].site.description     })
+      this.setState({ lateralFromDb : this.state.cancerInfo[id].lateral.description })
+      this.setState({ histocodesFromDb : this.state.cancerInfo[id].histology.code + " | " +this.state.cancerInfo[id].histology.description     })
+      this.setState({ behaviourcodesFromDb :  this.state.cancerInfo[id].behaviour.description })
+      this.setState({ ageDiagnosisFromDb :  this.state.cancerInfo[id].ageDiagnosis })
+      this.setState({ diagSourceFromDbFromDb :  this.state.cancerInfo[id].diagSource.description })
+      this.setState({ tissueFromDbFromDb :  this.state.cancerInfo[id].tissue.description })  
+
+     console.log("siteEditDlg behaviourcodesFromDb' ageDiagnosisFromDbFromDb"+ this.state.ageDiagnosisFromDb)   
+
     } 
     setCurrentSource(){
 
@@ -299,6 +411,12 @@ console.log("handleShow RECORD COUNT " + this.state.editedRecordCount)
         // this.state.cancerInfo[200].age = event.target.value
       
       // this.setClearValue()
+    }
+
+    setCurrentAge(event){
+      this.setState({
+        ageDiagnosisFromDb: event.target.value,
+        });
     }
     closeDialog(){
       console.log("CloseDialog Only when Add Cancer save----------------------------" + this.props.values.ageOfDigColumn)
@@ -402,13 +520,13 @@ console.log("handleShow RECORD COUNT " + this.state.editedRecordCount)
                       Site: 
                     </div>
                     <div className="col-sm-5">
-                      <select disabled={this.state.isAlive} className="form-control dorp-box" value={this.state.siteEditDlg} onChange={this.setSite.bind(this)} name="currentDeathColumn">
+                      <select /**disabled={this.state.isAlive}**/ className="form-control dorp-box" defaultValue={this.state.siteEditDlg} onChange={this.setSite.bind(this)} name="currentDeathColumn">
                       {
                         this.state.siteData.map((siteGroup, i) => {
                           // console.log("location ID :  " + siteGroup.id);
 
-                          this.state.siteGroup = siteGroup.name;
-                          return <option key={siteGroup.value} value={siteGroup.id}>{siteGroup.name}</option>
+                          this.state.siteGroup = siteGroup.description;
+                          return <option key={siteGroup.value} defaultValue={this.state.siteEditDlg}>{siteGroup.code+" | "+siteGroup.description}</option>
   
                         })
                         
@@ -423,10 +541,16 @@ console.log("handleShow RECORD COUNT " + this.state.editedRecordCount)
                       Lateral: 
                     </div>
                     <div className="col-sm-5">
-                      <select disabled={this.state.isAlive} className="form-control dorp-box" value={this.state.currentSourceOFDeath} onChange={this.setCurrentSource.bind(this)} name="currentDeathColumn">
+                      <select /**disabled={this.state.isAlive}**/ className="form-control dorp-box" value={this.state.lateralFromDb} onChange={this.setCurrentSource.bind(this)} name="currentDeathColumn">
                       {
-                        
-                        <option >{"Hospital Rec"}</option>
+                        this.state.latralcodeData.map((lateralList, i) => {
+                          // console.log("location ID :  " + siteGroup.id);
+
+                          this.state.lateralList = lateralList.description; 
+                          return <option key={lateralList.value} defaultValue={this.state.lateralFromDb}>{lateralList.description}</option>
+  
+                        })
+                        // <option >{"Hospital Rec"}</option>
                       }
                       </select>
                     </div><br/><br/>
@@ -436,10 +560,16 @@ console.log("handleShow RECORD COUNT " + this.state.editedRecordCount)
                        Histology: 
                     </div>
                     <div className="col-sm-5">
-                      <select disabled={this.state.isAlive} className="form-control dorp-box" value={this.state.currentSourceOFDeath} onChange={this.setCurrentSource.bind(this)} name="currentDeathColumn">
+                      <select /**disabled={this.state.isAlive}**/ className="form-control dorp-box" value={this.state.histocodesFromDb} onChange={this.setCurrentSource.bind(this)} name="currentDeathColumn">
                       {
+                        this.state.histocodesData.map((histocodesList, i) => {
+                          // console.log("location ID :  " + siteGroup.id);
+
+                          this.state.histocodesList = histocodesList.description; 
+                          return <option key={histocodesList.value} defaultValue={this.state.histocodesFromDb}>{histocodesList.code+" | "+histocodesList.description}</option>
+  
+                        })
                         
-                        <option >{"Hospital Rec"}</option>
                       }
                       </select>
                     </div><br/><br/>
@@ -449,10 +579,16 @@ console.log("handleShow RECORD COUNT " + this.state.editedRecordCount)
                       Behaviour: 
                     </div>
                     <div className="col-sm-5">
-                      <select disabled={this.state.isAlive} className="form-control dorp-box" value={this.state.currentSourceOFDeath} onChange={this.setCurrentSource.bind(this)} name="currentDeathColumn">
+                      <select /**disabled={this.state.isAlive}**/ className="form-control dorp-box" value={this.state.behaviourcodesFromDb} onChange={this.setCurrentSource.bind(this)} name="currentDeathColumn">
                       {
+                         this.state.behaviourcodesData.map((behaviourcodesList, i) => {
+                          // console.log("location ID :  " + siteGroup.id);
+
+                          this.state.behaviourcodesList = behaviourcodesList.description; 
+                          return <option key={behaviourcodesList.value} defaultValue={this.state.behaviourcodesFromDb}>{behaviourcodesList.description}</option>
+  
+                        })
                         
-                        <option >{"Hospital Rec"}</option>
                       }
                       </select>
                     </div><br/><br/>
@@ -473,7 +609,7 @@ console.log("handleShow RECORD COUNT " + this.state.editedRecordCount)
                         Age Of Diagnosis: 
                       </div>
                       <div className="col-sm-4"> 
-                        <input type= "text" placeholder="age"></input>
+                        <input type= "text" placeholder="age" value = {this.state.ageDiagnosisFromDb} onChange={this.setCurrentAge.bind(this)}/>
                       </div><br/><br/>
                   </div>
                   <div className="row form-check form-check-inline">
@@ -481,10 +617,16 @@ console.log("handleShow RECORD COUNT " + this.state.editedRecordCount)
                     Source:
                     </div>
                     <div className="col-sm-5">
-                      <select disabled={this.state.isAlive} className="form-control dorp-box" value={this.state.currentSourceOFDeath} onChange={this.setCurrentSource.bind(this)} name="currentDeathColumn">
+                      <select disabled={this.state.isAlive} className="form-control dorp-box" value={this.state.diagSourceFromDb} onChange={this.setCurrentSource.bind(this)} name="currentDeathColumn">
                       {
                         
-                        <option >{"Hospital Rec"}</option>
+                        this.state.diagSourceData.map((diagSourceList, i) => {
+                          // console.log("location ID :  " + siteGroup.id);
+
+                          this.state.diagSourceList = diagSourceList.description; 
+                          return <option key={diagSourceList.value} defaultValue={this.state.diagSourceFromDb}>{diagSourceList.description}</option>
+  
+                        })
                       }
                       </select>
                     </div><br/><br/>
@@ -494,10 +636,16 @@ console.log("handleShow RECORD COUNT " + this.state.editedRecordCount)
                         Tissue:
                     </div>
                     <div className="col-sm-5">
-                      <select disabled={this.state.isAlive} className="form-control dorp-box" value={this.state.currentSourceOFDeath} onChange={this.setCurrentSource.bind(this)} name="currentDeathColumn">
+                      <select disabled={this.state.isAlive} className="form-control dorp-box" value={this.state.tissueFromDb} onChange={this.setCurrentSource.bind(this)} name="currentDeathColumn">
                       {
+                       this.state.tissueData.map((tissueList, i) => {
+                          // console.log("location ID :  " + siteGroup.id);
+
+                          this.state.tissueList = tissueList.description; 
+                          return <option key={tissueList.value} defaultValue={this.state.tissueFromDb}>{tissueList.description}</option>
+  
+                        }) 
                         
-                        <option >{"Hospital Rec"}</option>
                       }
                       </select>
                     </div><br/><br/>

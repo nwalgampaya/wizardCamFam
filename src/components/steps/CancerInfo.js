@@ -251,7 +251,6 @@ class CancerInfo extends React.Component {
       }
       this.createEditedArray();
       this.getChangedFieldsOnly();
-      // this.getNEWChangedFieldsOnly();
      
       // var eq = JSON(this.state.cancerInfoEdited) == JSON(this.state.cancerInfo);
   
@@ -274,26 +273,7 @@ class CancerInfo extends React.Component {
       this.state.isArrayEmpty=true
     }
 
-    setSiteDescriptionANDId(code){
-      // console.log("siteData code: "+ code )
-      // var siteDescription
-      var siteId
-      this.state.siteData.map((values,i)=>{
-          // console.log("siteData : "+ values.id);
-          if(values.code== code){
-            console.log("siteData : "+ values.description);
-            this.state.cancerInfo[this.state.tumorNo].site.description = values.description
-            this.state.cancerInfo[this.state.tumorNo].site.id = values.id
-        }
-      })
-      // return codeDescription
-    }
 
-    setSiteDataForEditDialog(){
-      this.state.cancerInfo[this.state.tumorNo].site.code = this.state.siteEditDlg
-      this.state.cancerInfoEdited[this.state.tumorNo].site= this.state.siteEditDlg
-      this.setSiteDescriptionANDId(this.state.cancerInfo[this.state.tumorNo].site.code)
-    }
     // This arrary "changedParameters" is declared to capture only the changed values from the Edit dialog.
 //ToDO
       createEditedArray(){
@@ -303,18 +283,15 @@ class CancerInfo extends React.Component {
           console.log("in handleSave tumorNo before"  + this.state.cancerInfo[this.state.tumorNo].site.code)
 
           
-          if(this.state.siteEditDlg!="undefined"){
-            // var editedSite = new Object;
-            // editedSite.id = 1;
-            // editedSite.code = this.state.siteEditDlg
-            // editedSite.description = "test"
-            // this.state.cancerInfo[this.state.tumorNo].site.id = this.state.siteEditDlg
-            // this.state.cancerInfo[this.state.tumorNo].site.code = this.state.siteEditDlg
-            // this.state.cancerInfo[this.state.tumorNo].site.description = this.getSiteDescription(this.state.cancerInfo[this.state.tumorNo].site.code)
+          // if(this.state.siteEditDlg!="undefined"){
+          if(this.state.cancerInfoCopy[this.state.tumorNo].site.code != this.state.siteEditDlg){
+
             this.setSiteDataForEditDialog();
-            // this.state.siteEditDlg = "C301" ,
-            // this.state.cancerInfoEdited[this.state.tumorNo].site=  this.state.cancerInfo[this.state.tumorNo].site
-            this.state.cancerInfoEdited[this.state.tumorNo].location= 44
+            // this.state.cancerInfoEdited[this.state.tumorNo].location= 44
+          }
+          if(this.state.cancerInfoCopy[this.state.tumorNo].lateral.description != this.state.lateralFromDb){
+            console.log("lateral changed ***********" + this.state.lateralFromDb)
+            this.setLateralDataForEditDialog();
           }
           console.log("in " + this.state.siteEditDlg);
           console.log("in handleSave age afterin handleSave age after" + this.state.cancerInfo[this.state.tumorNo].site.id)
@@ -366,6 +343,8 @@ class CancerInfo extends React.Component {
           if(param=="site"){
             changeCol.previousVal=changeCol.previousVal.code
             console.log("--------------------------------" + changeCol.previousVal)
+          }if(param=="lateral"){
+            changeCol.previousVal=changeCol.previousVal.description
           }
           console.log("PARAM" + param)
           EditedParam[this.state.editedRecordCount]=changeCol;
@@ -391,6 +370,9 @@ class CancerInfo extends React.Component {
           if(values.column=="site"){
 
             console.log("previousVal : " + values.previousVal.code)
+          }if(values.column=="lateral"){
+
+            console.log("previousVal : " + values.previousVal.code)
           }else{
 
             console.log("previousVal : " + values.previousVal)
@@ -400,7 +382,50 @@ class CancerInfo extends React.Component {
         })
         this.props.onSaveChangeInfo(this.state.arrayEditedData,this.state.enableSaveButton )
       }
-    
+
+      setSiteDescriptionANDId(code){
+        // console.log("siteData code: "+ code )
+        // var siteDescription
+        
+        this.state.siteData.map((values,i)=>{
+            // console.log("siteData : "+ values.id);
+            if(values.code== code){
+              console.log("siteData : "+ values.description);
+              this.state.cancerInfo[this.state.tumorNo].site.description = values.description
+              this.state.cancerInfo[this.state.tumorNo].site.id = values.id
+          }
+        })
+        // return codeDescription
+      }
+  
+
+      setSiteDataForEditDialog(){
+        this.state.cancerInfo[this.state.tumorNo].site.code = this.state.siteEditDlg
+        this.state.cancerInfoEdited[this.state.tumorNo].site= this.state.siteEditDlg
+        this.setSiteDescriptionANDId(this.state.cancerInfo[this.state.tumorNo].site.code)
+      }
+
+      setLateralDescriptionANDId(code){
+        // console.log("siteData code: "+ code )
+        // var siteDescription
+        
+        this.state.latralcodeData.map((values,i)=>{
+            // console.log("siteData : "+ values.id);
+            if(values.code== code){
+              console.log("lateralData : "+ values.description);
+              this.state.cancerInfo[this.state.tumorNo].lateral.description = values.description
+              this.state.cancerInfo[this.state.tumorNo].lateral.id = values.id
+          }
+        })
+        // return codeDescription
+      }
+      setLateralDataForEditDialog(){
+        this.state.cancerInfo[this.state.tumorNo].lateral.description = this.state.lateralFromDb
+        this.state.cancerInfoEdited[this.state.tumorNo].lateral= this.state.lateralFromDb
+        this.setSiteDescriptionANDId(this.state.cancerInfo[this.state.tumorNo].site.code)
+      }
+
+
     handleCloseAddCancer() {
         this.setState({ showAddCancer: false });
         // this.props.onOpenDialog("false"); 
@@ -438,7 +463,8 @@ console.log("handleShow RECORD COUNT " + this.state.editedRecordCount)
 
         this.loadDataToEditDialog(id);
       }
-    // Values set in here will be displayed in the 'select' boxes in the Edit dialog  
+    
+      // Values set in here will be displayed in the 'select' boxes in the Edit dialog  
     loadDataToEditDialog(id){
         console.log("loadDataToEditDialog TUmorNo : " + this.state.cancerInfo[id].site.code)
 //ToDu
@@ -480,7 +506,17 @@ console.log("handleShow RECORD COUNT " + this.state.editedRecordCount)
       
       // this.setClearValue()
     }
+    setLateral(event){
+      this.setState({
+        lateralFromDb: event.target.value,
+      });
 
+      if(this.state.lateralFromDb!=event.target.value){
+        this.state.enableSaveButton = true;
+      }else{
+        this.state.enableSaveButton = false;
+      }
+    }
     setCurrentAge(event){
       this.setState({
         ageDiagnosisFromDb: event.target.value,
@@ -609,7 +645,7 @@ console.log("handleShow RECORD COUNT " + this.state.editedRecordCount)
                       Lateral: 
                     </div>
                     <div className="col-sm-5">
-                      <select /**disabled={this.state.isAlive}**/ className="form-control dorp-box" value={this.state.lateralFromDb} onChange={this.setCurrentSource.bind(this)} name="currentDeathColumn">
+                      <select /**disabled={this.state.isAlive}**/ className="form-control dorp-box" value={this.state.lateralFromDb} onChange={this.setLateral.bind(this)} name="currentDeathColumn">
                       {
                         this.state.latralcodeData.map((lateralList, i) => {
                           // console.log("location ID :  " + siteGroup.id);

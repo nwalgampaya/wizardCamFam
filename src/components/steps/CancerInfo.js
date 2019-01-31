@@ -6,6 +6,7 @@ import '../../App.css';
 import { withFormik, Form, Field } from 'formik'
 import * as Yup from 'yup'
 import { properties } from '../../properties.js';
+import cloneDeep from 'lodash/cloneDeep';
 
 class CancerInfo extends React.Component {
 
@@ -24,7 +25,11 @@ class CancerInfo extends React.Component {
 
           //Edit Modal Dialog variables
           isArrayEmpty:false, 
-          cancerInfoEdited:[{id:'',age:'',complaints:''}],          
+          // cancerInfoEdited:[{id:'',age:'',complaints:''}],          
+          cancerInfoEdited:[{id:'',
+                            site: {id:'',code:'', description:''},
+                            complaints:''}],          
+          // cancerInfoEdited: new  Object,
           tumorNo:'',
           siteData:[],
           latralcodeData:[],
@@ -34,6 +39,8 @@ class CancerInfo extends React.Component {
           diagSourceData:[],
           tissueData:[],
           siteEditDlg:'',
+          siteDescription:'',
+          siteId:'',
           lateralFromDb:'',
           histocodesFromDb:'',
           behaviourcodesFromDb:'',
@@ -41,6 +48,7 @@ class CancerInfo extends React.Component {
           diagSourceFromDb:'',
           tissueFromDb:'',
           changedParameters: [],
+          cancerInfoCopy:[],
           enableSaveButton: false,  // this should be modified to 'true' when each and every individual field is modified in the dialog 
 
           // Object Array
@@ -92,11 +100,11 @@ class CancerInfo extends React.Component {
       .then(response => response.json())
       .then((data) => {
 
-        // console.log(data);
         this.setState({
           cancerInfo: data,
-
+          
         });
+        console.log("site &&&&&&&&&&&&&&&&&&&&&77" + this.state.cancerInfo[1].site.code);
         // this.state.profession.push(data);
       })
 
@@ -110,6 +118,14 @@ class CancerInfo extends React.Component {
           siteData: data,
 
         });
+
+        // this.state.siteData.map((values,i)=>{
+        //   // console.log("siteData : "+ values.id);
+        //   if(values.id== 2){
+        //   console.log("siteData : "+ values.code);
+
+        //   }
+        // })
         // this.state.profession.push(data);
       })
 
@@ -222,13 +238,20 @@ class CancerInfo extends React.Component {
     //capture edited records and compair with the original data   
     recordEditedData(){
       // this.state.cancerInfoEdited = this.state.cancerInfo;
+      // this.state.cancerInfoEdited[this.state.tumorNo] = JSON.parse(JSON.stringify(this.state.cancerInfo));
       this.state.cancerInfoEdited[this.state.tumorNo] = [...this.state.cancerInfo[this.state.tumorNo]];
-      this.state.changedParameters[this.state.tumorNo] = [...this.state.cancerInfo[this.state.tumorNo]];
+      // this.state.changedParameters[this.state.tumorNo] = [...this.state.cancerInfo[this.state.tumorNo]];
+      // this.state.changedParameters[this.state.tumorNo] = JSON.parse(JSON.stringify(this.state.cancerInfo));
+      // this.state.changedParameters[this.state.tumorNo] = cloneDeep(this.state.cancerInfo[this.state.tumorNo]);
+      this.state.cancerInfoCopy[this.state.tumorNo] = cloneDeep(this.state.cancerInfo[this.state.tumorNo]);
+      
+      // this.setState({ changedParameters:JSON.parse(JSON.stringify(this.state.cancerInfo)) });
       if(!this.state.isArrayEmpty){
         // this.makeEmptyArray();
       }
       this.createEditedArray();
       this.getChangedFieldsOnly();
+      // this.getNEWChangedFieldsOnly();
      
       // var eq = JSON(this.state.cancerInfoEdited) == JSON(this.state.cancerInfo);
   
@@ -250,20 +273,54 @@ class CancerInfo extends React.Component {
       })  
       this.state.isArrayEmpty=true
     }
+
+    setSiteDescriptionANDId(code){
+      // console.log("siteData code: "+ code )
+      // var siteDescription
+      var siteId
+      this.state.siteData.map((values,i)=>{
+          // console.log("siteData : "+ values.id);
+          if(values.code== code){
+            console.log("siteData : "+ values.description);
+            this.state.cancerInfo[this.state.tumorNo].site.description = values.description
+            this.state.cancerInfo[this.state.tumorNo].site.id = values.id
+        }
+      })
+      // return codeDescription
+    }
+
+    setSiteDataForEditDialog(){
+      this.state.cancerInfo[this.state.tumorNo].site.code = this.state.siteEditDlg
+      this.state.cancerInfoEdited[this.state.tumorNo].site= this.state.siteEditDlg
+      this.setSiteDescriptionANDId(this.state.cancerInfo[this.state.tumorNo].site.code)
+    }
     // This arrary "changedParameters" is declared to capture only the changed values from the Edit dialog.
-
+//ToDO
       createEditedArray(){
-          console.log("in handleSave tumorNo early"  + this.state.cancerInfoEdited[this.state.tumorNo].age)
+          // console.log("in handleSave tumorNo early"  + this.state.cancerInfoEdited[this.state.tumorNo].site.code)
 
-          console.log("in handleSave tumorNo before"  + this.state.cancerInfoEdited[this.state.tumorNo].age)
+          // console.log("in handleSave tumorNo before"  + this.state.cancerInfoEdited[this.state.tumorNo].site.code)
+          console.log("in handleSave tumorNo before"  + this.state.cancerInfo[this.state.tumorNo].site.code)
+
           
           if(this.state.siteEditDlg!="undefined"){
-            this.state.cancerInfoEdited[this.state.tumorNo].age = this.state.siteEditDlg
+            // var editedSite = new Object;
+            // editedSite.id = 1;
+            // editedSite.code = this.state.siteEditDlg
+            // editedSite.description = "test"
+            // this.state.cancerInfo[this.state.tumorNo].site.id = this.state.siteEditDlg
+            // this.state.cancerInfo[this.state.tumorNo].site.code = this.state.siteEditDlg
+            // this.state.cancerInfo[this.state.tumorNo].site.description = this.getSiteDescription(this.state.cancerInfo[this.state.tumorNo].site.code)
+            this.setSiteDataForEditDialog();
+            // this.state.siteEditDlg = "C301" ,
+            // this.state.cancerInfoEdited[this.state.tumorNo].site=  this.state.cancerInfo[this.state.tumorNo].site
             this.state.cancerInfoEdited[this.state.tumorNo].location= 44
           }
-
-          console.log("in handleSave age after" + this.state.cancerInfoEdited[this.state.tumorNo].age)
-          console.log("in handleSave age after" + this.state.cancerInfo[this.state.tumorNo].age)
+          console.log("in " + this.state.siteEditDlg);
+          console.log("in handleSave age afterin handleSave age after" + this.state.cancerInfo[this.state.tumorNo].site.id)
+          console.log("in handleSave age afterin changedParameters age after" + this.state.cancerInfoCopy[this.state.tumorNo].site.code)
+          // console.log("in handleSave age afterin handleSave age after" + this.state.cancerInfoEdited[this.state.tumorNo].site.description)
+          console.log("in handleSave age tumor No" + this.state.tumorNo)
           
           // console.log("in handleSave complaints after" + this.state.cancerInfoEdited[this.state.tumorNo].complaints)
           // console.log("in handleSave location after" + this.state.cancerInfoEdited[this.state.tumorNo].location  )
@@ -303,10 +360,14 @@ class CancerInfo extends React.Component {
           // console.log(param + ':: ' + this.state.cancerInfo[this.state.tumorNo][param]);
           // console.log(param + ':: ' + this.state.cancerInfoEdited[this.state.tumorNo][param]);
           changeCol.column=param
-          changeCol.previousVal=this.state.cancerInfo[this.state.tumorNo][param]
+          changeCol.previousVal=this.state.cancerInfoCopy[this.state.tumorNo][param]
           changeCol.newVal=this.state.cancerInfoEdited[this.state.tumorNo][param]
 
-          console.log("--------------------------------" + this.state.tumorNo)
+          if(param=="site"){
+            changeCol.previousVal=changeCol.previousVal.code
+            console.log("--------------------------------" + changeCol.previousVal)
+          }
+          console.log("PARAM" + param)
           EditedParam[this.state.editedRecordCount]=changeCol;
           this.state.editedRecordCount++;
         }
@@ -327,8 +388,14 @@ class CancerInfo extends React.Component {
           // console.log("i : " + values)
           values.map((values,i)=>{
           console.log("i : " + i)
-          console.log("previousVal : " + values.previousVal)
-          console.log("newVal: " + values.newVal)
+          if(values.column=="site"){
+
+            console.log("previousVal : " + values.previousVal.code)
+          }else{
+
+            console.log("previousVal : " + values.previousVal)
+          }
+            console.log("newVal: " + values.newVal)
           })
         })
         this.props.onSaveChangeInfo(this.state.arrayEditedData,this.state.enableSaveButton )
@@ -377,7 +444,8 @@ console.log("handleShow RECORD COUNT " + this.state.editedRecordCount)
 //ToDu
 // save the changed row in to an array , this will be compaired with the original data in the review.
       // this.state.siteEditDlg= this.state.cancerInfo[id].site.code
-      this.setState({ siteEditDlg : this.state.cancerInfo[id].site.code + " | " +this.state.cancerInfo[id].site.description     })
+      this.setState({ siteEditDlg : this.state.cancerInfo[id].site.code })
+        // + " | " +this.state.cancerInfo[id].site.description     })
       this.setState({ lateralFromDb : this.state.cancerInfo[id].lateral.description })
       this.setState({ histocodesFromDb : this.state.cancerInfo[id].histology.code + " | " +this.state.cancerInfo[id].histology.description     })
       this.setState({ behaviourcodesFromDb :  this.state.cancerInfo[id].behaviour.description })
@@ -526,7 +594,7 @@ console.log("handleShow RECORD COUNT " + this.state.editedRecordCount)
                           // console.log("location ID :  " + siteGroup.id);
 
                           this.state.siteGroup = siteGroup.description;
-                          return <option key={siteGroup.value} defaultValue={this.state.siteEditDlg}>{siteGroup.code+" | "+siteGroup.description}</option>
+                          return <option key={siteGroup.value} defaultValue={this.state.siteEditDlg}>{siteGroup.code/*+" | "+siteGroup.description*/}</option>
   
                         })
                         

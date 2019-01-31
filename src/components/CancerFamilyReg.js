@@ -159,18 +159,20 @@ class CancerFamilyReg extends React.Component {
                             // this.state.firstPage= <FormikApp />
                             // this.state.secoundPage=<CancerInfo onSaveChangeInfo={this.handleChangedRecFrmChild} arrayEditedData= {this.state.arrayEditedData}/>
                             // this.state.firstPage= <FormikApp />
-                            this.state.secoundPage=<CancerInfo onSaveChangeInfo={this.handleChangedRecFrmChild} arrayEditedData= {this.state.arrayEditedData}/>
+                            this.state.secoundPage=<CancerInfo onSaveChangeInfo={this.handleChangedRecFrmChild} arrayEditedData= {this.state.arrayEditedData} patientDataValue={this.state.patientDataValue}/>
                             this.state.thirdPage = <PreviewInfo  arrayEditedData= {this.state.arrayEditedData} enableSaveButton={this.state.enableSaveButton} arrayOfChangedFields={this.state.arrayOfChangedFields} />
                          return <Individual onInsertPatientId={this.assignDbDataToFields}/>
                      }
          
              }
         
-            handleChangedRecFrmChild = (arrayEditedDataArr, enableSaveButton ) => {
-                this.setState({arrayEditedData: arrayEditedDataArr});
-                this.setState({enableSaveButton : enableSaveButton});
+            // handleChangedRecFrmChild = (arrayEditedDataArr, enableSaveButton, patientDataObject ) => {
+
+            //     console.log("#####################finalObject :: " + patientDataObject.cancerList[1].id)
+            //     this.setState({arrayEditedData: arrayEditedDataArr});
+            //     this.setState({enableSaveButton : enableSaveButton});
                
-            }
+            // }
             //Transfered from StartPageRegistry
 
     // This function is used to fill an array to carry the data to the preview screen
@@ -372,26 +374,26 @@ console.log("countChangedFields"+ this.state.countChangedFields)
     }
 
 
-    getFromDB(){
-        // existingPersonData
+    // getFromDB(){
+    //     // existingPersonData
 
-        // const urlProfession = properties.baseUrl + "professions/";
-        const urlProfession =  "professions/";
-        fetch(urlProfession)
-          .then(response => response.json())
-          .then((data) => {
+    //     // const urlProfession = properties.baseUrl + "professions/";
+    //     const urlProfession =  "professions/";
+    //     fetch(urlProfession)
+    //       .then(response => response.json())
+    //       .then((data) => {
     
-            console.log(data);
-            this.setState({
-                existingPersonData: data,
+    //         console.log(data);
+    //         this.setState({
+    //             existingPersonData: data,
     
-            });
+    //         });
 
-            this.assignDbDataToFields()
-            // this.state.profession.push(data);
-          })
+    //         this.assignDbDataToFields()
+    //         // this.state.profession.push(data);
+    //       })
 
-    }
+    // }
 
     componentDidMount() {
 
@@ -631,7 +633,9 @@ console.log("countChangedFields"+ this.state.countChangedFields)
         
     // }
 
-    handleChangedRecFrmChild = (arrayEditedDataArr, enableSaveButton) => {
+    handleChangedRecFrmChild = (arrayEditedDataArr, enableSaveButton,patientDataObject ) => {
+
+        console.log("#####################finalObject :: " + patientDataObject.cancerList[1].site.description)
         this.setState({arrayEditedData: arrayEditedDataArr});
         this.setState({enableSaveButton : enableSaveButton});
         

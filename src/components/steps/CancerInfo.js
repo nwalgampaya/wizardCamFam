@@ -13,6 +13,7 @@ class CancerInfo extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
+          patientDataObject:[],
           cancerInfo:[],
         
           show: false,
@@ -95,18 +96,24 @@ class CancerInfo extends React.Component {
     
     // const urlCancerInfo = properties.baseUrl + "patients/" + personID + "cancers";
     //TODO - remove the hard code
-    const urlCancerInfo = properties.baseUrl + "patients/" + "121000186001" + "/cancers";
-    fetch(urlCancerInfo)
-      .then(response => response.json())
-      .then((data) => {
+    // const urlCancerInfo = properties.baseUrl + "patients/" + "121000186001" + "/cancers";
+    // fetch(urlCancerInfo)
+    //   .then(response => response.json())
+    //   .then((data) => {
 
-        this.setState({
-          cancerInfo: data,
+    //     this.setState({
+    //       cancerInfo: data,
           
-        });
-        console.log("site &&&&&&&&&&&&&&&&&&&&&77" + this.state.cancerInfo[1].site.code);
-        // this.state.profession.push(data);
-      })
+    //     });
+
+  // })
+
+  // Assigning the patient object to local variables
+  this.state.patientDataObject = this.props.patientDataValue;
+  this.state.cancerInfo =this.props.patientDataValue.cancerList;
+
+  console.log("site &&&&&&&&&&&&&&&&&&&&&77" + this.props.patientDataValue.cancerList);
+  // this.state.profession.push(data);
 
     const urlIcdcodes = properties.baseUrl + "icdcodes";
     fetch(urlIcdcodes)
@@ -365,22 +372,28 @@ class CancerInfo extends React.Component {
       sendDataToParent(){
         this.state.arrayEditedData.map((values,i)=>{
           // console.log("i : " + values)
-          values.map((values,i)=>{
-          console.log("i : " + i)
-          if(values.column=="site"){
+          // values.map((values,i)=>{
+          // console.log("i : " + i)
+          // if(values.column=="site"){
 
-            console.log("previousVal : " + values.previousVal.code)
-          }if(values.column=="lateral"){
+          //   console.log("previousVal : " + values.previousVal.code)
+          // }if(values.column=="lateral"){
 
-            console.log("previousVal : " + values.previousVal.code)
-          }else{
+          //   console.log("previousVal : " + values.previousVal.code)
+          // }else{
 
-            console.log("previousVal : " + values.previousVal)
-          }
-            console.log("newVal: " + values.newVal)
-          })
+          //   console.log("previousVal : " + values.previousVal)
+          // }
+          //   console.log("newVal: " + values.newVal)
+          // })
         })
-        this.props.onSaveChangeInfo(this.state.arrayEditedData,this.state.enableSaveButton )
+        
+        // Sending the modified patient object to be saved to main page(cancerFamily)
+        this.state.patientDataObject.cancerList = this.state.cancerInfo;
+
+        console.log("##################### in can info :: " + this.state.cancerInfo[1].site.code)
+        
+        this.props.onSaveChangeInfo(this.state.arrayEditedData,this.state.enableSaveButton,this.state.patientDataObject )
       }
 
       setSiteDescriptionANDId(code){
@@ -405,15 +418,15 @@ class CancerInfo extends React.Component {
         this.setSiteDescriptionANDId(this.state.cancerInfo[this.state.tumorNo].site.code)
       }
 
-      setLateralDescriptionANDId(code){
+      setLateralCodeANDId(description){
         // console.log("siteData code: "+ code )
         // var siteDescription
         
         this.state.latralcodeData.map((values,i)=>{
             // console.log("siteData : "+ values.id);
-            if(values.code== code){
+            if(values.description== description){
               console.log("lateralData : "+ values.description);
-              this.state.cancerInfo[this.state.tumorNo].lateral.description = values.description
+              this.state.cancerInfo[this.state.tumorNo].lateral.code = values.code
               this.state.cancerInfo[this.state.tumorNo].lateral.id = values.id
           }
         })
@@ -422,7 +435,7 @@ class CancerInfo extends React.Component {
       setLateralDataForEditDialog(){
         this.state.cancerInfo[this.state.tumorNo].lateral.description = this.state.lateralFromDb
         this.state.cancerInfoEdited[this.state.tumorNo].lateral= this.state.lateralFromDb
-        this.setSiteDescriptionANDId(this.state.cancerInfo[this.state.tumorNo].site.code)
+        this.setLateralCodeANDId(this.state.cancerInfo[this.state.tumorNo].lateral.description)
       }
 
 

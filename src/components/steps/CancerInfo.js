@@ -300,6 +300,26 @@ class CancerInfo extends React.Component {
             console.log("lateral changed ***********" + this.state.lateralFromDb)
             this.setLateralDataForEditDialog();
           }
+          
+          // TODo uncomment code after histology values added to the patient data
+          // if(this.state.cancerInfoCopy[this.state.tumorNo].histology.code != this.state.histocodesFromDb){
+          //   console.log("lateral changed ***********" + this.state.histocodesFromDb)
+          //   this.setHistoDataForEditDialog();
+          // }
+          if(this.state.cancerInfoCopy[this.state.tumorNo].behaviour.description != this.state.behaviourcodesFromDb){
+            console.log("lateral changed ***********" + this.state.behaviourcodesFromDb)
+            this.setbehaviourDataForEditDialog();
+          }
+        
+          if(this.state.cancerInfoCopy[this.state.tumorNo].diagSource.description != this.state.diagSourceFromDb){
+            console.log("Diag Source changed ***********" + this.state.diagSourceFromDb)
+            this.setDiagSourdeDataForEditDialog();
+          }
+          if(this.state.cancerInfoCopy[this.state.tumorNo].tissue.description != this.state.tissueFromDb){
+            console.log("tissue changed ***********" + this.state.tissueFromDb)
+            this.setTissueDataForEditDialog();
+          }
+          
           console.log("in " + this.state.siteEditDlg);
           console.log("in handleSave age afterin handleSave age after" + this.state.cancerInfo[this.state.tumorNo].site.id)
           console.log("in handleSave age afterin changedParameters age after" + this.state.cancerInfoCopy[this.state.tumorNo].site.code)
@@ -353,7 +373,23 @@ class CancerInfo extends React.Component {
           }if(param=="lateral"){
             changeCol.previousVal=changeCol.previousVal.description
           }
-          console.log("PARAM" + param)
+          if(param=="histology"){
+            changeCol.previousVal=changeCol.previousVal.code
+          }
+          if(param=="behaviour"){
+              console.log("--------------------------------" + changeCol.previousVal)
+             changeCol.previousVal=changeCol.previousVal.description
+          }
+          if(param=="diagSource"){
+            console.log("--------------------------------" + changeCol.previousVal)
+           changeCol.previousVal=changeCol.previousVal.description
+          }
+          if(param=="tissue"){
+            console.log("--------------------------------" + changeCol.previousVal)
+            changeCol.previousVal=changeCol.previousVal.description
+          }
+          
+          console.log("PARAM edited" + param)
           EditedParam[this.state.editedRecordCount]=changeCol;
           this.state.editedRecordCount++;
         }
@@ -391,16 +427,16 @@ class CancerInfo extends React.Component {
         // Sending the modified patient object to be saved to main page(cancerFamily)
         this.state.patientDataObject.cancerList = this.state.cancerInfo;
 
-        console.log("##################### in can info :: " + this.state.cancerInfo[1].site.code)
+        // console.log("##################### in can info :: " + this.state.cancerInfo[1].site.code)
         
         this.props.onSaveChangeInfo(this.state.arrayEditedData,this.state.enableSaveButton,this.state.patientDataObject )
       }
 
-      setSiteDescriptionANDId(code){
+      setParamDescANDId(code,dataFromFetch){
         // console.log("siteData code: "+ code )
         // var siteDescription
-        
-        this.state.siteData.map((values,i)=>{
+        dataFromFetch.map((values,i)=>{
+          // this.state.siteData.map((values,i)=>{
             // console.log("siteData : "+ values.id);
             if(values.code== code){
               console.log("siteData : "+ values.description);
@@ -410,19 +446,32 @@ class CancerInfo extends React.Component {
         })
         // return codeDescription
       }
-  
 
-      setSiteDataForEditDialog(){
-        this.state.cancerInfo[this.state.tumorNo].site.code = this.state.siteEditDlg
-        this.state.cancerInfoEdited[this.state.tumorNo].site= this.state.siteEditDlg
-        this.setSiteDescriptionANDId(this.state.cancerInfo[this.state.tumorNo].site.code)
-      }
+    // ToDo remove this function since the same can be achived with the function setParamDescANDId
+    // setHistoCodeANDDesc(code){
+    //     this.state.histocodesData.map((values,i)=>{
+    //       if(values.code== code){
+    //             console.log("siteData : "+ values.description);
+    //             this.state.cancerInfo[this.state.tumorNo].site.description = values.description
+    //             this.state.cancerInfo[this.state.tumorNo].site.id = values.id
+    //         }
+    //     })
+    // }
+    
+    // ToDo can be removed
+    // setLateralCodeANDId(description){
+    //     this.state.latralcodeData.map((values,i)=>{
+    //         // console.log("siteData : "+ values.id);
+    //         if(values.description== description){
+    //           console.log("lateralData : "+ values.description);
+    //           this.state.cancerInfo[this.state.tumorNo].lateral.code = values.code
+    //           this.state.cancerInfo[this.state.tumorNo].lateral.id = values.id
+    //       }
+    //     })
+    //   }
 
-      setLateralCodeANDId(description){
-        // console.log("siteData code: "+ code )
-        // var siteDescription
-        
-        this.state.latralcodeData.map((values,i)=>{
+      setParamCodeANDId(description,dataFromFetch){
+        dataFromFetch.map((values,i)=>{
             // console.log("siteData : "+ values.id);
             if(values.description== description){
               console.log("lateralData : "+ values.description);
@@ -430,14 +479,51 @@ class CancerInfo extends React.Component {
               this.state.cancerInfo[this.state.tumorNo].lateral.id = values.id
           }
         })
-        // return codeDescription
       }
-      setLateralDataForEditDialog(){
-        this.state.cancerInfo[this.state.tumorNo].lateral.description = this.state.lateralFromDb
-        this.state.cancerInfoEdited[this.state.tumorNo].lateral= this.state.lateralFromDb
-        this.setLateralCodeANDId(this.state.cancerInfo[this.state.tumorNo].lateral.description)
+      setDiagSourceCodeANDId(description,dataFromFetch){
+        dataFromFetch.map((values,i)=>{
+            // console.log("siteData : "+ values.id);
+            if(values.description== description){
+              console.log("diagsource : "+ values.description);
+              // this.state.cancerInfo[this.state.tumorNo].lateral.code = values.code
+              this.state.cancerInfo[this.state.tumorNo].lateral.id = values.id
+          }
+        })
       }
-
+    setSiteDataForEditDialog(){
+        this.state.cancerInfo[this.state.tumorNo].site.code = this.state.siteEditDlg
+        this.state.cancerInfoEdited[this.state.tumorNo].site= this.state.siteEditDlg
+        this.setParamDescANDId(this.state.cancerInfo[this.state.tumorNo].site.code,this.state.siteData)
+    }
+    setLateralDataForEditDialog(){
+      this.state.cancerInfo[this.state.tumorNo].lateral.description = this.state.lateralFromDb
+      this.state.cancerInfoEdited[this.state.tumorNo].lateral= this.state.lateralFromDb
+      this.setParamCodeANDId(this.state.cancerInfo[this.state.tumorNo].lateral.description,this.state.latralcodeData)
+    }
+    setHistoDataForEditDialog(){
+      this.state.cancerInfo[this.state.tumorNo].histology.code = this.state.histocodesFromDb
+      this.state.cancerInfoEdited[this.state.tumorNo].histology= this.state.histocodesFromDb
+      // this.setHistoCodeANDDesc(this.state.cancerInfo[this.state.tumorNo].histology.code)
+      this.setParamDescANDId(this.state.cancerInfo[this.state.tumorNo].histology.code,this.state.histocodesData)
+    }  
+    setbehaviourDataForEditDialog(){
+      this.state.cancerInfo[this.state.tumorNo].behaviour.description = this.state.behaviourcodesFromDb
+      this.state.cancerInfoEdited[this.state.tumorNo].behaviour= this.state.behaviourcodesFromDb
+      this.setParamCodeANDId(this.state.cancerInfo[this.state.tumorNo].behaviour.description,this.state.behaviourcodesData)
+    }
+    setDiagSourdeDataForEditDialog(){
+      this.state.cancerInfo[this.state.tumorNo].behaviour.description = this.state.diagSourceFromDb
+      this.state.cancerInfoEdited[this.state.tumorNo].behaviour= this.state.diagSourceFromDb
+      this.setDiagSourceCodeANDId(this.state.cancerInfo[this.state.tumorNo].behaviour.description,this.state.diagSourceData)
+    
+    }  
+    setTissueDataForEditDialog(){
+          this.state.cancerInfo[this.state.tumorNo].tissue.description = this.state.tissueFromDb
+          this.state.cancerInfoEdited[this.state.tumorNo].tissue= this.state.tissueFromDb
+          this.setParamCodeANDId(this.state.cancerInfo[this.state.tumorNo].tissue.description,this.state.tissueData)
+        
+        } 
+      
 
     handleCloseAddCancer() {
         this.setState({ showAddCancer: false });
@@ -478,7 +564,7 @@ console.log("handleShow RECORD COUNT " + this.state.editedRecordCount)
       }
     
       // Values set in here will be displayed in the 'select' boxes in the Edit dialog  
-    loadDataToEditDialog(id){
+  loadDataToEditDialog(id){
         console.log("loadDataToEditDialog TUmorNo : " + this.state.cancerInfo[id].site.code)
 //ToDu
 // save the changed row in to an array , this will be compaired with the original data in the review.
@@ -489,12 +575,12 @@ console.log("handleShow RECORD COUNT " + this.state.editedRecordCount)
       this.setState({ histocodesFromDb : this.state.cancerInfo[id].histology.code + " | " +this.state.cancerInfo[id].histology.description     })
       this.setState({ behaviourcodesFromDb :  this.state.cancerInfo[id].behaviour.description })
       this.setState({ ageDiagnosisFromDb :  this.state.cancerInfo[id].ageDiagnosis })
-      this.setState({ diagSourceFromDbFromDb :  this.state.cancerInfo[id].diagSource.description })
-      this.setState({ tissueFromDbFromDb :  this.state.cancerInfo[id].tissue.description })  
+      this.setState({ diagSourceFromDb :  this.state.cancerInfo[id].diagSource.description })
+      this.setState({ tissueFromDb :  this.state.cancerInfo[id].tissue.description })  
 
-     console.log("siteEditDlg behaviourcodesFromDb' ageDiagnosisFromDbFromDb"+ this.state.ageDiagnosisFromDb)   
+     console.log("siteEditDlg behaviourcodesFromDb' diagSourceFromDbFromDb"+ this.state.diagSourceFromDb)   
 
-    } 
+  } 
     setCurrentSource(){
 
       console.log("setCurrentSource  setCurrentSource setCurrentSourcsetCurrentSource")
@@ -510,23 +596,50 @@ console.log("handleShow RECORD COUNT " + this.state.editedRecordCount)
           siteEditDlg: event.target.value,
         });
 
-        if(this.state.siteEditDlg!=event.target.value){
-          this.state.enableSaveButton = true;
-        }else{
-          this.state.enableSaveButton = false;
-        }
-        // this.state.cancerInfo[200].age = event.target.value
-      
-      // this.setClearValue()
+      this.enableSaveInEditDialog("siteEditDlg",event); 
     }
     setLateral(event){
       this.setState({
         lateralFromDb: event.target.value,
       });
 
-      if(this.state.lateralFromDb!=event.target.value){
+      this.enableSaveInEditDialog("lateralFromDb",event); 
+    }
+    setHistology(event) {
+      this.setState({
+        histocodesFromDb: event.target.value,
+      });
+
+      this.enableSaveInEditDialog("histocodesFromDb", event);
+    }
+    setbehaviourcodes(event) {
+      this.setState({
+        behaviourcodesFromDb: event.target.value,
+      });
+
+      this.enableSaveInEditDialog("behaviourcodesFromDb", event);
+      }
+    setDiagSource(event){
+      this.setState({
+        diagSourceFromDb: event.target.value,
+      });
+
+      this.enableSaveInEditDialog("diagSourceFromDb", event);
+     
+    }
+    setTissue(event){
+      this.setState({
+        tissueFromDb: event.target.value,
+      });
+
+      this.enableSaveInEditDialog("diagSourceFromDb", event);
+     
+    }
+    enableSaveInEditDialog(fieldName,event) {
+
+      if (fieldName != event.target.value) {
         this.state.enableSaveButton = true;
-      }else{
+      } else {
         this.state.enableSaveButton = false;
       }
     }
@@ -610,13 +723,15 @@ console.log("handleShow RECORD COUNT " + this.state.editedRecordCount)
                         {rows}
                    
                     
+                <tr>
+                  <td>
+                    <Button  bsSize="small"  onClick={this.handleShowAddCancer}>
+                      Add Cancer
+                    </Button>
+                  </td>
+                </tr>
                     </tbody>
                 </table>
-                <td><br/>
-                <Button  bsSize="small"  onClick={this.handleShowAddCancer}>
-                  Add Cancer
-                </Button>
-        </td>
 
 {/* Modal for Editing New Cancer - START*/}
                 <div >
@@ -677,13 +792,13 @@ console.log("handleShow RECORD COUNT " + this.state.editedRecordCount)
                        Histology: 
                     </div>
                     <div className="col-sm-5">
-                      <select /**disabled={this.state.isAlive}**/ className="form-control dorp-box" value={this.state.histocodesFromDb} onChange={this.setCurrentSource.bind(this)} name="currentDeathColumn">
+                      <select /**disabled={this.state.isAlive}**/ className="form-control dorp-box" value={this.state.histocodesFromDb} onChange={this.setHistology.bind(this)} name="currentDeathColumn">
                       {
                         this.state.histocodesData.map((histocodesList, i) => {
                           // console.log("location ID :  " + siteGroup.id);
 
                           this.state.histocodesList = histocodesList.description; 
-                          return <option key={histocodesList.value} defaultValue={this.state.histocodesFromDb}>{histocodesList.code+" | "+histocodesList.description}</option>
+                          return <option key={histocodesList.value} defaultValue={this.state.histocodesFromDb}>{histocodesList.code/*+" | "+histocodesList.description*/}</option>
   
                         })
                         
@@ -696,7 +811,7 @@ console.log("handleShow RECORD COUNT " + this.state.editedRecordCount)
                       Behaviour: 
                     </div>
                     <div className="col-sm-5">
-                      <select /**disabled={this.state.isAlive}**/ className="form-control dorp-box" value={this.state.behaviourcodesFromDb} onChange={this.setCurrentSource.bind(this)} name="currentDeathColumn">
+                      <select /**disabled={this.state.isAlive}**/ className="form-control dorp-box" value={this.state.behaviourcodesFromDb} onChange={this.setbehaviourcodes.bind(this)} name="currentDeathColumn">
                       {
                          this.state.behaviourcodesData.map((behaviourcodesList, i) => {
                           // console.log("location ID :  " + siteGroup.id);
@@ -734,7 +849,7 @@ console.log("handleShow RECORD COUNT " + this.state.editedRecordCount)
                     Source:
                     </div>
                     <div className="col-sm-5">
-                      <select disabled={this.state.isAlive} className="form-control dorp-box" value={this.state.diagSourceFromDb} onChange={this.setCurrentSource.bind(this)} name="currentDeathColumn">
+                      <select disabled={this.state.isAlive} className="form-control dorp-box" value={this.state.diagSourceFromDb} onChange={this.setDiagSource.bind(this)} name="currentDeathColumn">
                       {
                         
                         this.state.diagSourceData.map((diagSourceList, i) => {
@@ -753,7 +868,7 @@ console.log("handleShow RECORD COUNT " + this.state.editedRecordCount)
                         Tissue:
                     </div>
                     <div className="col-sm-5">
-                      <select disabled={this.state.isAlive} className="form-control dorp-box" value={this.state.tissueFromDb} onChange={this.setCurrentSource.bind(this)} name="currentDeathColumn">
+                      <select disabled={this.state.isAlive} className="form-control dorp-box" value={this.state.tissueFromDb} onChange={this.setTissue.bind(this)} name="currentDeathColumn">
                       {
                        this.state.tissueData.map((tissueList, i) => {
                           // console.log("location ID :  " + siteGroup.id);

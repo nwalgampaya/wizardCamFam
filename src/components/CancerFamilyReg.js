@@ -633,12 +633,48 @@ console.log("countChangedFields"+ this.state.countChangedFields)
         
     // }
 
-    handleChangedRecFrmChild = (arrayEditedDataArr, enableSaveButton,patientDataObject ) => {
+    savePatient(patientDataObject){
+        const urlSavePatient = properties.baseUrl + 'patients/'+patientDataObject.personID;
 
-        console.log("#####################finalObject :: " + patientDataObject.cancerList[1].site.description)
+
+        var request = new Request(urlSavePatient, {
+          method: 'PUT',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(patientDataObject),
+          mode: "cors",
+          credentials: "same-origin",
+          crossDomain: true
+    
+        });
+    
+        fetch(request)
+          .then((response) => {
+              console.log("response"+ response.json)
+            return response.json();
+          })
+        //   .then((jsonObject) => {
+        //     console.log("UPDATED ID :" + jsonObject.sessionid);
+        //     this.state.jsonId = jsonObject.sessionid;
+        //     // document.write(`ID ${jsonObject.id} was created!`);
+        //   })
+        //   .then(() => {
+        //     // if (this.state.jsonId.length !== 0) {
+        //     // //   this.fetchPractitionerId(this.state.jsonId)
+        //     // console.log("has length")
+        //     // }
+        //   })
+          .catch((error) => {
+            document.write(error);
+          });
+    }
+    handleChangedRecFrmChild = (arrayEditedDataArr, enableSaveButton,patientDataObject ) => {
+        
+        console.log("##################### CID :: " + patientDataObject.personCID)
+
+        // console.log("#####################finalObject :: " + patientDataObject.cancerList[1].site.description)
         this.setState({arrayEditedData: arrayEditedDataArr});
         this.setState({enableSaveButton : enableSaveButton});
-        
+        // this.savePatient(patientDataObject);
     }
     handleChooseOption = (chooseTheFamily) => {
         this.setState({choosePathFamily: chooseTheFamily});

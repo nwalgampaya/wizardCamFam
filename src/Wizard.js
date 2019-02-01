@@ -177,6 +177,8 @@ export default class Wizard extends React.Component {
     // }
     else {
       this.next(values)
+
+      console.log("******************** PRESSED ON SUBMIT **********************************")
       return onSubmit(values)
     }
   }
@@ -273,10 +275,12 @@ export default class Wizard extends React.Component {
                     { (page==3 || page==4 || page==5) && (<button className="btn btn-primary" type="button" onClick={this.ExitRecord}> Logout</button>)}
 
                     {/* { page>0 && (<button className="btn btn-primary" type="button" > Logout</button>)} */}
-
-                    {(!isLastPage ) && page >=0 && page !=3 &&(<button className="btn btn-primary pull-right" type="button" onClick={() =>this.next()} >Proceed</button>)} 
+                    {/* page !=3 &&  */}
+                    {(!isLastPage ) && page >=0 &&page !=5 &&(<button className="btn btn-primary pull-right" type="button" onClick={() =>this.next()} >Proceed</button>)} 
                     {/* Need to be type of submit in order to get the formik validation. */}
-                    {page ==3  &&(<button className="btn btn-primary pull-right" type="submit"  >Next</button>)} 
+                    {/* {page ==3  &&(<button className="btn btn-primary pull-right" type="submit"  >Next</button>)}  */}
+
+                    {page ==5  &&(<button className="btn btn-primary pull-right" type="submit"  >Save to database</button>)} 
 
                     {/* {!page == 0 && !page == 1 && !isLastPage && <button className="btn btn-primary pull-right " type="submit">  Next  </button>} */}
                     {/* {page == 1 && (<button className="btn btn-primary pull-right" type="submit" disabled={submitting}>

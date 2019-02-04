@@ -53,7 +53,7 @@ class CancerInfo extends React.Component {
           enableSaveButton: false,  // this should be modified to 'true' when each and every individual field is modified in the dialog 
 
           // Add Cancer dialog variables
-          newSitevalue:'',
+          newSiteValue:'',
           newCancerArr:[],
 
           // Object Array
@@ -594,14 +594,50 @@ console.log("handleShow RECORD COUNT " + this.state.editedRecordCount)
       console.log("setCurrentSource  setCurrentSource setCurrentSourcsetCurrentSource")
 
     }
+    /**START --  Add Cancer Dialog - Handle functions */
     setSiteNew(event){
       console.log("setSiteNew setSiteNew setSiteNew: " +event.target.value )
       this.setState({
-        newSitevalue: event.target.value,
+        newSiteValue: event.target.value,
       });
       // this.createNewCancerArray();
     }
+    setLateralNew(event){
+      this.setState({
+        newLateralValue: event.target.value,
+      });
 
+      
+    }
+    setHistologyNew(event) {
+      this.setState({
+        newHistocodesValue: event.target.value,
+      });
+
+      
+    }
+    setbehaviourcodesNew(event) {
+      this.setState({
+        newBehaviourcodesValue: event.target.value,
+      });
+
+      
+      }
+    setDiagSourceNew(event){
+      this.setState({
+        newDiagSourceValue: event.target.value,
+      });
+
+      
+     
+    }
+    setTissueNew(event){
+      this.setState({
+        newTissueValue: event.target.value,
+      });
+    }
+
+   /**END --  Add Cancer Dialog - Handle functions */ 
     createNewCancerArray(){
       var newSite = new Object;
 
@@ -954,7 +990,7 @@ console.log("handleShow RECORD COUNT " + this.state.editedRecordCount)
                     </div>
                     <div className="col-sm-5">
                      
-                      <select /**disabled={this.state.isAlive}**/ className="form-control dorp-box" value={this.state.newSitevalue} onChange={this.setSiteNew.bind(this)} name="currentDeathColumn">
+                      <select /**disabled={this.state.isAlive}**/ className="form-control dorp-box" value={this.state.newSiteValue} onChange={this.setSiteNew.bind(this)} name="currentDeathColumn">
                       <option >{"Choose One"}</option>
                       {
                         this.state.siteData.map((siteGroup, i) => {

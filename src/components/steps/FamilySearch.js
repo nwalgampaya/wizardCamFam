@@ -12,20 +12,20 @@ export default class FamilySearch extends React.Component {
     }
 
     componentDidMount(){
-        const urlAgegroup = "http://128.250.143.10:8090/ProneSpringBoot/api/professions/";
-        fetch(urlAgegroup)
-          .then(response => response.json())
-          .then((data) => {
+        // const urlAgegroup = "http://128.250.143.10:8090/ProneSpringBoot/api/professions/";
+        // fetch(urlAgegroup)
+        //   .then(response => response.json())
+        //   .then((data) => {
 
-            console.log(data);
-            this.setState({
+        //     console.log(data);
+        //     this.setState({
 
-              // flats: data
-              familyData: data,
-              familyId:'',
+        //       // flats: data
+        //       familyData: data,
+        //       familyId:'',
 
-            });
-          })
+        //     });
+        //   })
 
 
     }

@@ -52,6 +52,10 @@ class CancerInfo extends React.Component {
           cancerInfoCopy:[],
           enableSaveButton: false,  // this should be modified to 'true' when each and every individual field is modified in the dialog 
 
+          // Add Cancer dialog variables
+          newSitevalue:'',
+          newCancerArr:[],
+
           // Object Array
           changedColumn:{
             id:'',
@@ -526,11 +530,15 @@ class CancerInfo extends React.Component {
       
 
     handleCloseAddCancer() {
+      console.log(" cancelled adding a cancer")
         this.setState({ showAddCancer: false });
         // this.props.onOpenDialog("false"); 
         // this.setState({ showAddCancer: false });
       }
     handleSaveAddCancer() {    
+      console.log(" Adding a cancer")
+       this.createNewCancerArray();
+      this.setState({ showAddCancer: false });
           // alert("Saving" + this.state.cancerInfo[this.state.selectedId].age)
           // this.setState({ showAddCancer: false });
           }
@@ -587,7 +595,39 @@ console.log("handleShow RECORD COUNT " + this.state.editedRecordCount)
 
     }
     setSiteNew(event){
-      console.log("setSiteNew setSiteNew setSiteNew")
+      console.log("setSiteNew setSiteNew setSiteNew: " +event.target.value )
+      this.setState({
+        newSitevalue: event.target.value,
+      });
+      // this.createNewCancerArray();
+    }
+
+    createNewCancerArray(){
+      var newSite = new Object;
+
+      newSite.id = 222;
+      newSite.code="ccc";
+      newSite.description="New One"
+      
+      var newCancerArr = new Object;
+      newCancerArr.id=3333;
+      newCancerArr.tumorno= 44;
+      newCancerArr.ageDiagnosis = 99;
+      newCancerArr.site=newSite;
+      
+      newCancerArr.tumorNo =44
+      newCancerArr.lateral = newSite;
+      newCancerArr.histology = newSite;
+      newCancerArr.behaviour = newSite;
+      newCancerArr.dateOfDiagnosis = "TEST";
+      newCancerArr.ageDiagnosis =  "TEST";
+      newCancerArr.diagSource = newSite;
+      newCancerArr.tissue = newSite;
+       
+     
+
+       this.state.cancerInfo.push(newCancerArr);
+
     }
     setSite(event) {
       console.log("Site :" + event.target.value);
@@ -913,17 +953,20 @@ console.log("handleShow RECORD COUNT " + this.state.editedRecordCount)
                       Site:
                     </div>
                     <div className="col-sm-5">
-                      <select className="form-control dorp-box" value={this.state.currentSourceOFDeath} onChange={this.setSiteNew.bind(this)} name="currentDeathColumn">
-                      {                       
-                                                this.state.siteData.map((siteGroup, i) => {
-                                                  // console.log("location ID :  " + siteGroup.id);
+                     
+                      <select /**disabled={this.state.isAlive}**/ className="form-control dorp-box" value={this.state.newSitevalue} onChange={this.setSiteNew.bind(this)} name="currentDeathColumn">
+                      <option >{"Choose One"}</option>
+                      {
+                        this.state.siteData.map((siteGroup, i) => {
+                          // console.log("location ID :  " + siteGroup.id);
+
+                          this.state.siteGroup = siteGroup.description;
+                          return <option key={siteGroup.value} defaultValue={siteGroup.id}>{siteGroup.code/*+" | "+siteGroup.description*/}</option>
+  
+                        })
                         
-                                                  this.state.siteGroup = siteGroup.name;
-                                                  return <option key={siteGroup.value} value={siteGroup.id}>{siteGroup.name}</option>
-                          
-                                                })
-                        // <option >{"Hospital Rec"}</option>
-                      }
+                        
+                      } 
                       </select>
                     </div><br/><br/>
                   </div>
@@ -1019,14 +1062,16 @@ console.log("handleShow RECORD COUNT " + this.state.editedRecordCount)
                     
                   </Modal.Body>
                   <Modal.Footer>
-                    <button type="submit" onClick={this.handleCloseAddCancer} >Close</button>
+                    {/* <button type="submit">submit</button>
+                    <button type="submit" onClick={this.handleCloseAddCancer} >Close</button> */}
+
+                    <button type="button" onClick={this.handleCloseAddCancer} >Close</button>
                     {/* <Button onClick={this.handleCloseAddCancer} >Close</Button> */}
                     {/* <button  disabled={isSubmitting}>Save</button> */}
                     {/* <button  type= "submit" disabled={isSubmitting}>Save</button> */}
-                    <button type="submit">submit</button>
                     {/* <Button disabled= {!this.state.enableSaveButton} onClick={this.handleSave}>Save</Button> */}
 
-                    {/* <Button onClick={this.handleSaveAddCancer}>Save</Button> */}
+                    <Button onClick={this.handleSaveAddCancer}>Save</Button>
 
                   </Modal.Footer>
                 </Form>

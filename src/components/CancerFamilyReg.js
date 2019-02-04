@@ -16,6 +16,7 @@ import ChoosePath from "./steps/ChoosePath";
 import Individual from "./steps/Individual";
 import Family from "./steps/Family";
 import FamilySearch from "./steps/FamilySearch";
+import IndividualFinish from "./steps/IndividualFinish";
 import { properties } from '../properties.js';
 // import CancerInfo from './steps/CancerInfo'
 // import DropdownMenu, { DropdownItemGroup, DropdownItem } from '@atlaskit/dropdown-menu';
@@ -122,6 +123,7 @@ class CancerFamilyReg extends React.Component {
             secoundPage:'',
             thirdPage:'',
             fourthPage:'',
+            IndividualFinish:'',
 
             //Family path
             sixthPage:'',
@@ -131,7 +133,10 @@ class CancerFamilyReg extends React.Component {
             // arrayOfChangedFields:[],
             //Transfered from StartPageRegistry
 
-            patientDataValue : []
+            patientDataValue : [],
+
+            // Values after Editing with EDIT dialog
+            patientDataObjectEdited :[],
         };
         this.oncurrentDOBChange = this.oncurrentDOBChange.bind(this);
         this.setCurrentLKDA = this.setCurrentLKDA.bind(this);
@@ -149,7 +154,7 @@ class CancerFamilyReg extends React.Component {
             // }
         
             choosePath(){
-                console.log("choose path : " + this.state.choosePathFamily)
+                console.log("SELECTED OPTION family" + this.state.choosePathFamily)
                      if(this.state.choosePathFamily){
                          //  fourthPage:'',
                          this.state.sixthPage=<FamilySearch />
@@ -160,8 +165,9 @@ class CancerFamilyReg extends React.Component {
                             // this.state.secoundPage=<CancerInfo onSaveChangeInfo={this.handleChangedRecFrmChild} arrayEditedData= {this.state.arrayEditedData}/>
                             // this.state.firstPage= <FormikApp />
                             this.state.secoundPage=<CancerInfo onSaveChangeInfo={this.handleChangedRecFrmChild} arrayEditedData= {this.state.arrayEditedData} patientDataValue={this.state.patientDataValue}/>
-                            this.state.thirdPage = <PreviewInfo  arrayEditedData= {this.state.arrayEditedData} enableSaveButton={this.state.enableSaveButton} arrayOfChangedFields={this.state.arrayOfChangedFields} />
-                         return <Individual onInsertPatientId={this.assignDbDataToFields}/>
+                            this.state.thirdPage = <PreviewInfo  arrayEditedData= {this.state.arrayEditedData} enableSaveButton={this.state.enableSaveButton} arrayOfChangedFields={this.state.arrayOfChangedFields}/> // patientDataObjectEdited={this.state.patientDataObjectEdited}
+                            this.state.IndividualFinish=<IndividualFinish/>
+                            return <Individual onInsertPatientId={this.assignDbDataToFields}/>
                      }
          
              }
@@ -667,14 +673,16 @@ console.log("countChangedFields"+ this.state.countChangedFields)
             document.write(error);
           });
     }
-    handleChangedRecFrmChild = (arrayEditedDataArr, enableSaveButton,patientDataObject ) => {
+    handleChangedRecFrmChild = (arrayEditedDataArr, enableSaveButton,patientDataObjectEdited ) => {
         
-        console.log("##################### CID :: " + patientDataObject.personCID)
+        console.log("##################### CID :: " + patientDataObjectEdited.personCID)
 
         // console.log("#####################finalObject :: " + patientDataObject.cancerList[1].site.description)
         this.setState({arrayEditedData: arrayEditedDataArr});
         this.setState({enableSaveButton : enableSaveButton});
-        // this.savePatient(patientDataObject);
+        this.setState({patientDataObjectEdited : patientDataObjectEdited});
+
+        // this.savePatient(patientDataObjectEdited);
     }
     handleChooseOption = (chooseTheFamily) => {
         this.setState({choosePathFamily: chooseTheFamily});
@@ -704,10 +712,15 @@ console.log("countChangedFields"+ this.state.countChangedFields)
 
         return formatDatestr
     }
+
+    // When "Save to database" is clicked in the preview screen(Previewinfo.js) this method will be fired.
     onSubmit(e) {
         console.log("in Submit 1234")
+    //ToDo Add condition to prevent access to the savePatient() from search function
+        this.savePatient(this.state.patientDataObjectEdited);
         // e.preventDefault();
-        this.postRequest()
+        // this.postRequest()
+
        
         //  }
       }
@@ -1176,25 +1189,29 @@ console.log("countChangedFields"+ this.state.countChangedFields)
                     {/* <CancerInfo onSaveChangeInfo={this.handleChangedRecFrmChild} arrayEditedData= {this.state.arrayEditedData}/> */}
                 </Wizard.Page>
                 <Wizard.Page>
-                    {this.state.thirdPage}                                              {/* Page 5 -- Preview Page */}
+                    {this.state.thirdPage}                                              {/* Page 5 -- [INDIVIDUAL] Preview Page */}
+                </Wizard.Page>
+                <Wizard.Page>
+                    {this.state.IndividualFinish}                                        {/* Page 6 [INDIVIDUAL] SUCCESS */}
                 </Wizard.Page>
 {/* Pages for the INDIVIDUAL flow END                 */}                
 
 {/* Pages for the Family flow START                 */}
                 <Wizard.Page>
                     <div>
-                        {this.state.sixthPage}                                                               {/* Page 6 */}      
+                        {this.state.sixthPage}                                                               {/* Page 7 */}      
                     </div>
+                   
                 </Wizard.Page>
                 <Wizard.Page>
                     <div>
-                        Seven                                                               {/* Page 7 */}      
+                        eight                                                               {/* Page 8 */}      
                     </div>
                 </Wizard.Page>
 {/* Pages for the Family flow END                 */}                
                 <Wizard.Page>
                     <div>
-                        Last                                                               {/* Page 8 */}      
+                        Last                                                               {/* Page 9 */}      
                     </div>
                 </Wizard.Page>
             </Wizard>

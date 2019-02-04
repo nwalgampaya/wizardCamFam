@@ -60,7 +60,7 @@ export default class Wizard extends React.Component {
     // this.state.isModalOpen=true
     if(this.props.choosePathFamily==true && this.state.page>1){
       console.log("PAGE NO : "+ this.state.page)
-        if( this.state.page>5){
+        if( this.state.page>6){
               this.setState(state => ({
                       page: Math.min(state.page + 1, this.props.children.length - 1),
                       values
@@ -68,12 +68,12 @@ export default class Wizard extends React.Component {
         }else{
 
           this.setState(state => ({
-            page: Math.min(state.page + 4, this.props.children.length - 1),
+            page: Math.min(state.page + 5, this.props.children.length - 1),
             values
             }))      
         }
     }else{
-        if(this.state.page>4){
+        if(this.state.page>5){
            this.setState(state => ({
             page: Math.min(state.page + 3, this.props.children.length - 1),
             values
@@ -100,7 +100,7 @@ export default class Wizard extends React.Component {
 
   previous = () => {
     if (this.props.choosePathFamily == true && this.state.page > 1) {
-      if (this.state.page == 6) {
+      if (this.state.page == 7) {
         this.setState(state => ({
           page: 1
         }))
@@ -110,9 +110,9 @@ export default class Wizard extends React.Component {
         }))
       }
     } else {
-      if (this.state.page > 5) {
+      if (this.state.page > 6) {
         this.setState(state => ({
-          page: 5
+          page: 6
           
         }))
       } else {
@@ -264,10 +264,10 @@ export default class Wizard extends React.Component {
                     )} */}
 
                     {/* Invisible button to get the next button allignment correctly */}
-                    {  page == 0 &&( <button className="invisible" type="button" ></button>)}
+                    {  (page == 0 || page == 2) &&( <button className="invisible" type="button" ></button>)}
 
                     {/* { page == 3 && (<button className="btn btn-primary" type="button" onClick={this.previous}> Back</button>)} */}
-                    { page>0 && page!=3 && (<button className="btn btn-primary" type="button" onClick={this.previous}> Previous</button>)}
+                    { page>0 && page!=2 && page!=3 &&(<button className="btn btn-primary" type="button" onClick={this.previous}> Previous</button>)}
 
                     { (page==3 || page==4 || page==5) && (<button className="invisible" type="button" >Invisible Invisible Invisible Invisible Invisible </button>)}
                     { (page==3 || page==4 || page==5) && (<button className="btn btn-primary" type="button" onClick={this.ExitRecord}> Exit Record</button>)}
@@ -276,11 +276,12 @@ export default class Wizard extends React.Component {
 
                     {/* { page>0 && (<button className="btn btn-primary" type="button" > Logout</button>)} */}
                     {/* page !=3 &&  */}
-                    {(!isLastPage ) && page >=0 &&page !=5 &&(<button className="btn btn-primary pull-right" type="button" onClick={() =>this.next()} >Proceed</button>)} 
+                    {(!isLastPage ) && page >=0 && page !=2 && page !=5 &&(<button className="btn btn-primary pull-right" type="button" onClick={() =>this.next()} >Proceed</button>)} 
                     {/* Need to be type of submit in order to get the formik validation. */}
                     {/* {page ==3  &&(<button className="btn btn-primary pull-right" type="submit"  >Next</button>)}  */}
+                    {page ==2  &&(<button className="btn btn-primary" type="submit"  >Search</button>)} 
 
-                    {page ==5  &&(<button className="btn btn-primary pull-right" type="submit"  >Save to database</button>)} 
+                    {page ==5  &&(<button  /*disabled ={false ? this.props.choosePathFamily: true} */ className="btn btn-primary pull-right" type="submit"  >Save to database</button>)} 
 
                     {/* {!page == 0 && !page == 1 && !isLastPage && <button className="btn btn-primary pull-right " type="submit">  Next  </button>} */}
                     {/* {page == 1 && (<button className="btn btn-primary pull-right" type="submit" disabled={submitting}>

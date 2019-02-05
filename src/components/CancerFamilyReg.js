@@ -137,6 +137,9 @@ class CancerFamilyReg extends React.Component {
 
             // Values after Editing with EDIT dialog
             patientDataObjectEdited :[],
+
+            // Values after Adding new canceer with 'Add Cancer' dialog
+            // newCancerArr :[],
         };
         this.oncurrentDOBChange = this.oncurrentDOBChange.bind(this);
         this.setCurrentLKDA = this.setCurrentLKDA.bind(this);
@@ -164,8 +167,8 @@ class CancerFamilyReg extends React.Component {
                             // this.state.firstPage= <FormikApp />
                             // this.state.secoundPage=<CancerInfo onSaveChangeInfo={this.handleChangedRecFrmChild} arrayEditedData= {this.state.arrayEditedData}/>
                             // this.state.firstPage= <FormikApp />
-                            this.state.secoundPage=<CancerInfo onSaveChangeInfo={this.handleChangedRecFrmChild} arrayEditedData= {this.state.arrayEditedData} patientDataValue={this.state.patientDataValue}/>
-                            this.state.thirdPage = <PreviewInfo  arrayEditedData= {this.state.arrayEditedData} enableSaveButton={this.state.enableSaveButton} arrayOfChangedFields={this.state.arrayOfChangedFields}/> // patientDataObjectEdited={this.state.patientDataObjectEdited}
+                            this.state.secoundPage=<CancerInfo onSaveChangeInfo={this.handleChangedRecFrmChild} onSaveNewInfo={this.handleNewRecFrmChild} arrayEditedData= {this.state.arrayEditedData} patientDataValue={this.state.patientDataValue}/>
+                            this.state.thirdPage = <PreviewInfo  arrayEditedData= {this.state.arrayEditedData} newCancerArr={this.state.newCancerArr} enableSaveButton={this.state.enableSaveButton} arrayOfChangedFields={this.state.arrayOfChangedFields}/> // patientDataObjectEdited={this.state.patientDataObjectEdited}
                             this.state.IndividualFinish=<IndividualFinish/>
                             return <Individual onInsertPatientId={this.assignDbDataToFields}/>
                      }
@@ -683,6 +686,10 @@ console.log("countChangedFields"+ this.state.countChangedFields)
         this.setState({patientDataObjectEdited : patientDataObjectEdited});
 
         // this.savePatient(patientDataObjectEdited);
+    }
+    handleNewRecFrmChild= (arrayNewCancerArr) => {
+        console.log("in New Cancer Arr"+ arrayNewCancerArr.site.id)
+        this.setState({newCancerArr: arrayNewCancerArr});
     }
     handleChooseOption = (chooseTheFamily) => {
         this.setState({choosePathFamily: chooseTheFamily});

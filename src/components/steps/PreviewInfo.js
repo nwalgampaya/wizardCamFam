@@ -68,6 +68,19 @@ export default class PreviewInfo extends React.Component {
 
 
         }
+
+    createNewCancerUI(){
+        console.log("In new Cancer Preview")
+        return(
+            this.props.newCancerArr.map((values,i)=>
+            <div>
+
+            <div>{values.site}</div>
+            <div>{values.Lateral}</div>
+            </div>
+        )
+        )
+    }  
     createUI(){
         this.state.editedRecordCount= this.props.editedRecordCount;
         console.log("&&&&&&&&&&&&&&&&&&&&&&&  :" + this.props.editedRecordCount)
@@ -142,7 +155,8 @@ export default class PreviewInfo extends React.Component {
 
                 <h4>Updated Cancer Details |</h4>
                 {this.createUI()}
-                
+                <h4>Added Cancer Details</h4>
+                {this.createNewCancerUI()}
                 
             </div>
         )

@@ -54,7 +54,15 @@ class CancerInfo extends React.Component {
 
           // Add Cancer dialog variables
           newSiteValue:'',
-          newCancerArr:[],
+          newCancerArr: [],
+          newSite : new Object,
+          newLateral : new Object,
+          newHisto : new Object,
+          newBehavior : new Object,
+          newSource : new Object,
+          newTissue : new Object,
+          // newLateral : new Object,
+          // newLateral : new Object,
 
           // Object Array
           changedColumn:{
@@ -409,6 +417,10 @@ class CancerInfo extends React.Component {
         this.sendDataToParent()
       }
 
+      sendNewCancerToPreview(){
+        
+        this.props.onSaveNewInfo(this.state.newCancerArr )
+      }
       sendDataToParent(){
         this.state.arrayEditedData.map((values,i)=>{
           // console.log("i : " + values)
@@ -535,13 +547,14 @@ class CancerInfo extends React.Component {
         // this.props.onOpenDialog("false"); 
         // this.setState({ showAddCancer: false });
       }
-    handleSaveAddCancer() {    
+    handleSaveAddCancer() {
       console.log(" Adding a cancer")
-       this.createNewCancerArray();
+      this.createNewCancerArray();
+      this.sendNewCancerToPreview();
       this.setState({ showAddCancer: false });
-          // alert("Saving" + this.state.cancerInfo[this.state.selectedId].age)
-          // this.setState({ showAddCancer: false });
-          }
+      // alert("Saving" + this.state.cancerInfo[this.state.selectedId].age)
+      // this.setState({ showAddCancer: false });
+    }
     handleShowAddCancer(){
         // console.log("in handleShow"+  id )
         // this.setState({ show: false });
@@ -595,31 +608,52 @@ console.log("handleShow RECORD COUNT " + this.state.editedRecordCount)
 
     }
     /**START --  Add Cancer Dialog - Handle functions */
+    setIdANDDescForAddDialog(dataField, code, dataFromFetch) {
+      dataFromFetch.map((values, i) => {
+        if (values.code == code) {
+          console.log("siteData : " + values.description);
+          dataField.description = values.description
+          dataField.id = values.id
+          dataField.code = values.code
+        }
+      })
+    }
+    setIdANDcodeForAddDialog(dataField, description, dataFromFetch) {
+      dataFromFetch.map((values, i) => {
+        if (values.description == description) {
+          console.log("siteData : " + values.description);
+          dataField.description = values.description
+          dataField.id = values.id
+          dataField.code = values.code
+        }
+      })
+    }
     setSiteNew(event){
       console.log("setSiteNew setSiteNew setSiteNew: " +event.target.value )
       this.setState({
         newSiteValue: event.target.value,
       });
-      // this.createNewCancerArray();
+      this.setIdANDDescForAddDialog(this.state.newSite,event.target.value,this.state.siteData)
     }
     setLateralNew(event){
       this.setState({
-        newLateralValue: event.target.value,
+        newLateralListValue: event.target.value,
       });
-
+      this.setIdANDcodeForAddDialog(this.state.newLateral,event.target.value,this.state.latralcodeData)
       
     }
     setHistologyNew(event) {
       this.setState({
         newHistocodesValue: event.target.value,
       });
-
+      this.setIdANDDescForAddDialog(this.state.newHisto,event.target.value,this.state.histocodesData)
       
     }
     setbehaviourcodesNew(event) {
       this.setState({
         newBehaviourcodesValue: event.target.value,
       });
+      this.setIdANDcodeForAddDialog(this.state.newBehavior,event.target.value,this.state.behaviourcodesData)
 
       
       }
@@ -627,6 +661,7 @@ console.log("handleShow RECORD COUNT " + this.state.editedRecordCount)
       this.setState({
         newDiagSourceValue: event.target.value,
       });
+      this.setIdANDcodeForAddDialog(this.state.newSource,event.target.value,this.state.diagSourceData)
 
       
      
@@ -635,34 +670,34 @@ console.log("handleShow RECORD COUNT " + this.state.editedRecordCount)
       this.setState({
         newTissueValue: event.target.value,
       });
+      this.setIdANDcodeForAddDialog(this.state.newTissue,event.target.value,this.state.tissueData)
+
     }
 
    /**END --  Add Cancer Dialog - Handle functions */ 
-    createNewCancerArray(){
-      var newSite = new Object;
 
-      newSite.id = 222;
-      newSite.code="ccc";
-      newSite.description="New One"
+   createNewCancerArray(){
       
-      var newCancerArr = new Object;
-      newCancerArr.id=3333;
-      newCancerArr.tumorno= 44;
-      newCancerArr.ageDiagnosis = 99;
-      newCancerArr.site=newSite;
+      // var newCancerArr = new Object;
+      this.state.newCancerArr.id=3333;
+      this.state.newCancerArr.tumorNo= 44;
+      this.state.newCancerArr.ageDiagnosis = 99;
+      this.state.newCancerArr.site=this.state.newSite;
       
-      newCancerArr.tumorNo =44
-      newCancerArr.lateral = newSite;
-      newCancerArr.histology = newSite;
-      newCancerArr.behaviour = newSite;
-      newCancerArr.dateOfDiagnosis = "TEST";
-      newCancerArr.ageDiagnosis =  "TEST";
-      newCancerArr.diagSource = newSite;
-      newCancerArr.tissue = newSite;
-       
-     
+      // newCancerArr.tumorNo =44;
+      this.state.newCancerArr.lateral = this.state.newLateral;
+      this.state.newCancerArr.histology = this.state.newHisto;
+      this.state.newCancerArr.behaviour = this.state.newBehavior;
+      console.log("newCancerArr.behaviour " + this.state.newCancerArr.behaviour.description)
+      console.log("newCancerArr.behaviour " + this.state.newCancerArr.behaviour.code)
+      this.state.newCancerArr.diagSource = this.state.newSource;
+      this.state.newCancerArr.tissue = this.state.newTissue;
+      this.state.newCancerArr.dateOfDiagnosis = "TEST";
+      this.state.newCancerArr.ageDiagnosis =  "TEST";
+      
+      
 
-       this.state.cancerInfo.push(newCancerArr);
+      this.state.cancerInfo.push(this.state.newCancerArr);
 
     }
     setSite(event) {
@@ -671,6 +706,7 @@ console.log("handleShow RECORD COUNT " + this.state.editedRecordCount)
         this.setState({
           siteEditDlg: event.target.value,
         });
+        
 
       this.enableSaveInEditDialog("siteEditDlg",event); 
     }
@@ -758,6 +794,7 @@ console.log("handleShow RECORD COUNT " + this.state.editedRecordCount)
 
         return (
             <div>
+                  Cancer Information
               <table> 
                 <tbody>
                     <tr>
@@ -1011,10 +1048,18 @@ console.log("handleShow RECORD COUNT " + this.state.editedRecordCount)
                       Lateral: 
                     </div>
                     <div className="col-sm-5">
-                      <select required="true" disabled={this.state.isAlive} className="form-control dorp-box" value={this.state.currentSourceOFDeath} onChange={this.setCurrentSource.bind(this)} name="currentDeathColumn">
+                      <select required="true" disabled={this.state.isAlive} className="form-control dorp-box" value={this.state.newLateralListValue} onChange={this.setLateralNew.bind(this)} name="newLateralColumn">
+                      <option >{"Choose One"}</option>
                       {
-                        
-                        <option >{"Hospital Rec"}</option>
+                        this.state.latralcodeData.map((lateralList, i) => {
+                            // console.log("location ID :  " + siteGroup.id);
+  
+                            this.state.lateralList = lateralList.description; 
+                            return <option key={lateralList.value} defaultValue={lateralList.id}>{lateralList.description}</option>
+    
+                          })
+                          // <option >{"Hospital Rec"}</option>
+                        }
                       }
                       </select>
                     </div><br/><br/>
@@ -1024,10 +1069,17 @@ console.log("handleShow RECORD COUNT " + this.state.editedRecordCount)
                        Histology: 
                     </div>
                     <div className="col-sm-5">
-                      <select disabled={this.state.isAlive} className="form-control dorp-box" value={this.state.currentSourceOFDeath} onChange={this.setCurrentSource.bind(this)} name="currentDeathColumn">
+                      <select disabled={this.state.isAlive} className="form-control dorp-box" value={this.state.newHistocodesValue} onChange={this.setHistologyNew.bind(this)} name="newHistoColumn">
+                      <option >{"Choose One"}</option>
                       {
+                        this.state.histocodesData.map((histocodesList, i) => {
+                          // console.log("location ID :  " + siteGroup.id);
+
+                          this.state.histocodesList = histocodesList.description; 
+                          return <option key={histocodesList.value} defaultValue={histocodesList.id}>{histocodesList.code/*+" | "+histocodesList.description*/}</option>
+  
+                        })
                         
-                        <option >{"Hospital Rec"}</option>
                       }
                       </select>
                     </div><br/><br/>
@@ -1037,10 +1089,17 @@ console.log("handleShow RECORD COUNT " + this.state.editedRecordCount)
                       Behaviour: 
                     </div>
                     <div className="col-sm-5">
-                      <select disabled={this.state.isAlive} className="form-control dorp-box" value={this.state.currentSourceOFDeath} onChange={this.setCurrentSource.bind(this)} name="currentDeathColumn">
+                      <select disabled={this.state.isAlive} className="form-control dorp-box" value={this.state.newBehaviourcodesValue} onChange={this.setbehaviourcodesNew.bind(this)} name="newBehaviorColumn">
+                      <option >{"Choose One"}</option>
                       {
+                         this.state.behaviourcodesData.map((behaviourcodesList, i) => {
+                          // console.log("location ID :  " + siteGroup.id);
+
+                          this.state.behaviourcodesList = behaviourcodesList.description; 
+                          return <option key={behaviourcodesList.value} defaultValue={behaviourcodesList.id}>{behaviourcodesList.description}</option>
+  
+                        })
                         
-                        <option >{"Hospital Rec"}</option>
                       }
                       </select>
                     </div><br/><br/>
@@ -1072,10 +1131,17 @@ console.log("handleShow RECORD COUNT " + this.state.editedRecordCount)
                     Source:
                     </div>
                     <div className="col-sm-5">
-                      <select disabled={this.state.isAlive} className="form-control dorp-box" value={this.state.currentSourceOFDeath} onChange={this.setCurrentSource.bind(this)} name="currentDeathColumn">
+                      <select disabled={this.state.isAlive} className="form-control dorp-box" value={this.state.newDiagSourceValue} onChange={this.setDiagSourceNew.bind(this)} name="newSourceColumn">
+                      <option >{"Choose One"}</option>
                       {
                         
-                        <option >{"Hospital Rec"}</option>
+                        this.state.diagSourceData.map((diagSourceList, i) => {
+                          // console.log("location ID :  " + siteGroup.id);
+
+                          this.state.diagSourceList = diagSourceList.description; 
+                          return <option key={diagSourceList.value} defaultValue={diagSourceList.id}>{diagSourceList.description}</option>
+  
+                        })
                       }
                       </select>
                     </div><br/><br/>
@@ -1085,10 +1151,17 @@ console.log("handleShow RECORD COUNT " + this.state.editedRecordCount)
                         Tissue:
                     </div>
                     <div className="col-sm-5">
-                      <select disabled={this.state.isAlive} className="form-control dorp-box" value={this.state.currentSourceOFDeath} onChange={this.setCurrentSource.bind(this)} name="currentDeathColumn">
+                      <select disabled={this.state.isAlive} className="form-control dorp-box" value={this.state.newTissueValue} onChange={this.setTissueNew.bind(this)} name="currentDeathColumn">
+                      <option >{"Choose One"}</option>
                       {
+                       this.state.tissueData.map((tissueList, i) => {
+                          // console.log("location ID :  " + siteGroup.id);
+
+                          this.state.tissueList = tissueList.description; 
+                          return <option key={tissueList.value} defaultValue={tissueList.id}>{tissueList.description}</option>
+  
+                        }) 
                         
-                        <option >{"Hospital Rec"}</option>
                       }
                       </select>
                     </div><br/><br/>
@@ -1135,7 +1208,7 @@ const PersonRow = (props) => {
           { props.cancerInfo.lateral.description }
         </td>
         <td>
-          { props.cancerInfo.histology.description }
+          { props.cancerInfo.histology.code }
         </td>
         <td>
           { props.cancerInfo.behaviour.description }

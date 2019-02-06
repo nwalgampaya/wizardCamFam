@@ -101,7 +101,8 @@ class CancerFamilyReg extends React.Component {
             //To assign Values from CancerInfo
             changedParameters:[],
             cancerInfoArr:[],
-            enableSaveButton:'',
+            isCancerEdited:'',
+            isCanecerAdded:'',
 
             //Used to get the selection between the family and the individual
             choosePathFamily:'',
@@ -135,8 +136,8 @@ class CancerFamilyReg extends React.Component {
 
             patientDataValue : [],
 
-            // Values after Editing with EDIT dialog
-            patientDataObjectEdited :[],
+            // Values after Editing OR Adding New cancer with 'EDIT' OR 'Add Cancer' dialog
+            patientDataObjectChanged :[],
 
             // Values after Adding new canceer with 'Add Cancer' dialog
             // newCancerArr :[],
@@ -167,19 +168,19 @@ class CancerFamilyReg extends React.Component {
                             // this.state.firstPage= <FormikApp />
                             // this.state.secoundPage=<CancerInfo onSaveChangeInfo={this.handleChangedRecFrmChild} arrayEditedData= {this.state.arrayEditedData}/>
                             // this.state.firstPage= <FormikApp />
-                            this.state.secoundPage=<CancerInfo onSaveChangeInfo={this.handleChangedRecFrmChild} onSaveNewInfo={this.handleNewRecFrmChild} arrayEditedData= {this.state.arrayEditedData} patientDataValue={this.state.patientDataValue}/>
-                            this.state.thirdPage = <PreviewInfo  arrayEditedData= {this.state.arrayEditedData} newCancerArr={this.state.newCancerArr} enableSaveButton={this.state.enableSaveButton} arrayOfChangedFields={this.state.arrayOfChangedFields}/> // patientDataObjectEdited={this.state.patientDataObjectEdited}
+                            this.state.secoundPage=<CancerInfo onSaveChangeInfo={this.handleChangedRecFrmChild} onSaveNewInfo={this.handleNewRecFrmChild}  arrayEditedData= {this.state.arrayEditedData} patientDataValue={this.state.patientDataValue}/>
+                            this.state.thirdPage = <PreviewInfo  arrayEditedData= {this.state.arrayEditedData} newCancerArr={this.state.newCancerArr} isCanecerAdded ={this.state.isCanecerAdded} isCancerEdited={this.state.isCancerEdited} arrayOfChangedFields={this.state.arrayOfChangedFields}/> // patientDataObjectChanged={this.state.patientDataObjectChanged}
                             this.state.IndividualFinish=<IndividualFinish/>
                             return <Individual onInsertPatientId={this.assignDbDataToFields}/>
                      }
          
              }
         
-            // handleChangedRecFrmChild = (arrayEditedDataArr, enableSaveButton, patientDataObject ) => {
+            // handleChangedRecFrmChild = (arrayEditedDataArr, isCancerEdited, patientDataObject ) => {
 
             //     console.log("#####################finalObject :: " + patientDataObject.cancerList[1].id)
             //     this.setState({arrayEditedData: arrayEditedDataArr});
-            //     this.setState({enableSaveButton : enableSaveButton});
+            //     this.setState({isCancerEdited : isCancerEdited});
                
             // }
             //Transfered from StartPageRegistry
@@ -676,20 +677,23 @@ console.log("countChangedFields"+ this.state.countChangedFields)
             document.write(error);
           });
     }
-    handleChangedRecFrmChild = (arrayEditedDataArr, enableSaveButton,patientDataObjectEdited ) => {
+    handleChangedRecFrmChild = (arrayEditedDataArr, isCancerEdited,patientDataObjectChanged ) => {
         
-        console.log("##################### CID :: " + patientDataObjectEdited.personCID)
+        console.log("##################### CID :: " + patientDataObjectChanged.personCID)
 
         // console.log("#####################finalObject :: " + patientDataObject.cancerList[1].site.description)
         this.setState({arrayEditedData: arrayEditedDataArr});
-        this.setState({enableSaveButton : enableSaveButton});
-        this.setState({patientDataObjectEdited : patientDataObjectEdited});
+        this.setState({isCancerEdited : isCancerEdited});
+        this.setState({patientDataObjectChanged : patientDataObjectChanged});
 
-        // this.savePatient(patientDataObjectEdited);
+        // this.savePatient(patientDataObjectChanged);
     }
-    handleNewRecFrmChild= (arrayNewCancerArr) => {
-        console.log("in New Cancer Arr"+ arrayNewCancerArr.site.id)
+    handleNewRecFrmChild= (arrayNewCancerArr,patientDataObjectChanged,isCanecerAdded) => {
+        // console.log("in New Cancer Arr"+ arrayNewCancerArr.site.id)
         this.setState({newCancerArr: arrayNewCancerArr});
+        this.setState({patientDataObjectChanged : patientDataObjectChanged});
+        this.setState({isCanecerAdded : isCanecerAdded});
+        
     }
     handleChooseOption = (chooseTheFamily) => {
         this.setState({choosePathFamily: chooseTheFamily});
@@ -724,7 +728,7 @@ console.log("countChangedFields"+ this.state.countChangedFields)
     onSubmit(e) {
         console.log("in Submit 1234")
     //ToDo Add condition to prevent access to the savePatient() from search function
-        this.savePatient(this.state.patientDataObjectEdited);
+        this.savePatient(this.state.patientDataObjectChanged);
         // e.preventDefault();
         // this.postRequest()
 
@@ -771,7 +775,7 @@ console.log("countChangedFields"+ this.state.countChangedFields)
                 //     <CancerInfo onSaveChangeInfo={this.handleChangedRecFrmChild}/>
                 // </Wizard.Page>
                 // <Wizard.Page>
-                //     <PreviewInfo  arrayEditedData= {this.state.arrayEditedData} enableSaveButton={this.state.enableSaveButton}/>
+                //     <PreviewInfo  arrayEditedData= {this.state.arrayEditedData} isCancerEdited={this.state.isCancerEdited}/>
                 // </Wizard.Page> */}
 <Wizard 
     choosePathFamily={this.state.choosePathFamily}
@@ -1227,7 +1231,7 @@ console.log("countChangedFields"+ this.state.countChangedFields)
                 //     <CancerInfo onSaveChangeInfo={this.handleChangedRecFrmChild}/>
                 // </Wizard.Page>
                 // <Wizard.Page>
-                //     <PreviewInfo  arrayEditedData= {this.state.arrayEditedData} enableSaveButton={this.state.enableSaveButton}/>
+                //     <PreviewInfo  arrayEditedData= {this.state.arrayEditedData} isCancerEdited={this.state.isCancerEdited}/>
                 // </Wizard.Page>
                 //     {/* <BootstrapDialogOld/> */}
                     // {/* <BootstrapDialog/> */}

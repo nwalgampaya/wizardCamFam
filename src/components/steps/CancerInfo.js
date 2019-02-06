@@ -18,6 +18,8 @@ class CancerInfo extends React.Component {
         
           show: false,
           showAddCancer:false,
+          isCancerEdited: false,
+          isCanecerAdded: false,
           currentSourceOFDeath:2,
           
         
@@ -55,6 +57,7 @@ class CancerInfo extends React.Component {
           // Add Cancer dialog variables
           newSiteValue:'',
           newCancerArr: [],
+          newCancerObject : new Object, 
           newSite : new Object,
           newLateral : new Object,
           newHisto : new Object,
@@ -83,7 +86,7 @@ class CancerInfo extends React.Component {
         this.handleCloseAddCancer = this.handleCloseAddCancer.bind(this);        
         this.handleSaveAddCancer = this.handleSaveAddCancer.bind(this);        
         
-        this.handleSave = this.handleSave.bind(this);    
+        this.handleSaveEditCancer = this.handleSaveEditCancer.bind(this);    
         this.handleTxtChange = this.handleTxtChange.bind(this);
         this.setCurrentSource = this.setCurrentSource.bind(this);
         // this.handleSubmit = this.handleSubmit.bind(this);
@@ -124,7 +127,7 @@ class CancerInfo extends React.Component {
   this.state.patientDataObject = this.props.patientDataValue;
   this.state.cancerInfo =this.props.patientDataValue.cancerList;
 
-  console.log("site &&&&&&&&&&&&&&&&&&&&&77" + this.props.patientDataValue.cancerList);
+  console.log("site &&&&&&&&&&&&&&&&&&&&&77" + this.props.patientDataValue.cancerList[0].id);
   // this.state.profession.push(data);
 
     const urlIcdcodes = properties.baseUrl + "icdcodes";
@@ -244,7 +247,7 @@ class CancerInfo extends React.Component {
         
         // this.setState({ showAddCancer: false });
       }
-    handleSave() {  
+      handleSaveEditCancer() {  
       // console.log("in handleSave" + this.state.cancerInfo[200].age)
       console.log("in handleSave tumorNo " + this.state.tumorNo)
       
@@ -349,6 +352,8 @@ class CancerInfo extends React.Component {
         console.log("if equal")
         
         }else{
+
+         this.state.isCancerEdited = true;
         console.log("Not equal : " + this.state.tumorNo)
         console.log("Not equal nn" + this.state.cancerInfo[this.state.tumorNo].age)
         console.log("Not equal ed  :" + this.state.cancerInfoEdited[this.state.tumorNo].age)
@@ -414,14 +419,26 @@ class CancerInfo extends React.Component {
         
         
         }
-        this.sendDataToParent()
+        this.sendEditedCancerToPreview()
       }
 
       sendNewCancerToPreview(){
         
-        this.props.onSaveNewInfo(this.state.newCancerArr )
+        // this.state.newCancerArr.map((values,i)=>
+            
+        // console.log("site values :" +values.site.id),
+        //     // console.log("site values :" +values.site),
+        //     // console.log("site values :" + values.Lateral)
+                
+                
+        // )
+         // Sending the modified patient with added cancer object to be saved to main page(cancerFamily)
+         this.state.patientDataObject.cancerList = this.state.cancerInfo;
+
+        this.props.onSaveNewInfo(this.state.newCancerArr ,this.state.patientDataObject,this.state.isCanecerAdded)
+
       }
-      sendDataToParent(){
+      sendEditedCancerToPreview(){
         this.state.arrayEditedData.map((values,i)=>{
           // console.log("i : " + values)
           // values.map((values,i)=>{
@@ -445,23 +462,10 @@ class CancerInfo extends React.Component {
 
         // console.log("##################### in can info :: " + this.state.cancerInfo[1].site.code)
         
-        this.props.onSaveChangeInfo(this.state.arrayEditedData,this.state.enableSaveButton,this.state.patientDataObject )
+        this.props.onSaveChangeInfo(this.state.arrayEditedData,this.state.isCancerEdited,this.state.patientDataObject )
       }
 
-      setParamDescANDId(code,dataFromFetch){
-        // console.log("siteData code: "+ code )
-        // var siteDescription
-        dataFromFetch.map((values,i)=>{
-          // this.state.siteData.map((values,i)=>{
-            // console.log("siteData : "+ values.id);
-            if(values.code== code){
-              console.log("siteData : "+ values.description);
-              this.state.cancerInfo[this.state.tumorNo].site.description = values.description
-              this.state.cancerInfo[this.state.tumorNo].site.id = values.id
-          }
-        })
-        // return codeDescription
-      }
+      
 
     // ToDo remove this function since the same can be achived with the function setParamDescANDId
     // setHistoCodeANDDesc(code){
@@ -487,56 +491,77 @@ class CancerInfo extends React.Component {
     //   }
 
       setParamCodeANDId(description,dataFromFetch){
+        var fieldValues
         dataFromFetch.map((values,i)=>{
-            // console.log("siteData : "+ values.id);
             if(values.description== description){
               console.log("lateralData : "+ values.description);
-              this.state.cancerInfo[this.state.tumorNo].lateral.code = values.code
-              this.state.cancerInfo[this.state.tumorNo].lateral.id = values.id
+              fieldValues = values
           }
         })
+        return fieldValues
       }
-      setDiagSourceCodeANDId(description,dataFromFetch){
+
+      setParamDescANDId(code,dataFromFetch){
+        var fieldValues
         dataFromFetch.map((values,i)=>{
-            // console.log("siteData : "+ values.id);
-            if(values.description== description){
-              console.log("diagsource : "+ values.description);
-              // this.state.cancerInfo[this.state.tumorNo].lateral.code = values.code
-              this.state.cancerInfo[this.state.tumorNo].lateral.id = values.id
+            if(values.code== code){
+              console.log("siteData : "+ values.description);
+              fieldValues = values
           }
         })
+        return fieldValues
       }
     setSiteDataForEditDialog(){
         this.state.cancerInfo[this.state.tumorNo].site.code = this.state.siteEditDlg
         this.state.cancerInfoEdited[this.state.tumorNo].site= this.state.siteEditDlg
-        this.setParamDescANDId(this.state.cancerInfo[this.state.tumorNo].site.code,this.state.siteData)
+        var fieldValues = this.setParamDescANDId(this.state.cancerInfo[this.state.tumorNo].site.code,this.state.siteData)
+        this.state.cancerInfo[this.state.tumorNo].site.description = fieldValues.description
+        this.state.cancerInfo[this.state.tumorNo].site.id = fieldValues.id
     }
     setLateralDataForEditDialog(){
       this.state.cancerInfo[this.state.tumorNo].lateral.description = this.state.lateralFromDb
       this.state.cancerInfoEdited[this.state.tumorNo].lateral= this.state.lateralFromDb
-      this.setParamCodeANDId(this.state.cancerInfo[this.state.tumorNo].lateral.description,this.state.latralcodeData)
+      var fieldValues = this.setParamCodeANDId(this.state.cancerInfo[this.state.tumorNo].lateral.description,this.state.latralcodeData)
+
+      this.state.cancerInfo[this.state.tumorNo].lateral.code = fieldValues.code
+      this.state.cancerInfo[this.state.tumorNo].lateral.id = fieldValues.id
     }
     setHistoDataForEditDialog(){
       this.state.cancerInfo[this.state.tumorNo].histology.code = this.state.histocodesFromDb
       this.state.cancerInfoEdited[this.state.tumorNo].histology= this.state.histocodesFromDb
       // this.setHistoCodeANDDesc(this.state.cancerInfo[this.state.tumorNo].histology.code)
-      this.setParamDescANDId(this.state.cancerInfo[this.state.tumorNo].histology.code,this.state.histocodesData)
+      var fieldValues = this.setParamDescANDId(this.state.cancerInfo[this.state.tumorNo].site.code,this.state.siteData)
+        this.state.cancerInfo[this.state.tumorNo].histology.description = fieldValues.description
+        this.state.cancerInfo[this.state.tumorNo].histology.id = fieldValues.id
     }  
     setbehaviourDataForEditDialog(){
       this.state.cancerInfo[this.state.tumorNo].behaviour.description = this.state.behaviourcodesFromDb
       this.state.cancerInfoEdited[this.state.tumorNo].behaviour= this.state.behaviourcodesFromDb
-      this.setParamCodeANDId(this.state.cancerInfo[this.state.tumorNo].behaviour.description,this.state.behaviourcodesData)
+      // this.setParamCodeANDId(this.state.cancerInfo[this.state.tumorNo].behaviour.description,this.state.behaviourcodesData)
+
+      var fieldValues = this.setParamCodeANDId(this.state.cancerInfo[this.state.tumorNo].behaviour.description,this.state.behaviourcodesData)
+
+      this.state.cancerInfo[this.state.tumorNo].behaviour.code = fieldValues.code
+      this.state.cancerInfo[this.state.tumorNo].behaviour.id = fieldValues.id
     }
     setDiagSourdeDataForEditDialog(){
-      this.state.cancerInfo[this.state.tumorNo].behaviour.description = this.state.diagSourceFromDb
-      this.state.cancerInfoEdited[this.state.tumorNo].behaviour= this.state.diagSourceFromDb
-      this.setDiagSourceCodeANDId(this.state.cancerInfo[this.state.tumorNo].behaviour.description,this.state.diagSourceData)
-    
+      this.state.cancerInfo[this.state.tumorNo].diagSource.description = this.state.diagSourceFromDb
+      this.state.cancerInfoEdited[this.state.tumorNo].diagSource= this.state.diagSourceFromDb
+      // this.setDiagSourceCodeANDId(this.state.cancerInfo[this.state.tumorNo].diagSource.description,this.state.diagSourceData)
+      var fieldValues = this.setParamCodeANDId(this.state.cancerInfo[this.state.tumorNo].diagSource.description,this.state.diagSourceData)
+
+      this.state.cancerInfo[this.state.tumorNo].diagSource.code = fieldValues.code
+      this.state.cancerInfo[this.state.tumorNo].diagSource.id = fieldValues.id
     }  
     setTissueDataForEditDialog(){
           this.state.cancerInfo[this.state.tumorNo].tissue.description = this.state.tissueFromDb
           this.state.cancerInfoEdited[this.state.tumorNo].tissue= this.state.tissueFromDb
-          this.setParamCodeANDId(this.state.cancerInfo[this.state.tumorNo].tissue.description,this.state.tissueData)
+          // this.setParamCodeANDId(this.state.cancerInfo[this.state.tumorNo].tissue.description,this.state.tissueData)
+
+          var fieldValues = this.setParamCodeANDId(this.state.cancerInfo[this.state.tumorNo].tissue.description,this.state.tissueData)
+
+          this.state.cancerInfo[this.state.tumorNo].tissue.code = fieldValues.code
+          this.state.cancerInfo[this.state.tumorNo].tissue.id = fieldValues.id
         
         } 
       
@@ -677,27 +702,31 @@ console.log("handleShow RECORD COUNT " + this.state.editedRecordCount)
    /**END --  Add Cancer Dialog - Handle functions */ 
 
    createNewCancerArray(){
-      
+    this.state.isCanecerAdded = true;
+     var i=1;
+     
       // var newCancerArr = new Object;
-      this.state.newCancerArr.id=3333;
-      this.state.newCancerArr.tumorNo= 44;
-      this.state.newCancerArr.ageDiagnosis = 99;
-      this.state.newCancerArr.site=this.state.newSite;
+      // this.state.newCancerArr[i] = cloneDeep(this.state.cancerInfo[i]);
+      this.state.newCancerObject.id=3333;
+      this.state.newCancerObject.tumorNo= 44;
+      this.state.newCancerObject.ageDiagnosis = 99;
+      this.state.newCancerObject.site=this.state.newSite;
       
-      // newCancerArr.tumorNo =44;
-      this.state.newCancerArr.lateral = this.state.newLateral;
-      this.state.newCancerArr.histology = this.state.newHisto;
-      this.state.newCancerArr.behaviour = this.state.newBehavior;
-      console.log("newCancerArr.behaviour " + this.state.newCancerArr.behaviour.description)
-      console.log("newCancerArr.behaviour " + this.state.newCancerArr.behaviour.code)
-      this.state.newCancerArr.diagSource = this.state.newSource;
-      this.state.newCancerArr.tissue = this.state.newTissue;
-      this.state.newCancerArr.dateOfDiagnosis = "TEST";
-      this.state.newCancerArr.ageDiagnosis =  "TEST";
+      // newCancerObject.tumorNo =44;
+      this.state.newCancerObject.lateral = this.state.newLateral;
+      this.state.newCancerObject.histology = this.state.newHisto;
+      this.state.newCancerObject.behaviour = this.state.newBehavior;
+      // console.log("newCancerObject.behaviour " + this.state.newCancerObject.behaviour.description)
+      // console.log("newCancerObject.behaviour " + this.state.newCancerObject.behaviour.code)
+      this.state.newCancerObject.diagSource = this.state.newSource;
+      this.state.newCancerObject.tissue = this.state.newTissue;
+      this.state.newCancerObject.dateOfDiagnosis = "TEST";
+      this.state.newCancerObject.ageDiagnosis =  "TEST";
       
       
+      this.state.newCancerArr.push(this.state.newCancerObject)
 
-      this.state.cancerInfo.push(this.state.newCancerArr);
+      this.state.cancerInfo.push(this.state.newCancerObject);
 
     }
     setSite(event) {
@@ -1000,7 +1029,7 @@ console.log("handleShow RECORD COUNT " + this.state.editedRecordCount)
                   </Modal.Body>
                   <Modal.Footer>
                     <Button onClick={this.handleClose}>Close</Button>
-                    <Button disabled= {!this.state.enableSaveButton} onClick={this.handleSave}>Save</Button>
+                    <Button disabled= {!this.state.enableSaveButton} onClick={this.handleSaveEditCancer}>Save</Button>
 
                   </Modal.Footer>
                 </Modal>

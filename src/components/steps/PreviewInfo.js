@@ -12,7 +12,7 @@ export default class PreviewInfo extends React.Component {
         }
     }
 
-    createTablePersonDetaios(){
+    createTablePersonDetails(){
         return(
        
         
@@ -69,19 +69,119 @@ export default class PreviewInfo extends React.Component {
 
         }
 
-    createNewCancerUI(){
-        console.log("In new Cancer Preview")
-        return(
-            this.props.newCancerArr.map((values,i)=>
-            <div>
+        createNewCancerUI() {
+            if (this.props.isCanecerAdded) {
+                return (
 
-            <div>{values.site}</div>
-            <div>{values.Lateral}</div>
-            </div>
-        )
-        )
-    }  
-    createUI(){
+                    <div>
+                        <h3>Added Cancer Details</h3>
+                        {this.createCancerFields()}
+
+                    </div>
+                )
+            }
+        }
+
+        createCancerFields() {
+            console.log("In new Cancer Preview")
+            // || this.props.isCancerEdited
+            // if(this.props.isCanecerAdded ){
+            return (
+                this.props.newCancerArr.map((values, i) =>
+                    <table>
+                        <tbody>
+                            <tr>
+                                <th>
+                                    Column Name
+                                </th>
+                                <th>
+                                    Value
+                                </th>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <p> Site</p>
+                                </td>
+                                <td>
+                                    {values.site.code}
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <p> Lateral</p>
+                                </td>
+                                <td>
+                                    {values.lateral.code}
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <p> Histology</p>
+                                </td>
+                                <td>
+                                    {values.site.code}
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <p> Behavior</p>
+                                </td>
+                                <td>
+                                    {values.lateral.code}
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <p> Date Of Diagnosis</p>
+                                </td>
+                                <td>
+                                    {values.site.code}
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <p> Age Of Diagnosis</p>
+                                </td>
+                                <td>
+                                    {values.lateral.code}
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <p> Source</p>
+                                </td>
+                                <td>
+                                    {values.site.code}
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <p> Tissue</p>
+                                </td>
+                                <td>
+                                    {values.lateral.code}
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                )
+            )
+        }  
+
+        createEditedCancerUI() {
+
+            if (this.props.isCancerEdited) {
+                return (
+
+                    <div>
+                        <h4>Updated Cancer Details |</h4>
+                        {this.showCancerEditedFields()}
+
+                    </div>
+                )
+            }
+        }    
+        showCancerEditedFields(){
         this.state.editedRecordCount= this.props.editedRecordCount;
         console.log("&&&&&&&&&&&&&&&&&&&&&&&  :" + this.props.editedRecordCount)
         this.state.arrayOfChangedFields = this.props.arrayOfChangedFields;
@@ -92,7 +192,7 @@ export default class PreviewInfo extends React.Component {
         // })
         
         
-        if(this.props.enableSaveButton){
+        // if(this.props.isCancerEdited){
         return (
          this.props.arrayEditedData.map((values,i)=> 
         
@@ -136,13 +236,27 @@ export default class PreviewInfo extends React.Component {
         //        <input type='button' value='remove' onClick={this.removeClick.bind(this, i)}/>
         //     </div>          
     ))
-    }else{
-        return( 
-        <div>
-            <h2> Review Details </h2>
-            <p> No data changes have been made. Please Exit Record or make changes to Save to Database.</p>
-        </div>)
-    }
+    
+     }
+
+     createUI(){
+
+        if(this.props.isCanecerAdded || this.props.isCancerEdited){
+            
+            return( 
+            <div>
+                {this.createEditedCancerUI()}
+                    
+                {this.createNewCancerUI()}
+            </div>
+            )
+        }else{
+            return( 
+            <div>
+                <h2> Review Details </h2>
+                <p> No data changes have been made. Please Exit Record or make changes to Save to Database.</p>
+            </div>)
+        }
      }
     render() {
 
@@ -151,12 +265,12 @@ export default class PreviewInfo extends React.Component {
                 <h2> Review Details </h2>
                 <p> Please ensure the below updates are correct before clicking "Save to Database" .</p> 
                 
-                {this.createTablePersonDetaios()}
+                {this.createTablePersonDetails()}
 
-                <h4>Updated Cancer Details |</h4>
                 {this.createUI()}
-                <h4>Added Cancer Details</h4>
-                {this.createNewCancerUI()}
+                
+                {/* {this.createCancerFields()} */}
+                
                 
             </div>
         )

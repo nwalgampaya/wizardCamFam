@@ -703,7 +703,6 @@ console.log("handleShow RECORD COUNT " + this.state.editedRecordCount)
 
    createNewCancerArray(){
     this.state.isCanecerAdded = true;
-     var i=1;
      
       // var newCancerArr = new Object;
       // this.state.newCancerArr[i] = cloneDeep(this.state.cancerInfo[i]);

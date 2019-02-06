@@ -111,7 +111,7 @@ export default class PreviewInfo extends React.Component {
                                     <p> Lateral</p>
                                 </td>
                                 <td>
-                                    {values.lateral.code}
+                                    {values.lateral.description}
                                 </td>
                             </tr>
                             <tr>
@@ -119,7 +119,7 @@ export default class PreviewInfo extends React.Component {
                                     <p> Histology</p>
                                 </td>
                                 <td>
-                                    {values.site.code}
+                                    {/* {values.histology.code} */}
                                 </td>
                             </tr>
                             <tr>
@@ -127,7 +127,7 @@ export default class PreviewInfo extends React.Component {
                                     <p> Behavior</p>
                                 </td>
                                 <td>
-                                    {values.lateral.code}
+                                    {values.behaviour.description}
                                 </td>
                             </tr>
                             <tr>
@@ -135,7 +135,7 @@ export default class PreviewInfo extends React.Component {
                                     <p> Date Of Diagnosis</p>
                                 </td>
                                 <td>
-                                    {values.site.code}
+                                    {/* {values.site.code} */}
                                 </td>
                             </tr>
                             <tr>
@@ -143,7 +143,7 @@ export default class PreviewInfo extends React.Component {
                                     <p> Age Of Diagnosis</p>
                                 </td>
                                 <td>
-                                    {values.lateral.code}
+                                    {/* {values.lateral.code} */}
                                 </td>
                             </tr>
                             <tr>
@@ -151,7 +151,7 @@ export default class PreviewInfo extends React.Component {
                                     <p> Source</p>
                                 </td>
                                 <td>
-                                    {values.site.code}
+                                    {values.diagSource.description}
                                 </td>
                             </tr>
                             <tr>
@@ -159,7 +159,7 @@ export default class PreviewInfo extends React.Component {
                                     <p> Tissue</p>
                                 </td>
                                 <td>
-                                    {values.lateral.code}
+                                    {values.tissue.description}
                                 </td>
                             </tr>
                         </tbody>

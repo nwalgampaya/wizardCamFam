@@ -119,6 +119,7 @@ export default class PreviewInfo extends React.Component {
                                     <p> Histology</p>
                                 </td>
                                 <td>
+                                    {/* // Remove comment */}
                                     {/* {values.histology.code} */}
                                 </td>
                             </tr>
@@ -253,7 +254,7 @@ export default class PreviewInfo extends React.Component {
         }else{
             return( 
             <div>
-                <h2> Review Details </h2>
+                <h3> Review Details </h3>
                 <p> No data changes have been made. Please Exit Record or make changes to Save to Database.</p>
             </div>)
         }
@@ -262,7 +263,7 @@ export default class PreviewInfo extends React.Component {
 
         return (
             <div>
-                <h2> Review Details </h2>
+                <h3> Review Details </h3>
                 <p> Please ensure the below updates are correct before clicking "Save to Database" .</p> 
                 
                 {this.createTablePersonDetails()}

@@ -64,6 +64,8 @@ class CancerInfo extends React.Component {
           newBehavior : new Object,
           newSource : new Object,
           newTissue : new Object,
+          newTumerNoArr:[],
+          isNewCancer: false,
           // newLateral : new Object,
           // newLateral : new Object,
 
@@ -265,14 +267,36 @@ class CancerInfo extends React.Component {
       // this.state.changedParameters[this.state.tumorNo] = [...this.state.cancerInfo[this.state.tumorNo]];
       // this.state.changedParameters[this.state.tumorNo] = JSON.parse(JSON.stringify(this.state.cancerInfo));
       // this.state.changedParameters[this.state.tumorNo] = cloneDeep(this.state.cancerInfo[this.state.tumorNo]);
-      this.state.cancerInfoCopy[this.state.tumorNo] = cloneDeep(this.state.cancerInfo[this.state.tumorNo]);
+      // this.state.cancerInfoCopy[this.state.tumorNo] = cloneDeep(this.state.cancerInfo[this.state.tumorNo]);
+      this.state.cancerInfoCopy = cloneDeep(this.state.cancerInfo);
       
       // this.setState({ changedParameters:JSON.parse(JSON.stringify(this.state.cancerInfo)) });
       if(!this.state.isArrayEmpty){
         // this.makeEmptyArray();
       }
-      this.createEditedArray();
-      this.getChangedFieldsOnly();
+      
+      // Condition added To avoid displaying changes in Newly added cancers in "Updated Cancer Details" section in 'Preview' screen
+      console.log("TUMORNO EQUAL " + this.state.cancerInfo[this.state.tumorNo].tumorNo )
+      console.log("TUMORNO EQUAL " + this.state.newCancerObject.tumorNo )
+      console.log("TUMORNO EQUAL " + this.state.cancerInfoCopy.tumorNo )
+      
+      // Looping through New Cancer Array ,
+      // When displaying the changed values in 'Preview' screen, to avoid displaying new records as edited 
+      this.state.newTumerNoArr.map((values,i)=>{
+      
+        console.log("tumor_no : " + values)
+        if(values== this.state.cancerInfo[this.state.tumorNo].tumorNo){
+           this.state.isNewCancer = true
+          this.setState({ isNewCancer: this.state.isNewCancer });
+        }
+      })
+       console.log("isNewCancer : "+ this.state.isNewCancer)
+      // Conditioning only to display edited cancers in preview , to avoid New cancer displayed as edited 
+      if(!this.state.isNewCancer){
+        this.createEditedArray();
+        this.getChangedFieldsOnly();
+      }
+      
      
       // var eq = JSON(this.state.cancerInfoEdited) == JSON(this.state.cancerInfo);
   
@@ -352,7 +376,7 @@ class CancerInfo extends React.Component {
         console.log("if equal")
         
         }else{
-
+          
          this.state.isCancerEdited = true;
         console.log("Not equal : " + this.state.tumorNo)
         console.log("Not equal nn" + this.state.cancerInfo[this.state.tumorNo].age)
@@ -618,7 +642,8 @@ console.log("handleShow RECORD COUNT " + this.state.editedRecordCount)
       this.setState({ siteEditDlg : this.state.cancerInfo[id].site.code })
         // + " | " +this.state.cancerInfo[id].site.description     })
       this.setState({ lateralFromDb : this.state.cancerInfo[id].lateral.description })
-      this.setState({ histocodesFromDb : this.state.cancerInfo[id].histology.code + " | " +this.state.cancerInfo[id].histology.description     })
+      // Remove comment
+      // this.setState({ histocodesFromDb : this.state.cancerInfo[id].histology.code + " | " +this.state.cancerInfo[id].histology.description     })
       this.setState({ behaviourcodesFromDb :  this.state.cancerInfo[id].behaviour.description })
       this.setState({ ageDiagnosisFromDb :  this.state.cancerInfo[id].ageDiagnosis })
       this.setState({ diagSourceFromDb :  this.state.cancerInfo[id].diagSource.description })
@@ -704,24 +729,31 @@ console.log("handleShow RECORD COUNT " + this.state.editedRecordCount)
    createNewCancerArray(){
     this.state.isCanecerAdded = true;
      
+    this.state.newCancerObject.patientPersonID= this.state.patientDataObject.personID
       // var newCancerArr = new Object;
       // this.state.newCancerArr[i] = cloneDeep(this.state.cancerInfo[i]);
-      this.state.newCancerObject.id=3333;
-      this.state.newCancerObject.tumorNo= 44;
-      this.state.newCancerObject.ageDiagnosis = 99;
+      // this.state.newCancerObject.id=3334;
+      this.state.newCancerObject.tumorNo= 7;
+      // this.state.newCancerObject.ageDiagnosis = 99;
       this.state.newCancerObject.site=this.state.newSite;
       
       // newCancerObject.tumorNo =44;
       this.state.newCancerObject.lateral = this.state.newLateral;
-      this.state.newCancerObject.histology = this.state.newHisto;
+      // Remove comment
+      // this.state.newCancerObject.histology = this.state.newHisto;
       this.state.newCancerObject.behaviour = this.state.newBehavior;
       // console.log("newCancerObject.behaviour " + this.state.newCancerObject.behaviour.description)
       // console.log("newCancerObject.behaviour " + this.state.newCancerObject.behaviour.code)
       this.state.newCancerObject.diagSource = this.state.newSource;
       this.state.newCancerObject.tissue = this.state.newTissue;
-      this.state.newCancerObject.dateOfDiagnosis = "TEST";
-      this.state.newCancerObject.ageDiagnosis =  "TEST";
+      this.state.newCancerObject.dateOfDiagnosis = "20180101";
+      this.state.newCancerObject.ageDiagnosis =  "88";
       
+      // Get newly added tumorNo into array , this will be used in filter for Review screen
+      this.state.newTumerNoArr.push(this.state.newCancerObject.tumorNo)
+      this.setState({
+        newTumerNoArr :  this.state.newTumerNoArr,
+      });
       
       this.state.newCancerArr.push(this.state.newCancerObject)
 
@@ -1236,7 +1268,8 @@ const PersonRow = (props) => {
           { props.cancerInfo.lateral.description }
         </td>
         <td>
-          { props.cancerInfo.histology.code }
+        {/*   // Remove comment */}
+          {/* { props.cancerInfo.histology.code } */}
         </td>
         <td>
           { props.cancerInfo.behaviour.description }

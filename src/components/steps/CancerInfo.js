@@ -7,6 +7,7 @@ import { withFormik, Form, Field } from 'formik'
 import * as Yup from 'yup'
 import { properties } from '../../properties.js';
 import cloneDeep from 'lodash/cloneDeep';
+// import ExampleModal from '../steps/ExampleModal';
 
 class CancerInfo extends React.Component {
 
@@ -80,6 +81,8 @@ class CancerInfo extends React.Component {
           arrayEditedData:[],
           arrayEditedParam:[],
           editedRecordCount:0,
+
+          newCancerModalId:'',
           
         }
         this.handleShow = this.handleShow.bind(this);
@@ -130,6 +133,7 @@ class CancerInfo extends React.Component {
   this.state.cancerInfo =this.props.patientDataValue.cancerList;
   this.state.newCancerArr = this.props.newCancerArr;
 
+  this.state.newCancerModalId = Math.floor(Math.random() * 10);
   console.log("site &&&&&&&&&&&&&&&&&&&&&77" + this.props.patientDataValue.cancerList[0].id);
   // this.state.profession.push(data);
 
@@ -609,9 +613,10 @@ class CancerInfo extends React.Component {
       // alert("Saving" + this.state.cancerInfo[this.state.selectedId].age)
       // this.setState({ showAddCancer: false });
     }
-    handleShowAddCancer(){
+    handleShowAddCancer(id){
         // console.log("in handleShow"+  id )
         // this.setState({ show: false });
+        this.state.selectedId = id;
         this.setState({ showAddCancer: true });
         // this.state.selectedId=id
         console.log("in handleShow selectedId ;"+  this.state.selectedId )
@@ -733,7 +738,8 @@ console.log("handleShow RECORD COUNT " + this.state.editedRecordCount)
 
    createNewCancerArray(){
     this.state.isCanecerAdded = true;
-     
+     this.state.newCancerModalId = Math.floor(Math.random() * 10);
+
     // var newCancerObject = new Object;
     this.state.newCancerObject.patientPersonID= this.state.patientDataObject.personID
       // this.state.newCancerArr[i] = cloneDeep(this.state.cancerInfo[i]);
@@ -899,7 +905,7 @@ console.log("handleShow RECORD COUNT " + this.state.editedRecordCount)
                     
                 <tr>
                   <td>
-                    <Button  bsSize="small"  onClick={this.handleShowAddCancer}>
+                    <Button  bsSize="small"  onClick={()=> this.handleShowAddCancer(this.state.newCancerModalId)} /*onClick={this.handleShowAddCancer}*/>
                       Add Cancer
                     </Button>
                   </td>

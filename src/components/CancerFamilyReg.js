@@ -140,7 +140,7 @@ class CancerFamilyReg extends React.Component {
             patientDataObjectChanged :[],
 
             // Values after Adding new canceer with 'Add Cancer' dialog
-            // newCancerArr :[],
+            newCancerArr :[],
         };
         this.oncurrentDOBChange = this.oncurrentDOBChange.bind(this);
         this.setCurrentLKDA = this.setCurrentLKDA.bind(this);
@@ -168,7 +168,7 @@ class CancerFamilyReg extends React.Component {
                             // this.state.firstPage= <FormikApp />
                             // this.state.secoundPage=<CancerInfo onSaveChangeInfo={this.handleChangedRecFrmChild} arrayEditedData= {this.state.arrayEditedData}/>
                             // this.state.firstPage= <FormikApp />
-                            this.state.secoundPage=<CancerInfo onSaveChangeInfo={this.handleChangedRecFrmChild} onSaveNewInfo={this.handleNewRecFrmChild}  arrayEditedData= {this.state.arrayEditedData} patientDataValue={this.state.patientDataValue}/>
+                            this.state.secoundPage=<CancerInfo onSaveChangeInfo={this.handleChangedRecFrmChild} onSaveNewInfo={this.handleNewRecFrmChild}  arrayEditedData= {this.state.arrayEditedData} patientDataValue={this.state.patientDataValue} newCancerArr= {this.state.newCancerArr}/>
                             this.state.thirdPage = <PreviewInfo  arrayEditedData= {this.state.arrayEditedData} newCancerArr={this.state.newCancerArr} isCanecerAdded ={this.state.isCanecerAdded} isCancerEdited={this.state.isCancerEdited} arrayOfChangedFields={this.state.arrayOfChangedFields}/> // patientDataObjectChanged={this.state.patientDataObjectChanged}
                             this.state.IndividualFinish=<IndividualFinish/>
                             return <Individual onInsertPatientId={this.assignDbDataToFields}/>

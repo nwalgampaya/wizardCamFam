@@ -56,7 +56,7 @@ class CancerInfo extends React.Component {
 
           // Add Cancer dialog variables
           newSiteValue:'',
-          newCancerArr: [],
+          newCancerArr: [], // Used to get the New Cancer to the "Preview Screen" , AND (In recordEditedData()) to filter the Edited records from new recs )
           newCancerObject : new Object, 
           newSite : new Object,
           newLateral : new Object,
@@ -65,7 +65,7 @@ class CancerInfo extends React.Component {
           newSource : new Object,
           newTissue : new Object,
           newTumerNoArr:[],
-          isNewCancer: false,
+          isNewCancer: false,  // To distinguish between "Edited" AND "New Cancer"
           // newLateral : new Object,
           // newLateral : new Object,
 
@@ -128,6 +128,7 @@ class CancerInfo extends React.Component {
   // Assigning the patient object to local variables
   this.state.patientDataObject = this.props.patientDataValue;
   this.state.cancerInfo =this.props.patientDataValue.cancerList;
+  this.state.newCancerArr = this.props.newCancerArr;
 
   console.log("site &&&&&&&&&&&&&&&&&&&&&77" + this.props.patientDataValue.cancerList[0].id);
   // this.state.profession.push(data);
@@ -279,21 +280,25 @@ class CancerInfo extends React.Component {
       console.log("TUMORNO EQUAL " + this.state.cancerInfo[this.state.tumorNo].tumorNo )
       console.log("TUMORNO EQUAL " + this.state.newCancerObject.tumorNo )
       console.log("TUMORNO EQUAL " + this.state.cancerInfoCopy.tumorNo )
-      
+      this.state.isNewCancer = false
       // Looping through New Cancer Array ,
       // When displaying the changed values in 'Preview' screen, to avoid displaying new records as edited 
-      this.state.newTumerNoArr.map((values,i)=>{
+      // newTumerNoArr
+      this.state.newCancerArr.map((values,i)=>{
       
-        console.log("tumor_no : " + values)
-        if(values== this.state.cancerInfo[this.state.tumorNo].tumorNo){
+        console.log("tumor_no : " + values.tumorNo)
+        if(values.tumorNo== this.state.cancerInfo[this.state.tumorNo].tumorNo){
            this.state.isNewCancer = true
-          this.setState({ isNewCancer: this.state.isNewCancer });
+          
         }
       })
        console.log("isNewCancer : "+ this.state.isNewCancer)
-      // Conditioning only to display edited cancers in preview , to avoid New cancer displayed as edited 
+      //Set the parameter isNewCancer true if the "newCancerArr" map has new elements from above loop. else set false 
+       this.setState({ isNewCancer: this.state.isNewCancer });
+       
+      this.createEditedArray();
+       // Conditioning only to display edited cancers in preview , to avoid New cancer displayed as edited 
       if(!this.state.isNewCancer){
-        this.createEditedArray();
         this.getChangedFieldsOnly();
       }
       
@@ -448,14 +453,14 @@ class CancerInfo extends React.Component {
 
       sendNewCancerToPreview(){
         
-        // this.state.newCancerArr.map((values,i)=>
+        this.state.newCancerArr.map((values,i)=>
             
-        // console.log("site values :" +values.site.id),
-        //     // console.log("site values :" +values.site),
-        //     // console.log("site values :" + values.Lateral)
+        console.log("site values :" +values.site.id),
+            // console.log("site values :" +values.site),
+            // console.log("site values :" + values.Lateral)
                 
                 
-        // )
+        )
          // Sending the modified patient with added cancer object to be saved to main page(cancerFamily)
          this.state.patientDataObject.cancerList = this.state.cancerInfo;
 
@@ -729,32 +734,28 @@ console.log("handleShow RECORD COUNT " + this.state.editedRecordCount)
    createNewCancerArray(){
     this.state.isCanecerAdded = true;
      
+    // var newCancerObject = new Object;
     this.state.newCancerObject.patientPersonID= this.state.patientDataObject.personID
-      // var newCancerArr = new Object;
       // this.state.newCancerArr[i] = cloneDeep(this.state.cancerInfo[i]);
       // this.state.newCancerObject.id=3334;
-      this.state.newCancerObject.tumorNo= 7;
+      this.state.newCancerObject.tumorNo= Math.floor(Math.random() * 10); 
       // this.state.newCancerObject.ageDiagnosis = 99;
       this.state.newCancerObject.site=this.state.newSite;
       
-      // newCancerObject.tumorNo =44;
+      // this.state.newCancerObject.tumorNo =44;
       this.state.newCancerObject.lateral = this.state.newLateral;
       // Remove comment
       // this.state.newCancerObject.histology = this.state.newHisto;
       this.state.newCancerObject.behaviour = this.state.newBehavior;
-      // console.log("newCancerObject.behaviour " + this.state.newCancerObject.behaviour.description)
-      // console.log("newCancerObject.behaviour " + this.state.newCancerObject.behaviour.code)
+      // console.log("this.state.newCancerObject.behaviour " + this.state.newCancerObject.behaviour.description)
+      // console.log("this.state.newCancerObject.behaviour " + this.state.newCancerObject.behaviour.code)
       this.state.newCancerObject.diagSource = this.state.newSource;
       this.state.newCancerObject.tissue = this.state.newTissue;
       this.state.newCancerObject.dateOfDiagnosis = "20180101";
       this.state.newCancerObject.ageDiagnosis =  "88";
       
-      // Get newly added tumorNo into array , this will be used in filter for Review screen
-      this.state.newTumerNoArr.push(this.state.newCancerObject.tumorNo)
-      this.setState({
-        newTumerNoArr :  this.state.newTumerNoArr,
-      });
       
+      // this.state.newCancerArr[this.state.newCancerObject.tumorNo] =this.state.newCancerObject ;
       this.state.newCancerArr.push(this.state.newCancerObject)
 
       this.state.cancerInfo.push(this.state.newCancerObject);

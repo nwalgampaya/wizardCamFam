@@ -271,7 +271,7 @@ export default class Wizard extends React.Component {
                     {  (page == 0 || page == 2) &&( <button className="invisible" type="button" ></button>)}
 
                     {/* { page == 3 && (<button className="btn btn-primary" type="button" onClick={this.previous}> Back</button>)} */}
-                    { page>0 && page!=2 && page!=3 &&(<button className="btn btn-primary" type="button" onClick={this.previous}> Previous</button>)}
+                    { page>0 && page!=2 && page!=1 && page!=3 &&(<button className="btn btn-primary" type="button" onClick={this.previous}> Previous</button>)}
 
                     { (page==3 || page==4 || page==5) && (<button className="invisible" type="button" >Invisible Invisible Invisible Invisible Invisible </button>)}
                     { (page==3 || page==4 || page==5) && (<button className="btn btn-primary" type="button" onClick={this.ExitRecord}> Exit Record</button>)}
@@ -280,10 +280,10 @@ export default class Wizard extends React.Component {
 
                     {/* { page>0 && (<button className="btn btn-primary" type="button" > Logout</button>)} */}
                     {/* page !=3 &&  */}
-                    {(!isLastPage ) && page >=0 && page !=2 && page !=5 &&(<button className="btn btn-primary pull-right" type="button" onClick={() =>this.next()} >Proceed</button>)} 
+                    {(!isLastPage ) && page >=0 && page !=2 && page!=1 && page !=5 &&(<button className="btn btn-primary pull-right" type="button" onClick={() =>this.next()} >Proceed</button>)} 
                     {/* Need to be type of submit in order to get the formik validation. */}
                     {/* {page ==3  &&(<button className="btn btn-primary pull-right" type="submit"  >Next</button>)}  */}
-                    {page ==2  &&(<button className="btn btn-primary" type="submit"  >Search</button>)} 
+                    {page ==2  &&(<button className="btn btn-primary" /*type="submit"*/  >Search</button>)} 
 
                     {page ==5  &&(<button  /*disabled ={false ? this.props.choosePathFamily: true} */ className="btn btn-primary pull-right" type="submit"  >Save to database</button>)} 
 

@@ -28,8 +28,8 @@ export default class Wizard extends React.Component {
     this.state = {
       page: 0,
       values: props.initialValues || {},
-      counter:0,
-      isModalOpen:true
+      counter: 0,
+      isModalOpen: true
     }
     // this.baseState = this.state
     // this.previous = this.previous.bind(this);
@@ -58,34 +58,34 @@ export default class Wizard extends React.Component {
     // else{
     console.log("********************(Next) in else" + this.page);
     // this.state.isModalOpen=true
-    if(this.props.choosePathFamily==true && this.state.page>1){
-      console.log("PAGE NO : "+ this.state.page)
-        if( this.state.page>6){
-              this.setState(state => ({
-                      page: Math.min(state.page + 1, this.props.children.length - 1),
-                      values
-                    }))     
-        }else{
-
-          this.setState(state => ({
-            page: Math.min(state.page + 5, this.props.children.length - 1),
-            values
-            }))      
-        }
-    }else{
-        if(this.state.page>5){
-           this.setState(state => ({
-            page: Math.min(state.page + 3, this.props.children.length - 1),
-            values
+    if (this.props.choosePathFamily == true && this.state.page > 1) {
+      console.log("PAGE NO : " + this.state.page)
+      if (this.state.page > 6) {
+        this.setState(state => ({
+          page: Math.min(state.page + 1, this.props.children.length - 1),
+          values
         }))
-        }else{
-                    
-            this.setState(state => ({
-            page: Math.min(state.page + 1, this.props.children.length - 1),
-            values
-          }))
-        }
-    } 
+      } else {
+
+        this.setState(state => ({
+          page: Math.min(state.page + 5, this.props.children.length - 1),
+          values
+        }))
+      }
+    } else {
+      if (this.state.page > 5) {
+        this.setState(state => ({
+          page: Math.min(state.page + 3, this.props.children.length - 1),
+          values
+        }))
+      } else {
+
+        this.setState(state => ({
+          page: Math.min(state.page + 1, this.props.children.length - 1),
+          values
+        }))
+      }
+    }
     // }
   }
   // this.setState(state => ({
@@ -94,14 +94,14 @@ export default class Wizard extends React.Component {
   // }))}
 
   ExitRecord = () =>
-  this.setState(state => ({
-    page: 2
-  }))
+    this.setState(state => ({
+      page: 2
+    }))
 
   logout = () =>
-  this.setState(state => ({
-    page: 0
-  }))
+    this.setState(state => ({
+      page: 0
+    }))
   previous = () => {
     if (this.props.choosePathFamily == true && this.state.page > 1) {
       if (this.state.page == 7) {
@@ -117,13 +117,13 @@ export default class Wizard extends React.Component {
       if (this.state.page > 6) {
         this.setState(state => ({
           page: 6
-          
+
         }))
       } else {
 
         this.setState(state => ({
-          page:Math.max(state.page - 1, 0)
-          
+          page: Math.max(state.page - 1, 0)
+
         }))
       }
     }
@@ -133,15 +133,15 @@ export default class Wizard extends React.Component {
   //     page: Math.max(state.page - 1, 0)
   //   }))
 
-  endSession= () =>{
+  endSession = () => {
     this.setState(state => ({
       // page: Math.max(state.page + 1, 0)
       page: 0
     }))
   }
-  selectCategory = () =>{
+  selectCategory = () => {
     // const {returnToFirst } = this.props
-    const {getCategoryFromServer} = this.props
+    const { getCategoryFromServer } = this.props
     // const {accessWizard} = this.props
     this.setState(state => ({
       page: Math.max(state.page + 1, 0)
@@ -149,9 +149,9 @@ export default class Wizard extends React.Component {
     }))
     //  this.setState(this.baseState)
     // const { page } = this.state
-      // return accessWizard();
-      return getCategoryFromServer();
-    }
+    // return accessWizard();
+    return getCategoryFromServer();
+  }
   /**
  * NOTE: Both validate and handleSubmit switching are implemented
  * here because 🏁 Redux Final Form does not accept changes to those
@@ -172,10 +172,10 @@ export default class Wizard extends React.Component {
     const isLastPage = page === React.Children.count(children) - 1
 
     // if(isLastPage){
-      if (this.state.page == 1) {
+    if (this.state.page == 1) {
       this.next(values)
       // return onSubmit(values)
-    } 
+    }
     // else if(this.state.isModalOpen){
     //   console.log("dialog Open")
     // }
@@ -187,13 +187,13 @@ export default class Wizard extends React.Component {
     }
   }
 
-  
+
   render() {
 
     // var sectionStyle = {
     //   width: "100%",
     //   height: "400px",
-      // backgroundImage: `url(${background})`
+    // backgroundImage: `url(${background})`
     // };
 
     const { children } = this.props
@@ -205,7 +205,7 @@ export default class Wizard extends React.Component {
         <div className="container">
 
           {/* <div className="header"> */}
-            {/* <div className="pull-left logo">
+          {/* <div className="pull-left logo">
               <a><img src={uniLogo} alt={"logo"} /> </a>
             </div>
             <div className="pull-right top_menu">
@@ -218,33 +218,33 @@ export default class Wizard extends React.Component {
         </div>
         <div className="container">
           <div className='content_body centered' >
-          <table>
-                    <tbody>
-                        <tr>
-                            <td>
-                            <div className="pull-right top_menu container">
-                                    <a ><img src={cFamImg}  /> </a>
-                                </div>
-                            </td>
-                            <td>
-                                <div className="pull-left logo">
-                                    {/* <a><img src={} alt={"logo"} /> </a> */}
-                                </div>
+            <table>
+              <tbody>
+                <tr>
+                  <td>
+                    <div className="pull-right top_menu container">
+                      <a ><img src={cFamImg} /> </a>
+                    </div>
+                  </td>
+                  <td>
+                    <div className="pull-left logo">
+                      {/* <a><img src={} alt={"logo"} /> </a> */}
+                    </div>
 
-                            </td>
-                        </tr>
-                    </tbody>
-           </table> 
-           <br/>
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+            <br />
             <Form
               initialValues={values}
               validate={this.validate}
               onSubmit={this.handleSubmit}>
               {({ handleSubmit, submitting, values }) => (
-                
+
                 <form onSubmit={handleSubmit}>
                   {activePage}
-                  <br/>
+                  <br />
                   <div className="buttons">
                     {/* {page > 0 && (
                       <button type="button" onClick={this.previous}>
@@ -252,7 +252,7 @@ export default class Wizard extends React.Component {
                 </button>
 
                     )} */}
-                    {(isLastPage ) &&  (
+                    {(isLastPage) && (
                       <button className="btn btn-primary pull-right" type="button" onClick={this.endSession}>
                         End session
                 </button>
@@ -268,24 +268,25 @@ export default class Wizard extends React.Component {
                     )} */}
 
                     {/* Invisible button to get the next button allignment correctly */}
-                    {  (page == 0 || page == 2) &&( <button className="invisible" type="button" ></button>)}
+                    {(page == 0 || page == 2) && (<button className="invisible" type="button" ></button>)}
 
                     {/* { page == 3 && (<button className="btn btn-primary" type="button" onClick={this.previous}> Back</button>)} */}
-                    { page>0 && page!=2 && page!=1 && page!=3 &&(<button className="btn btn-primary" type="button" onClick={this.previous}> Previous</button>)}
+                    {page > 0 && page != 2 && page != 1 && page != 3 && (<button className="btn btn-primary" type="button" onClick={this.previous}> Previous</button>)}
 
-                    { (page==3 || page==4 || page==5) && (<button className="invisible" type="button" >Invisible Invisible Invisible Invisible Invisible </button>)}
-                    { (page==3 || page==4 || page==5) && (<button className="btn btn-primary" type="button" onClick={this.ExitRecord}> Exit Record</button>)}
-                    { (page==3 || page==4 || page==5) && (<button className="invisible" type="button" >xx </button>)}
-                    { (page==3 || page==4 || page==5) && (<button className="btn btn-primary" type="button" onClick={this.logout}> Logout</button>)}
+                    {(page == 3 || page == 4 || page == 5) && (<button className="invisible" type="button" >Invisible Invisible Invisible Invisible Invisible </button>)}
+                    {(page == 3 || page == 4 || page == 5) && (<button className="btn btn-primary" type="button" onClick={this.ExitRecord}> Exit Record</button>)}
+                    {(page == 3 || page == 4 || page == 5) && (<button className="invisible" type="button" >xx </button>)}
+                    {(page == 3 || page == 4 || page == 5) && (<button className="btn btn-primary" type="button" onClick={this.logout}> Logout</button>)}
 
                     {/* { page>0 && (<button className="btn btn-primary" type="button" > Logout</button>)} */}
                     {/* page !=3 &&  */}
-                    {(!isLastPage ) && page >=0 && page !=2 && page!=1 && page !=5 &&(<button className="btn btn-primary pull-right" type="button" onClick={() =>this.next()} >Proceed</button>)} 
+                    {(!isLastPage) && page >= 0 && page != 3 && page != 2 && page != 1 && page != 5 && (<button className="btn btn-primary pull-right" type="button" onClick={() => this.next()} >Proceed</button>)}
+                    {page == 3 && (<button className="btn btn-primary pull-right" type="submit" >Proceed</button>)}
                     {/* Need to be type of submit in order to get the formik validation. */}
                     {/* {page ==3  &&(<button className="btn btn-primary pull-right" type="submit"  >Next</button>)}  */}
-                    {page ==2  &&(<button className="btn btn-primary" /*type="submit"*/  >Search</button>)} 
+                    {page == 2 && (<button className="btn btn-primary" onClick={() => this.next()}/*type="submit"*/  >Search</button>)}
 
-                    {page ==5  &&(<button  /*disabled ={false ? this.props.choosePathFamily: true} */ className="btn btn-primary pull-right" type="submit"  >Save to database</button>)} 
+                    {page == 5 && (<button  /*disabled ={false ? this.props.choosePathFamily: true} */ className="btn btn-primary pull-right" type="submit"  >Save to database</button>)}
 
                     {/* {!page == 0 && !page == 1 && !isLastPage && <button className="btn btn-primary pull-right " type="submit">  Next  </button>} */}
                     {/* {page == 1 && (<button className="btn btn-primary pull-right" type="submit" disabled={submitting}>

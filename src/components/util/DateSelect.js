@@ -9,9 +9,9 @@ export default class DateSelect extends React.Component {
             dateArray: [],
             monthArray: [],
             yearArray: [],
-            selectedDate:'',
-            selectedMonth:'',
-            selectedYear:'',
+            selectedDate: '',
+            selectedMonth: '',
+            selectedYear: '',
 
         }
 
@@ -19,28 +19,28 @@ export default class DateSelect extends React.Component {
     }
 
     setDate(event) {
-        console.log("date Value"+ event.target.value)
+        console.log("date Value" + event.target.value)
         this.setState({
             selectedDate: event.target.value,
-          });
+        });
 
-          this.props.onSelectDate(event.target.value)
+        this.props.onSelectDate(event.target.value)
     }
 
     setMonth(event) {
-        console.log("selectedMonth Value"+ event.target.value)
+        console.log("selectedMonth Value" + event.target.value)
         this.setState({
             selectedMonth: event.target.value,
-          });
-          this.props.onSelectMonth(event.target.value)
+        });
+        this.props.onSelectMonth(event.target.value)
 
     }
-    setYear(event){
-        console.log("selectedYear Value"+ event.target.value)
+    setYear(event) {
+        console.log("selectedYear Value" + event.target.value)
         this.setState({
             selectedYear: event.target.value,
-          });
-          this.props.onSelectYear(event.target.value)
+        });
+        this.props.onSelectYear(event.target.value)
 
     }
     componentWillMount() {
@@ -56,7 +56,7 @@ export default class DateSelect extends React.Component {
             this.state.dateArray[i] = i;
             // console.log(this.state.dateArray[i])
         }
-        this.state.dateArray[i+1] = 99
+        this.state.dateArray[i + 1] = 99
     }
 
     getMonths() {
@@ -65,18 +65,18 @@ export default class DateSelect extends React.Component {
             this.state.monthArray[i] = i;
             // console.log(this.state.monthArray[i])
         }
-        this.state.monthArray[i+1] = 99
+        this.state.monthArray[i + 1] = 99
     }
 
     getYears() {
         var i;
-        var j=0;
+        var j = 0;
         for (i = 2019; i > 1800; i--) {
             j = ++j;
             this.state.yearArray[j] = i;
             // console.log("j"+ j)
         }
-        this.state.yearArray[j+1] = 9999
+        this.state.yearArray[j + 1] = 9999
     }
     render() {
 
@@ -89,7 +89,7 @@ export default class DateSelect extends React.Component {
                         <tr>
                             <td>
                                 <div className="col-sm-4">
-                                    <select disabled= {this.props.isAlive} className="form-control " value={this.state.currentCourseOfLiveMonth} onChange={this.setMonth.bind(this)} name="monthColumn">
+                                    <select disabled={this.props.isAlive} className="form-control " value={this.state.currentCourseOfLiveMonth} onChange={this.setMonth.bind(this)} name="monthColumn">
                                         <option >{"Month"}</option>
                                         {
                                             this.state.monthArray.map((value, i) => {
@@ -106,7 +106,7 @@ export default class DateSelect extends React.Component {
                                 {/* </td> */}
                                 {/* <td> */}
                                 <div className="col-sm-4">
-                                    <select className="form-control " value={this.state.currentCourseOfLiveDate} onChange={this.setDate.bind(this)} name="dateColumn">
+                                    <select disabled={this.props.isAlive} className="form-control " value={this.state.currentCourseOfLiveDate} onChange={this.setDate.bind(this)} name="dateColumn">
                                         <option >{"Day"}</option>
 
                                         {
@@ -123,7 +123,7 @@ export default class DateSelect extends React.Component {
                                     </select>
                                 </div>
                                 <div className="col-sm-4">
-                                    <select className="form-control " value={this.state.currentCourseOfLiveDate} onChange={this.setYear.bind(this)} name="yearColumn">
+                                    <select disabled={this.props.isAlive} className="form-control " value={this.state.currentCourseOfLiveDate} onChange={this.setYear.bind(this)} name="yearColumn">
                                         <option >{"Year"}</option>
 
                                         {

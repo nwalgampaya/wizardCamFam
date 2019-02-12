@@ -113,7 +113,7 @@ class CancerFamilyReg extends React.Component {
 
 
             // Boolean Values
-            isAlive: true,
+            isAlive: false,
 
             // Values from Rest Service
             existingPersonData: [],
@@ -170,9 +170,9 @@ class CancerFamilyReg extends React.Component {
 
             isInPreviewScreen: false,
 
-            selectedYear:'',
-            selectedMonth:'',
-            selectedDate:'',
+            selectedYear: '',
+            selectedMonth: '',
+            selectedDate: '',
         };
         this.oncurrentDOBChange = this.oncurrentDOBChange.bind(this);
         this.setCurrentLKDA = this.setCurrentLKDA.bind(this);
@@ -323,7 +323,7 @@ class CancerFamilyReg extends React.Component {
     // }
     // onnewdobChange = newdob => this.setState({ newdob })
 
-    handleYearPickedDod = (selectedYear,e) => {
+    handleYearPickedDod = (selectedYear, e) => {
         console.log("handleYearPicked : " + selectedYear)
         // console.log("handleYearPicked : " + e.target.valu)
         this.setState({ selectedYear: selectedYear });
@@ -340,13 +340,13 @@ class CancerFamilyReg extends React.Component {
 
     }
 
-    createDate(e){
-        console.log("createDate"+e.target.value)
+    createDate(e) {
+        console.log("createDate" + e.target.value)
     }
-    
-//     handleYearPicked(selectedYear){
-// console.log("YEAR PICKED" + event.target.value)  
-//     }
+
+    //     handleYearPicked(selectedYear){
+    // console.log("YEAR PICKED" + event.target.value)  
+    //     }
     setCurrentStatus(event) {
         console.log("in SetCurrentStatus")
         if (event.target.value == 2) {
@@ -797,7 +797,7 @@ class CancerFamilyReg extends React.Component {
             // e.preventDefault();
             // this.postRequest()
         } else {
-            
+
             // const validation = this.validator.validate(this.state);
             // this.setState({ validation });
             // if (validation.isValid) {
@@ -880,7 +880,7 @@ class CancerFamilyReg extends React.Component {
                 <Wizard.Page validate={values => {
                     const errors = {}
                     // specificComplaintcolumn:[]
-                    console.log("in validation %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% 1111" )
+                    console.log("in validation %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% 1111")
 
 
                     // if (this.state.currentaodeath == '') {
@@ -889,17 +889,17 @@ class CancerFamilyReg extends React.Component {
                     // }
                     if (this.state.currentDeath == '') {
                         // alert("In error")
-                        if(this.state.selectedDate != '' && this.state.selectedMonth != '' && this.state.selectedYear != ''){
-                            this.state.currentDeath = this.state.selectedYear + this.state.selectedMonth +this.state.selectedDate ;
+                        if (this.state.selectedDate != '' && this.state.selectedMonth != '' && this.state.selectedYear != '') {
+                            this.state.currentDeath = this.state.selectedYear + this.state.selectedMonth + this.state.selectedDate;
                             console.log("dod : " + this.state.currentDeath)
-                        }else if(this.state.selectedDate == '' && this.state.selectedMonth == '' && this.state.selectedYear == ''){
-                            
-                        }else{
+                        } else if (this.state.selectedDate == '' && this.state.selectedMonth == '' && this.state.selectedYear == '') {
+
+                        } else {
                             errors.currentdodColumn = 'Please enter valid date of birth'
                         }
 
                     }
-                    
+
                     if (this.state.dateOfDeath == '') {
                         // alert("In error")
                         errors.ageColumn = 'Please enter an appropriate value'
@@ -925,7 +925,7 @@ class CancerFamilyReg extends React.Component {
 
                                             <div className="col-sm-12">
                                                 {/* <span>{this.state.gender}</span> */}
-                                                <input type="text" name="genderOldColumn" value={this.state.gender}  /><br />
+                                                <input type="text" name="genderOldColumn" value={this.state.gender} /><br />
                                                 {/* <input type="text" name="currentaodeathColumn" /> */}
                                                 <div className="validationMsg">
                                                     {/* <Error name="ageColumn" /> */}
@@ -1067,10 +1067,12 @@ class CancerFamilyReg extends React.Component {
                                                 Date of Birth:
                                         </div>
                                             <div className="col-sm-4">
-                                                <DatePicker
+                                                <DateSelect isAlive={false} value={this.state.currentDeath} name="currentdodColumn" onSelectYear={this.handleYearPickedDod} onSelectMonth={this.handleMonthPickedDod} onSelectDate={this.handleDatePickedDod} onChange={this.createDate.bind(this)} />
+
+                                                {/* <DatePicker
                                                     onChange={this.oncurrentDOBChange}
                                                     value={this.state.currentDOB}
-                                                />
+                                                /> */}
                                             </div><br />
                                             <div className="col-sm-12">
                                                 Vital Status:
@@ -1095,8 +1097,8 @@ class CancerFamilyReg extends React.Component {
                                                     onChange={this.setCurrentDateDeath}
                                                     value={this.state.currentDeath}
                                                 /> */}
-                                                <DateSelect isAlive={this.state.isAlive} value={this.state.currentDeath} name="currentdodColumn"onSelectYear={this.handleYearPickedDod} onSelectMonth={this.handleMonthPickedDod} onSelectDate= {this.handleDatePickedDod} onChange={this.createDate.bind(this)}/>
-                                             <div className="validationMsg">
+                                                <DateSelect isAlive={this.state.isAlive} value={this.state.currentDeath} name="currentdodColumn" onSelectYear={this.handleYearPickedDod} onSelectMonth={this.handleMonthPickedDod} onSelectDate={this.handleDatePickedDod} onChange={this.createDate.bind(this)} />
+                                                <div className="validationMsg">
                                                     <Error name="currentdodColumn" />
                                                 </div>
                                             </div><br />
@@ -1105,12 +1107,12 @@ class CancerFamilyReg extends React.Component {
                                         </div>
                                             <div className="col-sm-4">
                                                 {/* <span disabled={this.state.isAlive} name ="currentaodeathColumn" > </span> */}
-                                                <input type="text" value = {this.state.currentaodeath} name="currentaodeathColumn" disabled={this.state.isAlive} onChange={this.setAgeOfDeath.bind(this)} />
+                                                <input type="text" value={this.state.currentaodeath} name="currentaodeathColumn" disabled={this.state.isAlive} onChange={this.setAgeOfDeath.bind(this)} />
                                                 {/* // {this.state.currentaodeath}
                                                 value={"values.currentaodeathColumn"} */}
                                                 {/* <label type="label" name ="currentaodeathColumn" value={values.currentaodeathColumn}></input> */}
-                     
-                                               
+
+
                                             </div><br />
 
 
@@ -1177,10 +1179,12 @@ class CancerFamilyReg extends React.Component {
                                                 Last Known Date:
                                         </div>
                                             <div className="col-sm-4">
-                                                <DatePicker
+                                                <DateSelect isAlive={false} value={this.state.currentDeath} name="currentdodColumn" onSelectYear={this.handleYearPickedDod} onSelectMonth={this.handleMonthPickedDod} onSelectDate={this.handleDatePickedDod} onChange={this.createDate.bind(this)} />
+
+                                                {/* <DatePicker
                                                     onChange={this.setCurrentLKDA}
                                                     value={this.state.currentLKDA}
-                                                />
+                                                /> */}
                                             </div><br />
                                             <div className="col-sm-12">
                                                 Source of Last Known Date:

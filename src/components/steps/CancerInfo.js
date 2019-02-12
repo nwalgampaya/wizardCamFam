@@ -1073,7 +1073,7 @@ class CancerInfo extends React.Component {
                   />
                 </div><br /><br />
               </div>
-              <div className={validation.ageDiagnosisFromDb.isInvalid && 'has-error'} /*"row form-check form-check-inline"*/>
+              <div className="{validation.ageDiagnosisFromDb.isInvalid && 'has-error'}" /*"row form-check form-check-inline"*/>
                 <div className="col-sm-5">
                   Age Of Diagnosis:
                       </div>

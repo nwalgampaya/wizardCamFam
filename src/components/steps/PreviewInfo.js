@@ -13,6 +13,11 @@ export default class PreviewInfo extends React.Component {
         }
     }
 
+    componentDidMount(){
+        // This will make condition true for saving the record in onSubmit() function in CancerFamilyReg.js 
+        this.state.isInPreviewScreen = true;
+        this.props.onPreviewPage(this.state.isInPreviewScreen)
+    }
     createTablePersonDetails() {
         return (
 
@@ -242,7 +247,8 @@ export default class PreviewInfo extends React.Component {
     }
 
     createUI() {
-        this.state.isInPreviewScreen = true;
+        
+
         if (this.props.isCanecerAdded || this.props.isCancerEdited) {
 
             return (
@@ -259,8 +265,26 @@ export default class PreviewInfo extends React.Component {
                     <p> No data changes have been made. Please Exit Record or make changes to Save to Database.</p>
                 </div>)
         }
-        // this.props.onPreviewPage(this.state.isInPreviewScreen)
     }
+
+    // createUI() {
+    //     this.state.isInPreviewScreen = true;
+    //     if (this.props.isCanecerAdded || this.props.isCancerEdited) {
+
+           
+    //                 {this.createEditedCancerUI()}
+
+    //                 {this.createNewCancerUI()}
+           
+    //     } else {
+    //         return (
+    //             <div>
+    //                 <h3> Review Details </h3>
+    //                 <p> No data changes have been made. Please Exit Record or make changes to Save to Database.</p>
+    //             </div>)
+    //     }
+    //     // this.props.onPreviewPage(this.state.isInPreviewScreen)
+    // }
     render() {
 
         return (

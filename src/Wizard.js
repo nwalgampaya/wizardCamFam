@@ -281,11 +281,12 @@ export default class Wizard extends React.Component {
                     {/* { page>0 && (<button className="btn btn-primary" type="button" > Logout</button>)} */}
                     {/* page !=3 &&  */}
                     {(!isLastPage) && page >= 0 && page != 3 && page != 2 && page != 1 && page != 5 && (<button className="btn btn-primary pull-right" type="button" onClick={() => this.next()} >Proceed</button>)}
-                    {page == 3 && (<button className="btn btn-primary pull-right" type="submit" >Proceed</button>)}
+                    {page == 3 && <button className="btn btn-primary pull-right" >Proceed-s</button>}
                     {/* Need to be type of submit in order to get the formik validation. */}
                     {/* {page ==3  &&(<button className="btn btn-primary pull-right" type="submit"  >Next</button>)}  */}
                     {page == 2 && (<button className="btn btn-primary" onClick={() => this.next()}/*type="submit"*/  >Search</button>)}
-
+                    
+                    {/* TODo add condition to disable save button when nothing edited or new added */}
                     {page == 5 && (<button  /*disabled ={false ? this.props.choosePathFamily: true} */ className="btn btn-primary pull-right" type="submit"  >Save to database</button>)}
 
                     {/* {!page == 0 && !page == 1 && !isLastPage && <button className="btn btn-primary pull-right " type="submit">  Next  </button>} */}

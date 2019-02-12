@@ -219,3 +219,14 @@ text-align: left;
 vertical-align: middle;
 }
 
+.date-table{
+  /* border: 1px solid black; */
+  /* border-collapse: collapse; */
+  padding: 0px;
+  padding-left: 0px;
+  width:400px;
+  border-spacing: 1005px
+
+  /* style: width:50% */
+
+}

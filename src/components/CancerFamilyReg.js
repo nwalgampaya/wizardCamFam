@@ -1,8 +1,8 @@
 import React from "react";
 import ReactDOM from "react-dom";
-// import { Field } from 'react-final-form'
+import { Field } from 'react-final-form'
 import DatePicker from 'react-date-picker';
-import { withFormik, Form, Field } from 'formik'
+import { withFormik, Form } from 'formik'
 import * as Yup from 'yup'
 import '../App.css';
 import '../index.css';
@@ -18,7 +18,10 @@ import Family from "./steps/Family";
 import FamilySearch from "./steps/FamilySearch";
 import IndividualFinish from "./steps/IndividualFinish";
 import { properties } from '../properties.js';
-import FormValidator from './validator/FormValidator';
+import DateSelect from "./util/DateSelect";
+
+
+// import FormValidator from './validator/FormValidator';
 
 // import CancerInfo from './steps/CancerInfo'
 // import DropdownMenu, { DropdownItemGroup, DropdownItem } from '@atlaskit/dropdown-menu';
@@ -29,15 +32,15 @@ import FormValidator from './validator/FormValidator';
 class CancerFamilyReg extends React.Component {
     constructor(props) {
         super(props)
-        this.validator = new FormValidator([
-            {
-                field: 'currentDOB',
-                method: 'isEmpty',
-                validWhen: false,
-                message: 'Value is required.'
-            },
-        ]);
-        this.submitted = false;
+        // this.validator = new FormValidator([
+        //     {
+        //         field: 'currentDOB',
+        //         method: 'isEmpty',
+        //         validWhen: false,
+        //         message: 'Value is required.'
+        //     },
+        // ]);
+        // this.submitted = false;
 
         this.state = {
             // Values form Db
@@ -86,7 +89,7 @@ class CancerFamilyReg extends React.Component {
             },
 
             relationshipCode: '',
-
+            errors: {},
             // current values
             currentGender: '',
             currentDOB: '', // Date picker can display only this format.
@@ -166,6 +169,10 @@ class CancerFamilyReg extends React.Component {
 
 
             isInPreviewScreen: false,
+
+            selectedYear:'',
+            selectedMonth:'',
+            selectedDate:'',
         };
         this.oncurrentDOBChange = this.oncurrentDOBChange.bind(this);
         this.setCurrentLKDA = this.setCurrentLKDA.bind(this);
@@ -316,6 +323,30 @@ class CancerFamilyReg extends React.Component {
     // }
     // onnewdobChange = newdob => this.setState({ newdob })
 
+    handleYearPickedDod = (selectedYear,e) => {
+        console.log("handleYearPicked : " + selectedYear)
+        // console.log("handleYearPicked : " + e.target.valu)
+        this.setState({ selectedYear: selectedYear });
+
+    }
+    handleMonthPickedDod = (selectedMonth) => {
+        console.log("Month Picked : " + selectedMonth)
+        this.setState({ selectedMonth: selectedMonth });
+
+    }
+    handleDatePickedDod = (selectedDate) => {
+        console.log("Date    Picked : " + selectedDate)
+        this.setState({ selectedDate: selectedDate });
+
+    }
+
+    createDate(e){
+        console.log("createDate"+e.target.value)
+    }
+    
+//     handleYearPicked(selectedYear){
+// console.log("YEAR PICKED" + event.target.value)  
+//     }
     setCurrentStatus(event) {
         console.log("in SetCurrentStatus")
         if (event.target.value == 2) {
@@ -760,15 +791,27 @@ class CancerFamilyReg extends React.Component {
         console.log("in Submit 1234 : " + e)
 
         if (this.state.isInPreviewScreen == true) {
-            //ToDo Add condition to prevent access to the savePatient() from search function
             console.log("in Submit IF : ")
 
             this.savePatient(this.state.patientDataObjectChanged);
             // e.preventDefault();
             // this.postRequest()
         } else {
-            console.log("in Submit else : ")
+            
+            // const validation = this.validator.validate(this.state);
+            // this.setState({ validation });
+            // if (validation.isValid) {
+            //     // this.submitted = true;
+            //   // alert("All Valid ")
+            //     console.log("Form Valid ")
 
+            //     console.log("in Submit else : ")
+            // }else{
+            //     // this.submitted = false;
+
+            //     console.log("Form NOT Valid ")
+
+            // }
         }
 
 
@@ -776,9 +819,9 @@ class CancerFamilyReg extends React.Component {
         //  }
     }
     render() {
-        let validation = this.submitted ?                         // if the form has been submitted at least once
-            this.validator.validate(this.state) :   // then check validity every time we render
-            this.state.validation                   // otherwise just use what's in state
+        // let validation = this.submitted ?                         // if the form has been submitted at least once
+        //     this.validator.validate(this.state) :   // then check validity every time we render
+        //     this.state.validation                   // otherwise just use what's in state
 
         const Error = ({ name }) => (
             <Field
@@ -790,13 +833,13 @@ class CancerFamilyReg extends React.Component {
             />
         )
         // Formik : Passing the props
-        const {
-            values,
-            errors,
-            touched,
-            isSubmitting
+        // const {
+        //     values,
+        //     errors,
+        //     touched,
+        //     isSubmitting
 
-        } = this.props;
+        // } = this.props;
 
 
         return (
@@ -837,9 +880,26 @@ class CancerFamilyReg extends React.Component {
                 <Wizard.Page validate={values => {
                     const errors = {}
                     // specificComplaintcolumn:[]
-                    console.log("in validation %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% 1111" + this.state.complaints)
+                    console.log("in validation %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% 1111" )
 
 
+                    // if (this.state.currentaodeath == '') {
+                    //     // alert("In error")
+                    //     errors.currentaodeathColumn = 'Please enter an appropriate value'
+                    // }
+                    if (this.state.currentDeath == '') {
+                        // alert("In error")
+                        if(this.state.selectedDate != '' && this.state.selectedMonth != '' && this.state.selectedYear != ''){
+                            this.state.currentDeath = this.state.selectedYear + this.state.selectedMonth +this.state.selectedDate ;
+                            console.log("dod : " + this.state.currentDeath)
+                        }else if(this.state.selectedDate == '' && this.state.selectedMonth == '' && this.state.selectedYear == ''){
+                            
+                        }else{
+                            errors.currentdodColumn = 'Please enter valid date of birth'
+                        }
+
+                    }
+                    
                     if (this.state.dateOfDeath == '') {
                         // alert("In error")
                         errors.ageColumn = 'Please enter an appropriate value'
@@ -865,11 +925,11 @@ class CancerFamilyReg extends React.Component {
 
                                             <div className="col-sm-12">
                                                 {/* <span>{this.state.gender}</span> */}
-                                                <Field type="text" name="email" value={this.state.gender} placeholder="Email" /><br />
+                                                <input type="text" name="genderOldColumn" value={this.state.gender}  /><br />
                                                 {/* <input type="text" name="currentaodeathColumn" /> */}
                                                 <div className="validationMsg">
                                                     {/* <Error name="ageColumn" /> */}
-                                                    {touched.email && errors.email && <p>{errors.email}</p>}
+                                                    {/* {touched.email && errors.email && <p>{errors.email}</p>} */}
                                                 </div>
                                             </div><br />
                                             <div className="col-sm-12">
@@ -994,11 +1054,11 @@ class CancerFamilyReg extends React.Component {
                                             </div>
                                             <div className="col-sm-12">
                                                 <div className="form-check form-check-inline" onChange={this.setSex.bind(this)} >
-                                                    <Field className="form-check-input" type="radio" value="1" checked={this.state.currentGender == 1 ? true : false} name="genderColumn" />
+                                                    <input className="form-check-input" type="radio" value="1" checked={this.state.currentGender == 1 ? true : false} name="genderColumn" />
                                                     <label className="form-check-label" >Male</label>
-                                                    <Field className="form-check-input" type="radio" value="2" checked={this.state.currentGender == 2 ? true : false} name="genderColumn" />
+                                                    <input className="form-check-input" type="radio" value="2" checked={this.state.currentGender == 2 ? true : false} name="genderColumn" />
                                                     <label className="form-check-label" >Female</label>
-                                                    <Field className="form-check-input" type="radio" value="3" checked={this.state.currentGender == 3 ? true : false} name="genderColumn" />
+                                                    <input className="form-check-input" type="radio" value="3" checked={this.state.currentGender == 3 ? true : false} name="genderColumn" />
                                                     <label className="form-check-label" >Unknown</label>
 
                                                 </div><br />
@@ -1031,21 +1091,26 @@ class CancerFamilyReg extends React.Component {
                                         </div>
 
                                             <div className="col-sm-5">
-                                                <DatePicker disabled={this.state.isAlive}
+                                                {/* <DatePicker disabled={this.state.isAlive}
                                                     onChange={this.setCurrentDateDeath}
                                                     value={this.state.currentDeath}
-                                                />
+                                                /> */}
+                                                <DateSelect isAlive={this.state.isAlive} value={this.state.currentDeath} name="currentdodColumn"onSelectYear={this.handleYearPickedDod} onSelectMonth={this.handleMonthPickedDod} onSelectDate= {this.handleDatePickedDod} onChange={this.createDate.bind(this)}/>
+                                             <div className="validationMsg">
+                                                    <Error name="currentdodColumn" />
+                                                </div>
                                             </div><br />
                                             <div className="col-sm-12">
                                                 Age of Death:
                                         </div>
                                             <div className="col-sm-4">
                                                 {/* <span disabled={this.state.isAlive} name ="currentaodeathColumn" > </span> */}
-                                                <input type="text" name="currentaodeathColumn" disabled={this.state.isAlive} onChange={this.setAgeOfDeath.bind(this)} />
+                                                <input type="text" value = {this.state.currentaodeath} name="currentaodeathColumn" disabled={this.state.isAlive} onChange={this.setAgeOfDeath.bind(this)} />
                                                 {/* // {this.state.currentaodeath}
                                                 value={"values.currentaodeathColumn"} */}
                                                 {/* <label type="label" name ="currentaodeathColumn" value={values.currentaodeathColumn}></input> */}
-
+                     
+                                               
                                             </div><br />
 
 

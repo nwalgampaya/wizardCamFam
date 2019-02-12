@@ -9,12 +9,13 @@ import CancerInfo from "./components/steps/CancerInfo";
 import BootstrapDialogOld from "./components/dialog/BootstrapDialog-old";
 import StartPageRegistry from "./components/StartPageRegistry"
 import TestValidations from "./components/TestValidations";
+import DateSelect from "./components/util/DateSelect"
 
 const template = (
   // <MyDate/>
   // <BootstrapDialogOld/>
   <FormikApp />
-  // <TestValidations />
+  // <DateSelect />
   // <CancerInfo/>
   // <StartPageRegistry/>
 );

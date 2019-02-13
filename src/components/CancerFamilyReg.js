@@ -182,7 +182,7 @@ class CancerFamilyReg extends React.Component {
             selectedYearDOB: '',
             selectedMonthDOB: '',
             selectedDateDOB: '',
-            
+
         };
         this.oncurrentDOBChange = this.oncurrentDOBChange.bind(this);
         this.setCurrentLKDA = this.setCurrentLKDA.bind(this);
@@ -339,18 +339,18 @@ class CancerFamilyReg extends React.Component {
     handleYearPickedDod = (selectedYear, e) => {
         console.log("handleYearPicked : " + selectedYear)
         // console.log("handleYearPicked : " + e.target.valu)
-        this.setState({ selectedYear: selectedYear ? selectedYear!="Year" : ''  });
+        this.setState({ selectedYear: selectedYear != "Year" ? selectedYear : '' });
 
     }
     handleMonthPickedDod = (selectedMonth) => {
         console.log("Month Picked : " + selectedMonth)
-        this.setState({ selectedMonth: selectedMonth ? selectedMonth!="Month" : '' });
+        this.setState({ selectedMonth: selectedMonth != "Month" ? selectedMonth : '' });
 
     }
-    
+
     handleDatePickedDod = (selectedDate) => {
         console.log("Date    Picked : " + selectedDate)
-        this.setState({ selectedDate: selectedDate ? selectedDate!="Day" : '' });
+        this.setState({ selectedDate: selectedDate != "Day" ? selectedDate : '' });
 
     }
     /** End date pick for "Date of Death" */
@@ -359,17 +359,17 @@ class CancerFamilyReg extends React.Component {
 
     handleYearPickedLKD = (selectedYearLKD, e) => {
         console.log("handleYearPicked : " + selectedYearLKD)
-        this.setState({ selectedYearLKD: selectedYearLKD ? selectedYearLKD!="Year" : ''  });
+        this.setState({ selectedYearLKD: selectedYearLKD != "Year" ? selectedYearLKD : '' });
 
     }
     handleMonthPickedLKD = (selectedMonthLKD) => {
         console.log("Month Picked : " + selectedMonthLKD)
-        this.setState({ selectedMonthLKD: selectedMonthLKD ? selectedMonthLKD!="Month" : '' });
+        this.setState({ selectedMonthLKD: selectedMonthLKD != "Month" ? selectedMonthLKD : '' });
 
     }
     handleDatePickedLKD = (selectedDateLKD) => {
         console.log("Date    Picked : " + selectedDateLKD)
-        this.setState({ selectedDateLKD: selectedDateLKD ? selectedDateLKD!="Day" : '' });
+        this.setState({ selectedDateLKD: selectedDateLKD != "Day" ? selectedDateLKD : '' });
 
     }
     /** End date pick for "Last Known Date" */
@@ -378,18 +378,18 @@ class CancerFamilyReg extends React.Component {
 
     handleYearPickedDOB = (selectedYearDOB, e) => {
         console.log("handleYearPicked : " + selectedYearDOB)
-        this.setState({ selectedYearDOB: selectedYearDOB ? selectedYearDOB!="Year" : ''  });
+        this.setState({ selectedYearDOB: selectedYearDOB != "Year" ? selectedYearDOB : '' });
         console.log("handleYearPicked : " + this.state.selectedYearDOB)
 
     }
     handleMonthPickedDOB = (selectedMonthDOB) => {
         console.log("Month Picked : " + selectedMonthDOB)
-        this.setState({ selectedMonthDOB: selectedMonthDOB ? selectedMonthDOB!="Month" : '' });
+        this.setState({ selectedMonthDOB: selectedMonthDOB != "Month" ? selectedMonthDOB : '' });
 
     }
     handleDatePickedDOB = (selectedDateDOB) => {
         console.log("Date    Picked : " + selectedDateDOB)
-        this.setState({ selectedDateDOB: selectedDateDOB ? selectedDateDOB!="Day" : '' });
+        this.setState({ selectedDateDOB: selectedDateDOB != "Day" ? selectedDateDOB : '' });
 
     }
     /** End date pick for "Date of Birth:" */
@@ -415,7 +415,7 @@ class CancerFamilyReg extends React.Component {
             currentStatus: event.target.value,
         });
 
-        if(this.state.status !=event.target.value){
+        if (this.state.status != event.target.value) {
             this.setPreviewScreenData("Vital Status", this.state.status, event.target.value)
         }
 
@@ -447,10 +447,10 @@ class CancerFamilyReg extends React.Component {
             currentCourseOFDeath: event.target.value,
         });
     }
-    
+
     setUnknownCauseDeath(event) {
         console.log("setUnknownCauseDeath :" + event.target.checked);
-        
+
         // this.state.uknCourseOFDeath=false;
         this.setState({
             uknCourseOFDeath: event.target.checked,
@@ -631,9 +631,19 @@ class CancerFamilyReg extends React.Component {
                 id: patientData.sourceOfLiveDate.id,
                 code: patientData.sourceOfLiveDate.code,
                 description: patientData.sourceOfLiveDate.description,
+
+                //  patientData.sourceOfLiveDate != null ?                 : ''
+                //  patientData.sourceOfLiveDate != null ? : ''
+                //  patientData.sourceOfLiveDate != null ?             : ''
             }
 
+
+
+
+
         });
+
+
         this.setState({
             fPI1Status: {
 
@@ -974,33 +984,33 @@ class CancerFamilyReg extends React.Component {
                     if (this.state.currentDeath == '') {
                         // alert("In error")
 
-                            if (this.state.selectedDate != '' && this.state.selectedMonth != '' && this.state.selectedYear != '') {
-                                this.state.currentDeath = this.convertDateFormat(this.state.selectedYear + this.state.selectedMonth + this.state.selectedDate);
-                                console.log("dod : " + this.state.currentDeath)
-                            } else if (this.state.selectedDate == '' && this.state.selectedMonth == '' && this.state.selectedYear == '') {
-                            } else if (this.state.selectedDate != '' || this.state.selectedMonth != '' || this.state.selectedYear != '') {
-                                errors.currentdodColumn = 'Please enter valid date of death'
-                                
-                            } 
-                            // else {
-                                //     errors.currentdodColumn = 'In validate currentDeath unknown'
-                                // }
-                                if (new Date(this.state.dateOfLKDA) > new Date(this.state.currentDeath)) {
-                                    errors.currentdodColumn = 'LKD Date cannot be greater than the Death Date'
-                                }
-                         
-                            }
-                    
+                        if (this.state.selectedDate != '' && this.state.selectedMonth != '' && this.state.selectedYear != '') {
+                            this.state.currentDeath = this.convertDateFormat(this.state.selectedYear + this.state.selectedMonth + this.state.selectedDate);
+                            console.log("dod : " + this.state.currentDeath)
+                        } else if (this.state.selectedDate == '' && this.state.selectedMonth == '' && this.state.selectedYear == '') {
+                        } else if (this.state.selectedDate != '' || this.state.selectedMonth != '' || this.state.selectedYear != '') {
+                            errors.currentdodColumn = 'Please enter valid date of death'
+
+                        }
+                        // else {
+                        //     errors.currentdodColumn = 'In validate currentDeath unknown'
+                        // }
+                        if (new Date(this.state.dateOfLKDA) > new Date(this.state.currentDeath)) {
+                            errors.currentdodColumn = 'LKD Date cannot be greater than the Death Date'
+                        }
+
+                    }
+
                     if (this.state.currentLKDA == '') {
                         // alert("In error")
                         console.log("before dod : " + this.state.currentLKDA)
                         console.log("before LKD : " + this.state.selectedMonthLKD)
-                        console.log("before LKD : " + this.state.selectedDateLKD) 
+                        console.log("before LKD : " + this.state.selectedDateLKD)
                         if (this.state.selectedDateLKD != '' && this.state.selectedMonthLKD != '' && this.state.selectedYearLKD != '') {
                             this.state.currentLKDA = this.state.selectedYearLKD + this.state.selectedMonthLKD + this.state.selectedDateLKD;
                             console.log("dod : " + this.state.currentLKDA)
                             console.log("LKD : " + this.state.selectedMonthLKD)
-                            console.log("LKD : " + this.state.selectedDateLKD)                            
+                            console.log("LKD : " + this.state.selectedDateLKD)
                             console.log("LKD : " + this.state.selectedYearLKD)
                         } else if (this.state.selectedDateLKD == '' && this.state.selectedMonthLKD == '' && this.state.selectedYearLKD == '') {
 
@@ -1010,12 +1020,12 @@ class CancerFamilyReg extends React.Component {
                         } else {
                         }
 
-                        
+
                     }
-                    if(this.state.currentCourseOfLiveDate ==''){
-                        if(this.state.currentLKDA !='') {
+                    if (this.state.currentCourseOfLiveDate == '') {
+                        if (this.state.currentLKDA != '') {
                             errors.sourceLKDColumn = 'Please specify Source of Last Known Date.'
-                            
+
                         }
                     }
                     if (this.state.currentSourceOFDeath == '') {
@@ -1024,16 +1034,17 @@ class CancerFamilyReg extends React.Component {
 
                         }
                     }
-                    
+
                     if (this.state.currentDOB == '') {
                         // alert("In error")
                         if (this.state.selectedDateDOB != '' && this.state.selectedMonthDOB != '' && this.state.selectedYearDOB != '') {
-                            this.state.currentDOB = this.state.selectedYearDOB + this.state.selectedMonthDOB + this.state.selectedDateDOB;
+                            this.state.currentDOB = this.convertDateFormat(this.state.selectedYearDOB + this.state.selectedMonthDOB + this.state.selectedDateDOB);
                             console.log("dob : " + this.state.selectedMonthDOB)
-                            console.log("dob : " + this.state.selectedDateDOB)                            
+                            console.log("dob : " + this.state.selectedDateDOB)
                             console.log("dob : " + this.state.selectedYearDOB)
                             console.log("dob : " + this.state.currentDOB)
-                             
+                            this.setPreviewScreenData("DOB", this.state.dateOFDOB, this.state.currentDOB)
+
                         } else if (this.state.selectedDateDOB == '' && this.state.selectedMonthDOB == '' && this.state.selectedYearDOB == '') {
 
                         } else if (this.state.selectedDateDOB != '' || this.state.selectedMonthDOB != '' || this.state.selectedYearDOB != '') {
@@ -1041,10 +1052,9 @@ class CancerFamilyReg extends React.Component {
                             errors.currentdobColumn = 'Please enter valid DOB Date'
                         } else {
                         }
-                        this.setPreviewScreenData("DOB",this.state.dateOFDOB, this.state.currentDOB)
 
-                    }   
-                    if(this.state.isAlive){
+                    }
+                    if (this.state.isAlive) {
                         // this.state.uknCourseOFDeath =true;
                     }
                     if (this.state.dateOfDeath == '') {
@@ -1076,8 +1086,8 @@ class CancerFamilyReg extends React.Component {
                                                 <span>{this.state.gender}</span>
                                                 {/* <input type="text" name="currentaodeathColumn" /> */}
                                                 {/* <div className="validationMsg"> */}
-                                                    {/* <Error name="ageColumn" /> */}
-                                                    {/* {touched.email && errors.email && <p>{errors.email}</p>} */}
+                                                {/* <Error name="ageColumn" /> */}
+                                                {/* {touched.email && errors.email && <p>{errors.email}</p>} */}
                                                 {/* </div> */}
                                             </div><br />
                                             <div className="col-sm-12">
@@ -1286,7 +1296,7 @@ class CancerFamilyReg extends React.Component {
                                                     {/* <option >{"Hospital Rec"}</option> */}
                                                     }
                                             </select>
-                                            <div className="validationMsg">
+                                                <div className="validationMsg">
                                                     <Error name="currentDeathSourceColumn" />
                                                 </div>
                                             </div><br />
@@ -1324,7 +1334,7 @@ class CancerFamilyReg extends React.Component {
                                                 {/* <div className="col-sm-1"></div> */}
 
                                                 <div className="col-sm-1">
-                                                    <input className="form-check-input" type="checkbox" value={this.state.uknCourseOFDeath} name="unknownCourseOFDeathColumn"  disabled={this.state.isAlive} onChange={this.setUnknownCauseDeath.bind(this)}/>
+                                                    <input className="form-check-input" type="checkbox" value={this.state.uknCourseOFDeath} name="unknownCourseOFDeathColumn" disabled={this.state.isAlive} onChange={this.setUnknownCauseDeath.bind(this)} />
                                                 </div>
                                             </div>
                                             <br />
@@ -1340,7 +1350,7 @@ class CancerFamilyReg extends React.Component {
                                                     onChange={this.setCurrentLKDA}
                                                     value={this.state.currentLKDA}
                                                 /> */}
-                                                 <div className="validationMsg">
+                                                <div className="validationMsg">
                                                     <Error name="currentLkdColumn" />
                                                 </div>
                                             </div><br />

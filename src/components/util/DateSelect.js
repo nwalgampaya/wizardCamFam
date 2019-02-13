@@ -53,7 +53,13 @@ export default class DateSelect extends React.Component {
     getDateArray() {
         var i;
         for (i = 1; i < 32; i++) {
-            this.state.dateArray[i] = i;
+            if(i<10){
+                this.state.dateArray[i] = "0"+i;
+            }else{
+                this.state.dateArray[i] = i;
+
+            }
+
             // console.log(this.state.dateArray[i])
         }
         this.state.dateArray[i + 1] = 99
@@ -62,9 +68,15 @@ export default class DateSelect extends React.Component {
     getMonths() {
         var i;
         for (i = 1; i < 13; i++) {
-            this.state.monthArray[i] = i;
+            if(i<10){
+                this.state.monthArray[i] = "0"+i;
+            }else{
+                this.state.monthArray[i] = i;
+            }
             // console.log(this.state.monthArray[i])
         }
+
+
         this.state.monthArray[i + 1] = 99
     }
 

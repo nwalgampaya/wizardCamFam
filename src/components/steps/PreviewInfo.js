@@ -253,6 +253,8 @@ export default class PreviewInfo extends React.Component {
 
             return (
                 <div>
+                    {/* {this.createTablePersonDetails()}  */}
+
                     {this.createEditedCancerUI()}
 
                     {this.createNewCancerUI()}

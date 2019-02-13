@@ -10,11 +10,13 @@ import BootstrapDialogOld from "./components/dialog/BootstrapDialog-old";
 import StartPageRegistry from "./components/StartPageRegistry"
 import TestValidations from "./components/TestValidations";
 import DateSelect from "./components/util/DateSelect"
+import AddCancerModal from "./components/steps/AddCancerModal";
 
 const template = (
   // <MyDate/>
   // <BootstrapDialogOld/>
   <FormikApp />
+  // <AddCancerModal/>
   // <DateSelect />
   // <CancerInfo/>
   // <StartPageRegistry/>

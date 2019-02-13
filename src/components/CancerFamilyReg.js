@@ -300,6 +300,7 @@ class CancerFamilyReg extends React.Component {
         });
 
         this.state.sendCurrentDOB = this.convert(currentDOB)
+
         console.log("currentDOB : ddddddddddddddddddddddd : " + this.state.sendCurrentDOB);
 
     }
@@ -378,6 +379,7 @@ class CancerFamilyReg extends React.Component {
     handleYearPickedDOB = (selectedYearDOB, e) => {
         console.log("handleYearPicked : " + selectedYearDOB)
         this.setState({ selectedYearDOB: selectedYearDOB ? selectedYearDOB!="Year" : ''  });
+        console.log("handleYearPicked : " + this.state.selectedYearDOB)
 
     }
     handleMonthPickedDOB = (selectedMonthDOB) => {
@@ -991,10 +993,15 @@ class CancerFamilyReg extends React.Component {
                     
                     if (this.state.currentLKDA == '') {
                         // alert("In error")
-
+                        console.log("before dod : " + this.state.currentLKDA)
+                        console.log("before LKD : " + this.state.selectedMonthLKD)
+                        console.log("before LKD : " + this.state.selectedDateLKD) 
                         if (this.state.selectedDateLKD != '' && this.state.selectedMonthLKD != '' && this.state.selectedYearLKD != '') {
                             this.state.currentLKDA = this.state.selectedYearLKD + this.state.selectedMonthLKD + this.state.selectedDateLKD;
                             console.log("dod : " + this.state.currentLKDA)
+                            console.log("LKD : " + this.state.selectedMonthLKD)
+                            console.log("LKD : " + this.state.selectedDateLKD)                            
+                            console.log("LKD : " + this.state.selectedYearLKD)
                         } else if (this.state.selectedDateLKD == '' && this.state.selectedMonthLKD == '' && this.state.selectedYearLKD == '') {
 
                         } else if (this.state.selectedDateLKD != '' || this.state.selectedMonthLKD != '' || this.state.selectedYearLKD != '') {
@@ -1021,8 +1028,12 @@ class CancerFamilyReg extends React.Component {
                     if (this.state.currentDOB == '') {
                         // alert("In error")
                         if (this.state.selectedDateDOB != '' && this.state.selectedMonthDOB != '' && this.state.selectedYearDOB != '') {
-                            this.state.currentDOBA = this.state.selectedYearDOB + this.state.selectedMonthDOB + this.state.selectedDateDOB;
-                            console.log("dod : " + this.state.currentDOBA)
+                            this.state.currentDOB = this.state.selectedYearDOB + this.state.selectedMonthDOB + this.state.selectedDateDOB;
+                            console.log("dob : " + this.state.selectedMonthDOB)
+                            console.log("dob : " + this.state.selectedDateDOB)                            
+                            console.log("dob : " + this.state.selectedYearDOB)
+                            console.log("dob : " + this.state.currentDOB)
+                             
                         } else if (this.state.selectedDateDOB == '' && this.state.selectedMonthDOB == '' && this.state.selectedYearDOB == '') {
 
                         } else if (this.state.selectedDateDOB != '' || this.state.selectedMonthDOB != '' || this.state.selectedYearDOB != '') {
@@ -1030,6 +1041,7 @@ class CancerFamilyReg extends React.Component {
                             errors.currentdobColumn = 'Please enter valid DOB Date'
                         } else {
                         }
+                        this.setPreviewScreenData("DOB",this.state.dateOFDOB, this.state.currentDOB)
 
                     }   
                     if(this.state.isAlive){

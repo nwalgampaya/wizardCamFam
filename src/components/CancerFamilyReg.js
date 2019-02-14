@@ -115,6 +115,7 @@ class CancerFamilyReg extends React.Component {
 
             // Boolean Values
             isAlive: false,
+            isDODNotNull: false,
 
             // Values from Rest Service
             existingPersonData: [],
@@ -289,7 +290,10 @@ class CancerFamilyReg extends React.Component {
             currentGender: event.target.value,
         });
 
-        this.setPreviewScreenData("Gender", this.state.gender, event.target.value)
+        if(this.state.gender!= event.target.value){
+            this.setPreviewScreenData("Gender", this.state.gender, event.target.value)
+        }
+
 
     }
     oncurrentDOBChange(currentDOB) {
@@ -434,11 +438,20 @@ class CancerFamilyReg extends React.Component {
         this.setState({
             currentaodeath: event.target.value,
         });
+
+        if (this.state.currentaodeath != event.target.value) {
+            this.setPreviewScreenData("Death Age ", this.state.aodeath, this.state.currentaodeath)
+        }    
     }
     setCurrentSource(event) {
         this.setState({
             currentSourceOFDeath: event.target.value,
         });
+
+        if (this.state.currentSourceOFDeath != event.target.value) {
+            this.setPreviewScreenData("Source Of Death", this.state.sourceOFDeath, event.target.value)
+        }
+        
     }
 
     setCurrentCauseDeath(event) {
@@ -446,6 +459,10 @@ class CancerFamilyReg extends React.Component {
         this.setState({
             currentCourseOFDeath: event.target.value,
         });
+
+        if (this.state.currentCourseOFDeath != event.target.value) {
+            this.setPreviewScreenData("Cause Of Death", this.state.courseOFDeath, event.target.value)
+        }
     }
 
     setUnknownCauseDeath(event) {
@@ -470,6 +487,9 @@ class CancerFamilyReg extends React.Component {
         this.setState({
             currentCourseOfLiveDate: event.target.value,
         });
+        if (this.state.currentCourseOfLiveDate != event.target.value) {
+            this.setPreviewScreenData("Source Of LiveDate ", this.state.sourceOfLiveDate.description, event.target.value)
+        }
     }
 
     setcurrentfPI1Status(event) {
@@ -477,24 +497,36 @@ class CancerFamilyReg extends React.Component {
         this.setState({
             currentfPI1Status: event.target.value,
         });
+        if (this.state.fPI1Status.description != event.target.value  && event.target.value  != 'Choose One') {
+            this.setPreviewScreenData("FUP1 Status ", this.state.fPI1Status.description, event.target.value)
+        }
     }
     setcurrentfPI2Status(event) {
         console.log("setcurrentfPI2Status :" + event.target.value);
         this.setState({
             currentfPI2Status: event.target.value,
         });
+        if (this.state.fPI2Status.description != event.target.value && event.target.value != 'Choose One') {
+            this.setPreviewScreenData("FUP2 Status ", this.state.fPI2Status.description, event.target.value)
+        }
     }
     setcurrentfPI3Status(event) {
         console.log("setcurrentfPI3Status :" + event.target.value);
         this.setState({
             currentfPI3Status: event.target.value,
         });
+        if (this.state.fPI3Status.description != event.target.value && event.target.value != 'Choose One') {
+            this.setPreviewScreenData("FUP3 Status ", this.state.fPI3Status.description, event.target.value)
+        }
     }
     setcurrentfPI4Status(event) {
         console.log("setcurrentfPI4Status :" + event.target.value);
         this.setState({
             currentfPI4Status: event.target.value,
         });
+        if (this.state.fPI4Status.description != event.target.value && event.target.value != 'Choose One') {
+            this.setPreviewScreenData("FUP4 Status ", this.state.fPI4Status.description, event.target.value)
+        }
     }
 
     setcurrentRelationshipCode(event) {
@@ -893,6 +925,11 @@ class CancerFamilyReg extends React.Component {
 
         //  }
     }
+
+
+    getYearsFromDate(d1,d2){
+        return Math.floor((d2-d1)/31536000000);
+    }
     render() {
         // let validation = this.submitted ?                         // if the form has been submitted at least once
         //     this.validator.validate(this.state) :   // then check validity every time we render
@@ -987,14 +1024,34 @@ class CancerFamilyReg extends React.Component {
                         if (this.state.selectedDate != '' && this.state.selectedMonth != '' && this.state.selectedYear != '') {
                             this.state.currentDeath = this.convertDateFormat(this.state.selectedYear + this.state.selectedMonth + this.state.selectedDate);
                             console.log("dod : " + this.state.currentDeath)
+                            console.log("dateOFDOB : " + this.state.dateOFDOB)
+                            
+                            this.state.currentaodeath = this.getYearsFromDate(new Date(this.state.currentDeath),new Date(this.state.dateOFDOB))
+                            console.log("currentaodeath : " + this.state.currentaodeath)
+
+                            
                         } else if (this.state.selectedDate == '' && this.state.selectedMonth == '' && this.state.selectedYear == '') {
                         } else if (this.state.selectedDate != '' || this.state.selectedMonth != '' || this.state.selectedYear != '') {
                             errors.currentdodColumn = 'Please enter valid date of death'
-
+                            
                         }
                         // else {
-                        //     errors.currentdodColumn = 'In validate currentDeath unknown'
-                        // }
+                            //     errors.currentdodColumn = 'In validate currentDeath unknown'
+                            // }
+                            
+                        // if(this.state.currentaodeath!=''){
+                        if(this.state.currentaodeath=='NaN'){
+                            this.state.currentaodeath = 10000,
+                            this.setPreviewScreenData("Death Date", this.state.dateOfDeath, this.state.currentDeath)
+                            this.setPreviewScreenData("Death Age", this.state.aodeath, this.state.currentaodeath)
+                            
+                        }else if(this.state.currentaodeath!=''){
+                            this.state.isDODNotNull=true
+                            this.state.currentaodeath = 1111,
+                            this.setPreviewScreenData("Death Date", this.state.dateOfDeath, this.state.currentDeath)
+                            this.setPreviewScreenData("Death Age", this.state.aodeath, this.state.currentaodeath)
+
+                        }
                         if (new Date(this.state.dateOfLKDA) > new Date(this.state.currentDeath)) {
                             errors.currentdodColumn = 'LKD Date cannot be greater than the Death Date'
                         }
@@ -1007,11 +1064,13 @@ class CancerFamilyReg extends React.Component {
                         console.log("before LKD : " + this.state.selectedMonthLKD)
                         console.log("before LKD : " + this.state.selectedDateLKD)
                         if (this.state.selectedDateLKD != '' && this.state.selectedMonthLKD != '' && this.state.selectedYearLKD != '') {
-                            this.state.currentLKDA = this.state.selectedYearLKD + this.state.selectedMonthLKD + this.state.selectedDateLKD;
+                            this.state.currentLKDA = this.convertDateFormat(this.state.selectedYearLKD + this.state.selectedMonthLKD + this.state.selectedDateLKD);
                             console.log("dod : " + this.state.currentLKDA)
                             console.log("LKD : " + this.state.selectedMonthLKD)
                             console.log("LKD : " + this.state.selectedDateLKD)
                             console.log("LKD : " + this.state.selectedYearLKD)
+                            this.setPreviewScreenData("Live Date", this.state.dateOfLKDA, this.state.currentLKDA)
+
                         } else if (this.state.selectedDateLKD == '' && this.state.selectedMonthLKD == '' && this.state.selectedYearLKD == '') {
 
                         } else if (this.state.selectedDateLKD != '' || this.state.selectedMonthLKD != '' || this.state.selectedYearLKD != '') {
@@ -1043,7 +1102,12 @@ class CancerFamilyReg extends React.Component {
                             console.log("dob : " + this.state.selectedDateDOB)
                             console.log("dob : " + this.state.selectedYearDOB)
                             console.log("dob : " + this.state.currentDOB)
-                            this.setPreviewScreenData("DOB", this.state.dateOFDOB, this.state.currentDOB)
+
+                            // Send to the preview screen only  if the value has changed from the old dob
+                            // if(this.state.dateOFDOB!=this.state.currentDOB){
+                                this.setPreviewScreenData("DOB", this.state.dateOFDOB, this.state.currentDOB)
+                            // }
+
 
                         } else if (this.state.selectedDateDOB == '' && this.state.selectedMonthDOB == '' && this.state.selectedYearDOB == '') {
 
@@ -1266,9 +1330,9 @@ class CancerFamilyReg extends React.Component {
                                             <div className="col-sm-12">
                                                 Age of Death:
                                         </div>
-                                            <div className="col-sm-7">
+                                            <div className="col-sm-7"  >
                                                 {/* <span disabled={this.state.isAlive} name ="currentaodeathColumn" > </span> */}
-                                                <input type="text" value={this.state.currentaodeath} name="currentaodeathColumn" disabled={this.state.isAlive} onChange={this.setAgeOfDeath.bind(this)} />
+                                                <input  type="text" value={this.state.currentaodeath} name="currentaodeathColumn" disabled={this.state.isAlive || this.state.isDODNotNull} onChange={this.setAgeOfDeath.bind(this)} />
                                                 {/* // {this.state.currentaodeath}
                                                 value={"values.currentaodeathColumn"} */}
                                                 {/* <label type="label" name ="currentaodeathColumn" value={values.currentaodeathColumn}></input> */}
@@ -1283,13 +1347,14 @@ class CancerFamilyReg extends React.Component {
                                                 Source of Death Information:
                                         </div>
                                             <div className="col-sm-5">
-                                                <select disabled={this.state.isAlive} className="form-control dorp-box" value={this.state.currentSourceOFDeath} onChange={this.setCurrentSource.bind(this)} name="currentDeathSourceColumn">
+                                                <select disabled={this.state.isAlive } className="form-control dorp-box" value={this.state.currentSourceOFDeath} onChange={this.setCurrentSource.bind(this)} name="currentDeathSourceColumn">
+                                                    <option >{"Choose One"}</option>
                                                     {
 
                                                         this.state.srcOfDeathRest.map((read, i) => {
                                                             this.state.read = read.description;
                                                             // console.log("profession ID :  " + read.id);
-                                                            return <option key={read.value} value={read.id}>{read.description}</option>
+                                                            return <option key={read.value} value={read.description}>{read.description}</option>
                                                         })
                                                     }
 
@@ -1359,12 +1424,13 @@ class CancerFamilyReg extends React.Component {
                                         </div>
                                             <div className="col-sm-7">
                                                 <select className="form-control dorp-box" value={this.state.currentCourseOfLiveDate} onChange={this.setSourceLKD.bind(this)} name="sourceLKDColumn">
+                                                    <option >{"Choose One"}</option>
                                                     {
                                                         this.state.lastKnownDatesRest.map((ageGroup, i) => {
 
                                                             this.state.ageGroup = ageGroup.description;
                                                             // console.log("location ID :  " + ageGroup.id);
-                                                            return <option key={ageGroup.value} value={ageGroup.id}>{ageGroup.description}</option>
+                                                            return <option key={ageGroup.value} value={ageGroup.description}>{ageGroup.description}</option>
 
                                                         })
 
@@ -1380,11 +1446,12 @@ class CancerFamilyReg extends React.Component {
                                         </div>
                                             <div className="col-sm-5">
                                                 <select className="form-control dorp-box" value={this.state.currentfPI1Status} onChange={this.setcurrentfPI1Status.bind(this)} name="fPI1StatusColumn">
+                                                    <option >{"Choose One"}</option>
                                                     {
                                                         this.state.fupcodesRest.map((read, i) => {
                                                             this.state.read = read.description;
                                                             // console.log("profession ID :  " + read.id);
-                                                            return <option key={read.value} value={read.id}>{read.description}</option>
+                                                            return <option key={read.value} value={read.description}>{read.description}</option>
                                                         })
                                                     }
 
@@ -1398,11 +1465,12 @@ class CancerFamilyReg extends React.Component {
                                         </div>
                                             <div className="col-sm-5">
                                                 <select className="form-control dorp-box" value={this.state.currentfPI2Status} onChange={this.setcurrentfPI2Status.bind(this)} name="fPI2StatusColumn">
+                                                    <option >{"Choose One"}</option>
                                                     {
                                                         this.state.fupcodesRest.map((read, i) => {
                                                             this.state.read = read.description;
                                                             // console.log("profession ID :  " + read.id);
-                                                            return <option key={read.value} value={read.id}>{read.description}</option>
+                                                            return <option key={read.value} value={read.description}>{read.description}</option>
                                                         })
                                                     }
 
@@ -1415,11 +1483,12 @@ class CancerFamilyReg extends React.Component {
                                         </div>
                                             <div className="col-sm-5">
                                                 <select className="form-control dorp-box" value={this.state.currentfPI3Status} onChange={this.setcurrentfPI3Status.bind(this)} name="fPI3StatusColumn">
+                                                    <option >{"Choose One"}</option>
                                                     {
                                                         this.state.fupcodesRest.map((read, i) => {
                                                             this.state.read = read.description;
                                                             // console.log("profession ID :  " + read.id);
-                                                            return <option key={read.value} value={read.id}>{read.description}</option>
+                                                            return <option key={read.value} value={read.description}>{read.description}</option>
                                                         })
                                                     }
 
@@ -1432,11 +1501,12 @@ class CancerFamilyReg extends React.Component {
                                         </div>
                                             <div className="col-sm-5">
                                                 <select className="form-control dorp-box" value={this.state.currentfPI4Status} onChange={this.setcurrentfPI4Status.bind(this)} name="fPI4StatusColumn">
+                                                    <option >{"Choose One"}</option>
                                                     {
                                                         this.state.fupcodesRest.map((read, i) => {
                                                             this.state.read = read.description;
                                                             // console.log("profession ID 4:  " + read.id);
-                                                            return <option key={read.value} value={read.id}>{read.description}</option>
+                                                            return <option key={read.value} value={read.description}>{read.description}</option>
                                                         })
                                                     }
 
@@ -1449,6 +1519,7 @@ class CancerFamilyReg extends React.Component {
                                         </div>
                                             <div className="col-sm-5">
                                                 <select className="form-control dorp-box" value={this.state.currentRelationshipCode} onChange={this.setcurrentRelationshipCode.bind(this)} name="currentRelCodeColumn">
+                                                    <option >{"Choose One"}</option>
                                                     {
                                                         // this.state.ageData.map((ageGroup, i) => {
 

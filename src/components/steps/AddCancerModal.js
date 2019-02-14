@@ -21,11 +21,16 @@ export default class AddCancerModal extends React.Component {
         };
       }
 
+      date_diff_indays = function(date1, date2) {
+        var dt1 = new Date(date1);
+        var dt2 = new Date(date2);
+        return Math.floor((Date.UTC(dt2.getFullYear(), dt2.getMonth(), dt2.getDate()) - Date.UTC(dt1.getFullYear(), dt1.getMonth(), dt1.getDate()) ) /(1000 * 60 * 60 * 24));
+        }
       componentDidMount(){
-        var d1 = new Date("03/17/2014")
-        var d2 = new Date("04/17/2013")
-        console.log((new Date()));
-        console.log(d1);
+        var d1 = new Date("12/31/1885")
+        var d2 = new Date("02/02/2005")
+        console.log(Math.floor((d2-d1)/31536000000));
+        // console.log("Minus : "+ this.date_diff_indays('12/02/2012', '11/04/2014').toUTCString());
 
         if(d1<new Date()){
           console.log("In If" );

@@ -228,7 +228,7 @@ class CancerFamilyReg extends React.Component {
     // }
     //Transfered from StartPageRegistry
 
-    // This function is used to fill an array to carry the data to the preview screen
+    // This function is used to fill an array to carry the -New Details- data to the preview screen
     setPreviewScreenData(columnName, previousValue, nextValue) {
 
         // var columnExist = false;
@@ -609,16 +609,21 @@ class CancerFamilyReg extends React.Component {
         this.state.gender = patientData.intGender, //read.gender,
             // this.state.dateOFDOB= patientData.dateOfBirth,
             this.setState({
-                gender: patientData.intGender,
+                gender: patientData.intGender== 1 ? "Male"  : patientData.intGender== 2 ? "Female" : "Unknown",
 
             });
+        console.log("EEEEEEEEEEEEEEEEEEEEEEEEEEEEEE intGender" + patientData.intGender)
+
         this.setState({
             dateOFDOB: this.convertDateFormat(patientData.dateOfBirth),
 
         });
         console.log("dft: " + this.convertDateFormat(patientData.dateOfBirth))
-        this.state.status = patientData.vitalStatus
+        // this.state.status = patientData.vitalStatus
+        this.setState({
+            status: patientData.vitalStatus== 1 ? "Alive" : patientData.vitalStatus==2 ? "Dead" : "Unknown",
 
+                });
         console.log("EEEEEEEEEEEEEEEEEEEEEEEEEEEEEE" + this.state.dateOFDOB)
         this.setState({
             dateOfDeath: this.convertDateFormat(patientData.dateOfDeath),
@@ -743,26 +748,41 @@ class CancerFamilyReg extends React.Component {
 
     // Used for saving 'New Details' to the db
     postRequest() {
+
+        this.state.patientDataValue.intGender =this.state.currentGender;
+        this.state.patientDataValue.dateOfBirth =this.state.sendCurrentDOB;
+        this.state.patientDataValue.status =this.state.currentStatus;
+        this.state.patientDataValue.dateOfDeath =this.state.sendCurrentDateDeath;
+        this.state.patientDataValue.ageOfDeath =this.state.currentaodeath;
+        this.state.patientDataValue.sourceOfDeath =this.state.currentSourceOFDeath;
+        this.state.patientDataValue.CourseOfDeath =this.state.currentCourseOFDeath;
+        this.state.patientDataValue.liveDate =this.state.currentLKDA;
+        this.state.patientDataValue.sourceOfLiveDate =this.state.currentCourseOfLiveDate;
+        this.state.patientDataValue.fPI1Status.description = this.state.currentfPI1Status;
+        this.state.patientDataValue.fPI2Status.description =this.state.currentfPI2Status;
+        this.state.patientDataValue.fPI3Status.description =this.state.currentfPI3Status;
+        this.state.patientDataValue.fPI4Status.description =this.state.currentfPI4Status;
+        // this.state.currentRelationshipCode,
         let postData = {
             currentGender: this.state.currentGender,
-            // currentDOB:this.state.currentDOB, 
             currentDOB: this.state.sendCurrentDOB,
             currentStatus: this.state.currentStatus,
-            // currentDeath:this.state.currentDeath,
             currentDeath: this.state.sendCurrentDateDeath,
-            // todu
             currentaodeath: this.state.currentaodeath,
             currentSourceOFDeath: this.state.currentSourceOFDeath,
             currentCourseOFDeath: this.state.currentCourseOFDeath,
-            // currentLKDA:this.state.currentLKDA,
             currentLKDA: this.state.sendCurrentLKDA,
-            // this.state.urrentsourceOfLiveDate,
             currentCourseOfLiveDate: this.state.currentCourseOfLiveDate,
             currentfPI1Status: this.state.currentfPI1Status,
             currentfPI2Status: this.state.currentfPI2Status,
             currentfPI3Status: this.state.currentfPI3Status,
             currentfPI4Status: this.state.currentfPI4Status,
             currentRelationshipCode: this.state.currentRelationshipCode,
+            // todu
+            // currentDeath:this.state.currentDeath,
+            // currentDOB:this.state.currentDOB, 
+            // currentLKDA:this.state.currentLKDA,
+            // this.state.urrentsourceOfLiveDate,
         }
         console.log("postData <><><><><><><><><><><><>" + postData.currentfPI1Status)
 
@@ -1124,6 +1144,13 @@ class CancerFamilyReg extends React.Component {
                     if (this.state.dateOfDeath == '') {
                         // alert("In error")
                         errors.ageColumn = 'Please enter an appropriate value'
+                    }
+                    console.log(" ERRORS " + errors.id)
+
+                    if(errors.length==0){
+                        console.log("NO ERRORS " + this.state.currentDOB)
+
+                        this.postRequest();
                     }
                     return errors
                 }}>

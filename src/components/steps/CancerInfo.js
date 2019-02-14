@@ -156,6 +156,8 @@ class CancerInfo extends React.Component {
     this.state.newCancerArr = this.props.newCancerArr;
 
     this.state.newCancerModalId = Math.floor(Math.random() * 10);
+    console.log("site &&&&&&&&&&&&&&&&&&&&&77 sendCurrentDOB : " + this.props.patientDataValue.sendCurrentDOB);
+
     console.log("site &&&&&&&&&&&&&&&&&&&&&77" + this.props.patientDataValue.cancerList[0].id);
     // this.state.profession.push(data);
 

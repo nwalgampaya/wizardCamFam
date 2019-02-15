@@ -88,7 +88,11 @@ class CancerFamilyReg extends React.Component {
                 description: ''
             },
 
-            relationshipCode: '',
+            relationshipCode:
+            {
+                code: '',
+                description: ''
+            },
             errors: {},
             // current values
             currentGender: '',
@@ -290,7 +294,7 @@ class CancerFamilyReg extends React.Component {
             currentGender: event.target.value,
         });
 
-        if(this.state.gender!= event.target.value){
+        if (this.state.gender != event.target.value) {
             this.setPreviewScreenData("Gender", this.state.gender, event.target.value)
         }
 
@@ -441,7 +445,7 @@ class CancerFamilyReg extends React.Component {
 
         if (this.state.currentaodeath != event.target.value) {
             this.setPreviewScreenData("Death Age ", this.state.aodeath, this.state.currentaodeath)
-        }    
+        }
     }
     setCurrentSource(event) {
         this.setState({
@@ -451,7 +455,7 @@ class CancerFamilyReg extends React.Component {
         if (this.state.currentSourceOFDeath != event.target.value) {
             this.setPreviewScreenData("Source Of Death", this.state.sourceOFDeath, event.target.value)
         }
-        
+
     }
 
     setCurrentCauseDeath(event) {
@@ -497,7 +501,7 @@ class CancerFamilyReg extends React.Component {
         this.setState({
             currentfPI1Status: event.target.value,
         });
-        if (this.state.fPI1Status.description != event.target.value  && event.target.value  != 'Choose One') {
+        if (this.state.fPI1Status.description != event.target.value && event.target.value != 'Choose One') {
             this.setPreviewScreenData("FUP1 Status ", this.state.fPI1Status.description, event.target.value)
         }
     }
@@ -609,7 +613,7 @@ class CancerFamilyReg extends React.Component {
         this.state.gender = patientData.intGender, //read.gender,
             // this.state.dateOFDOB= patientData.dateOfBirth,
             this.setState({
-                gender: patientData.intGender== 1 ? "Male"  : patientData.intGender== 2 ? "Female" : "Unknown",
+                gender: patientData.intGender == 1 ? "Male" : patientData.intGender == 2 ? "Female" : "Unknown",
 
             });
         console.log("EEEEEEEEEEEEEEEEEEEEEEEEEEEEEE intGender" + patientData.intGender)
@@ -621,9 +625,9 @@ class CancerFamilyReg extends React.Component {
         console.log("dft: " + this.convertDateFormat(patientData.dateOfBirth))
         // this.state.status = patientData.vitalStatus
         this.setState({
-            status: patientData.vitalStatus== 1 ? "Alive" : patientData.vitalStatus==2 ? "Dead" : "Unknown",
+            status: patientData.vitalStatus == 1 ? "Alive" : patientData.vitalStatus == 2 ? "Dead" : "Unknown",
 
-                });
+        });
         console.log("EEEEEEEEEEEEEEEEEEEEEEEEEEEEEE" + this.state.dateOFDOB)
         this.setState({
             dateOfDeath: this.convertDateFormat(patientData.dateOfDeath),
@@ -717,6 +721,16 @@ class CancerFamilyReg extends React.Component {
             }
 
         });
+        this.setState({
+            relationshipCode: {
+
+                // id: patientData.fPI4Status != null ? patientData.fPI4Status.id : '',
+                code: patientData.membership.relationshipCode != null ? patientData.membership.relationshipCode.code : '',
+                description: patientData.membership.relationshipCode != null ? patientData.membership.relationshipCode.description : '',
+            }
+
+        });
+
         // this.state.fPI1Status= patientData.fPI1Status,
         // this.state.fPI2Status= patientData.fPI2Status,
         // this.state.fPI3Status= patientData.fPI3Status,
@@ -749,42 +763,91 @@ class CancerFamilyReg extends React.Component {
     // Used for saving 'New Details' to the db
     postRequest() {
 
-        this.state.patientDataValue.intGender =this.state.currentGender;
-        this.state.patientDataValue.dateOfBirth =this.state.sendCurrentDOB;
-        this.state.patientDataValue.status =this.state.currentStatus;
-        this.state.patientDataValue.dateOfDeath =this.state.sendCurrentDateDeath;
-        this.state.patientDataValue.ageOfDeath =this.state.currentaodeath;
-        this.state.patientDataValue.sourceOfDeath =this.state.currentSourceOFDeath;
-        this.state.patientDataValue.CourseOfDeath =this.state.currentCourseOFDeath;
-        this.state.patientDataValue.liveDate =this.state.currentLKDA;
-        this.state.patientDataValue.sourceOfLiveDate =this.state.currentCourseOfLiveDate;
-        this.state.patientDataValue.fPI1Status.description = this.state.currentfPI1Status;
-        this.state.patientDataValue.fPI2Status.description =this.state.currentfPI2Status;
-        this.state.patientDataValue.fPI3Status.description =this.state.currentfPI3Status;
-        this.state.patientDataValue.fPI4Status.description =this.state.currentfPI4Status;
-        // this.state.currentRelationshipCode,
-        let postData = {
-            currentGender: this.state.currentGender,
-            currentDOB: this.state.sendCurrentDOB,
-            currentStatus: this.state.currentStatus,
-            currentDeath: this.state.sendCurrentDateDeath,
-            currentaodeath: this.state.currentaodeath,
-            currentSourceOFDeath: this.state.currentSourceOFDeath,
-            currentCourseOFDeath: this.state.currentCourseOFDeath,
-            currentLKDA: this.state.sendCurrentLKDA,
-            currentCourseOfLiveDate: this.state.currentCourseOfLiveDate,
-            currentfPI1Status: this.state.currentfPI1Status,
-            currentfPI2Status: this.state.currentfPI2Status,
-            currentfPI3Status: this.state.currentfPI3Status,
-            currentfPI4Status: this.state.currentfPI4Status,
-            currentRelationshipCode: this.state.currentRelationshipCode,
-            // todu
-            // currentDeath:this.state.currentDeath,
-            // currentDOB:this.state.currentDOB, 
-            // currentLKDA:this.state.currentLKDA,
-            // this.state.urrentsourceOfLiveDate,
+        if (this.state.currentGender != this.state.gender && this.state.currentGender != '') {
+            console.log("IN POST REQUEST gender : " + this.state.gender)
+            console.log("IN POST REQUEST gender : " + this.state.currentGender)
+            // this.state.patientDataValue.intGender = (this.state.patientDataValue.intGender == '' ? '' : this.state.currentGender = this.state.currentGender == 1 ? "Male" : this.state.currentGender == 2 ? "Female" : "Unknown");
+            this.state.patientDataValue.intGender = this.state.currentGender;
         }
-        console.log("postData <><><><><><><><><><><><>" + postData.currentfPI1Status)
+        if (this.state.sendCurrentDOB != this.state.dateOFDOB && this.state.sendCurrentDOB != '') {
+            console.log("IN POST REQUEST dateOFDOB : " + this.state.dateOFDOB)
+
+            this.state.patientDataValue.dateOfBirth = (this.state.patientDataValue.dateOfBirth == '' ? '' : this.state.sendCurrentDOB);
+        }
+        if (this.state.currentStatus != this.state.status && this.state.currentStatus != '') {
+            console.log("IN POST REQUEST status : " + this.state.status)
+
+            this.state.patientDataValue.status = (this.state.patientDataValue.status == '' ? '' : this.state.currentStatus);
+        }
+        if (this.state.sendCurrentDateDeath != this.state.dateOfDeath && this.state.sendCurrentDateDeath != '') {
+
+            this.state.patientDataValue.dateOfDeath = (this.state.patientDataValue.dateOfDeath == '' ? '' : this.state.sendCurrentDateDeath);
+        }
+        if (this.state.currentaodeath != this.state.aodeath && this.state.currentaodeath != '') {
+
+            this.state.patientDataValue.ageOfDeath = (this.state.patientDataValue.ageOfDeath == '' ? '' : this.state.currentaodeath);
+        }
+        if (this.state.currentSourceOFDeath != this.state.sourceOFDeath && this.state.currentSourceOFDeath != '') {
+
+            this.state.patientDataValue.sourceOfDeath = (this.state.patientDataValue.sourceOfDeath == '' ? '' : this.state.currentSourceOFDeath);
+        }
+        if (this.state.currentCourseOFDeath != this.state.courseOFDeath && this.state.currentCourseOFDeath != '') {
+
+            this.state.patientDataValue.CourseOfDeath = (this.state.patientDataValue.CourseOfDeath == '' ? '' : this.state.currentCourseOFDeath);
+        }
+        if (this.state.currentLKDA != this.state.dateOfLKDA && this.state.currentLKDA != '') {
+
+            this.state.patientDataValue.liveDate = (this.state.patientDataValue.liveDate == '' ? '' : this.state.currentLKDA);
+        }
+        if (this.state.currentCourseOfLiveDate != this.state.sourceOfLiveDate && this.state.currentCourseOfLiveDate != '') {
+
+            this.state.patientDataValue.sourceOfLiveDate.description = (this.state.patientDataValue.sourceOfLiveDate == '' ? '' : this.state.currentCourseOfLiveDate);
+        }
+        if (this.state.currentfPI1Status != this.state.fPI1Status && this.state.currentfPI1Status != '') {
+
+            this.state.patientDataValue.fPI1Status.description = (this.state.patientDataValue.fPI1Status == '' ? '' : this.state.currentfPI1Status);
+        }
+        if (this.state.currentfPI2Status != this.state.fPI2Status && this.state.currentfPI2Status != '') {
+
+            this.state.patientDataValue.fPI2Status.description = (this.state.patientDataValue.fPI2Status == '' ? '' : this.state.currentfPI2Status);
+        }
+        if (this.state.currentfPI3Status != this.state.fPI3Status && this.state.currentfPI3Status != '') {
+
+            this.state.patientDataValue.fPI3Status.description = (this.state.patientDataValue.fPI3Status == '' ? '' : this.state.currentfPI3Status);
+        }
+        if (this.state.currentfPI4Status != this.state.fPI4Status && this.state.currentfPI4Status != '') {
+
+            this.state.patientDataValue.fPI4Status.description = (this.state.patientDataValue.fPI4Status == '' ? '' : this.state.currentfPI4Status);
+        }
+        // this.state.patientDataObjectChanged == this.state.patientDataValue;
+
+        this.setState({
+            patientDataObjectChanged: this.state.patientDataValue,
+        });
+        console.log("patientDataObjectChanged : " + this.state.patientDataObjectChanged.intGender)
+        // this.state.currentRelationshipCode,
+        // let postData = {
+        //     currentGender: this.state.currentGender,
+        //     currentDOB: this.state.sendCurrentDOB,
+        //     currentStatus: this.state.currentStatus,
+        //     currentDeath: this.state.sendCurrentDateDeath,
+        //     currentaodeath: this.state.currentaodeath,
+        //     currentSourceOFDeath: this.state.currentSourceOFDeath,
+        //     currentCourseOFDeath: this.state.currentCourseOFDeath,
+        //     currentLKDA: this.state.sendCurrentLKDA,
+        //     currentCourseOfLiveDate: this.state.currentCourseOfLiveDate,
+        //     currentfPI1Status: this.state.currentfPI1Status,
+        //     currentfPI2Status: this.state.currentfPI2Status,
+        //     currentfPI3Status: this.state.currentfPI3Status,
+        //     currentfPI4Status: this.state.currentfPI4Status,
+        //     currentRelationshipCode: this.state.currentRelationshipCode,
+        // todu
+        // currentDeath:this.state.currentDeath,
+        // currentDOB:this.state.currentDOB, 
+        // currentLKDA:this.state.currentLKDA,
+        // this.state.urrentsourceOfLiveDate,
+        // }
+        console.log("postData <><><><><><><><><><><><>" + this.state.patientDataValue.currentfPI1Status)
 
         // const url = properties.baseUrl + 'practitioners/create';
         // const url = 'practitioners/create';
@@ -913,6 +976,11 @@ class CancerFamilyReg extends React.Component {
         return formatDatestr
     }
 
+
+    onSavePatientOnly(e) {
+        console.log(" onSavePatientOnly onSavePatientOnly ")
+
+    }
     // When "Save to database" is clicked in the preview screen(Previewinfo.js) this method will be fired.
     onSubmit(e) {
         console.log("in Submit 1234 : " + e)
@@ -922,9 +990,9 @@ class CancerFamilyReg extends React.Component {
 
             this.savePatient(this.state.patientDataObjectChanged);
             // e.preventDefault();
-            // this.postRequest()
         } else {
 
+            this.postRequest()
             // const validation = this.validator.validate(this.state);
             // this.setState({ validation });
             // if (validation.isValid) {
@@ -947,8 +1015,8 @@ class CancerFamilyReg extends React.Component {
     }
 
 
-    getYearsFromDate(d1,d2){
-        return Math.floor((d2-d1)/31536000000);
+    getYearsFromDate(d1, d2) {
+        return Math.floor((d2 - d1) / 31536000000);
     }
     render() {
         // let validation = this.submitted ?                         // if the form has been submitted at least once
@@ -998,7 +1066,9 @@ class CancerFamilyReg extends React.Component {
             // </Wizard.Page> */}
             <Wizard
                 choosePathFamily={this.state.choosePathFamily}
-                onSubmit={this.onSubmit.bind(this)}>
+                onSubmit={this.onSubmit.bind(this)}
+                onSavePatientOnly={this.onSavePatientOnly.bind(this)}
+            >
                 <Wizard.Page>
                     <Welcome />  {/* Page 0 */}
                 </Wizard.Page>
@@ -1045,30 +1115,30 @@ class CancerFamilyReg extends React.Component {
                             this.state.currentDeath = this.convertDateFormat(this.state.selectedYear + this.state.selectedMonth + this.state.selectedDate);
                             console.log("dod : " + this.state.currentDeath)
                             console.log("dateOFDOB : " + this.state.dateOFDOB)
-                            
-                            this.state.currentaodeath = this.getYearsFromDate(new Date(this.state.currentDeath),new Date(this.state.dateOFDOB))
+
+                            this.state.currentaodeath = this.getYearsFromDate(new Date(this.state.currentDeath), new Date(this.state.dateOFDOB))
                             console.log("currentaodeath : " + this.state.currentaodeath)
 
-                            
+
                         } else if (this.state.selectedDate == '' && this.state.selectedMonth == '' && this.state.selectedYear == '') {
                         } else if (this.state.selectedDate != '' || this.state.selectedMonth != '' || this.state.selectedYear != '') {
                             errors.currentdodColumn = 'Please enter valid date of death'
-                            
+
                         }
                         // else {
-                            //     errors.currentdodColumn = 'In validate currentDeath unknown'
-                            // }
-                            
+                        //     errors.currentdodColumn = 'In validate currentDeath unknown'
+                        // }
+
                         // if(this.state.currentaodeath!=''){
-                        if(this.state.currentaodeath=='NaN'){
+                        if (this.state.currentaodeath == 'NaN') {
                             this.state.currentaodeath = 10000,
-                            this.setPreviewScreenData("Death Date", this.state.dateOfDeath, this.state.currentDeath)
+                                this.setPreviewScreenData("Death Date", this.state.dateOfDeath, this.state.currentDeath)
                             this.setPreviewScreenData("Death Age", this.state.aodeath, this.state.currentaodeath)
-                            
-                        }else if(this.state.currentaodeath!=''){
-                            this.state.isDODNotNull=true
+
+                        } else if (this.state.currentaodeath != '') {
+                            this.state.isDODNotNull = true
                             this.state.currentaodeath = 1111,
-                            this.setPreviewScreenData("Death Date", this.state.dateOfDeath, this.state.currentDeath)
+                                this.setPreviewScreenData("Death Date", this.state.dateOfDeath, this.state.currentDeath)
                             this.setPreviewScreenData("Death Age", this.state.aodeath, this.state.currentaodeath)
 
                         }
@@ -1125,7 +1195,7 @@ class CancerFamilyReg extends React.Component {
 
                             // Send to the preview screen only  if the value has changed from the old dob
                             // if(this.state.dateOFDOB!=this.state.currentDOB){
-                                this.setPreviewScreenData("DOB", this.state.dateOFDOB, this.state.currentDOB)
+                            this.setPreviewScreenData("DOB", this.state.dateOFDOB, this.state.currentDOB)
                             // }
 
 
@@ -1147,7 +1217,7 @@ class CancerFamilyReg extends React.Component {
                     }
                     console.log(" ERRORS " + errors.id)
 
-                    if(errors.length==0){
+                    if (errors.length == 0) {
                         console.log("NO ERRORS " + this.state.currentDOB)
 
                         this.postRequest();
@@ -1285,7 +1355,7 @@ class CancerFamilyReg extends React.Component {
                                         </div>
 
                                             <div className="col-sm-12">
-                                                <span>{this.state.relationshipCode}</span>
+                                                <span>{this.state.relationshipCode.description}</span>
                                             </div><br />
 
                                         </div>
@@ -1359,7 +1429,7 @@ class CancerFamilyReg extends React.Component {
                                         </div>
                                             <div className="col-sm-7"  >
                                                 {/* <span disabled={this.state.isAlive} name ="currentaodeathColumn" > </span> */}
-                                                <input  type="text" value={this.state.currentaodeath} name="currentaodeathColumn" disabled={this.state.isAlive || this.state.isDODNotNull} onChange={this.setAgeOfDeath.bind(this)} />
+                                                <input type="text" value={this.state.currentaodeath} name="currentaodeathColumn" disabled={this.state.isAlive || this.state.isDODNotNull} onChange={this.setAgeOfDeath.bind(this)} />
                                                 {/* // {this.state.currentaodeath}
                                                 value={"values.currentaodeathColumn"} */}
                                                 {/* <label type="label" name ="currentaodeathColumn" value={values.currentaodeathColumn}></input> */}
@@ -1374,7 +1444,7 @@ class CancerFamilyReg extends React.Component {
                                                 Source of Death Information:
                                         </div>
                                             <div className="col-sm-5">
-                                                <select disabled={this.state.isAlive } className="form-control dorp-box" value={this.state.currentSourceOFDeath} onChange={this.setCurrentSource.bind(this)} name="currentDeathSourceColumn">
+                                                <select disabled={this.state.isAlive} className="form-control dorp-box" value={this.state.currentSourceOFDeath} onChange={this.setCurrentSource.bind(this)} name="currentDeathSourceColumn">
                                                     <option >{"Choose One"}</option>
                                                     {
 
@@ -1520,8 +1590,8 @@ class CancerFamilyReg extends React.Component {
                                                     }
 
                                                     {/* <option >{"Hospital Rec"}</option> */}
-                                                    }
-                                            </select>
+
+                                                </select>
                                             </div><br />
                                             <div className="col-sm-12">
                                                 EPI FUP 4 STATUS:
@@ -1537,9 +1607,8 @@ class CancerFamilyReg extends React.Component {
                                                         })
                                                     }
 
-                                                    {/* <option >{"Hospital Rec"}</option> */}
-                                                    }
-                                            </select>
+
+                                                </select>
                                             </div><br />
                                             <div className="col-sm-12">
                                                 Relationship Code:

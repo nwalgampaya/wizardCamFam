@@ -156,7 +156,7 @@ class CancerInfo extends React.Component {
     this.state.newCancerArr = this.props.newCancerArr;
 
     this.state.newCancerModalId = Math.floor(Math.random() * 10);
-    console.log("site &&&&&&&&&&&&&&&&&&&&&77 sendCurrentDOB : " + this.props.patientDataValue.sendCurrentDOB);
+    console.log("site &&&&&&&&&&&&&&&&&&&&&77 intGender : " + this.props.patientDataValue.intGender);
 
     console.log("site &&&&&&&&&&&&&&&&&&&&&77" + this.props.patientDataValue.cancerList[0].id);
     // this.state.profession.push(data);
@@ -393,7 +393,7 @@ class CancerInfo extends React.Component {
       console.log("lateral changed ***********" + this.state.behaviourcodesFromDb)
       this.setbehaviourDataForEditDialog();
     }
-    if (this.state.cancerInfoCopy[this.state.tumorNo].ageDiagnosisFromDb != this.state.ageDiagnosisFromDb) {
+    if (this.state.cancerInfoCopy[this.state.tumorNo].ageDiagnosis != this.state.ageDiagnosisFromDb) {
       console.log("lateral changed ***********" + this.state.ageDiagnosisFromDb)
       this.setAODDataForEditDialog();
     }
@@ -456,27 +456,35 @@ class CancerInfo extends React.Component {
         changeCol.newVal = this.state.cancerInfoEdited[this.state.tumorNo][param]
 
         if (param == "site") {
+          changeCol.column = "Site"
           changeCol.previousVal = changeCol.previousVal.code
           console.log("--------------------------------" + changeCol.previousVal)
-        } if (param == "lateral") {
+        }
+        if (param == "lateral") {
+          changeCol.column = "Lateral"
           changeCol.previousVal = changeCol.previousVal.description
         }
         if (param == "histology") {
+          changeCol.column = "Histology"
           changeCol.previousVal = changeCol.previousVal.code
         }
         if (param == "behaviour") {
+          changeCol.column = "Behaviour"
           console.log("--------------------------------" + changeCol.previousVal)
           changeCol.previousVal = changeCol.previousVal.description
         }
         if (param == "ageDiagnosis") {
+          changeCol.column = "Age Of Diagnosis"
           console.log("--------------------------------" + changeCol.previousVal)
-          changeCol.previousVal = changeCol.previousVal.description
+          changeCol.previousVal = changeCol.previousVal
         }
         if (param == "diagSource") {
+          changeCol.column = "Source"
           console.log("--------------------------------" + changeCol.previousVal)
           changeCol.previousVal = changeCol.previousVal.description
         }
         if (param == "tissue") {
+          changeCol.column = "Tissue"
           console.log("--------------------------------" + changeCol.previousVal)
           changeCol.previousVal = changeCol.previousVal.description
         }
@@ -534,6 +542,8 @@ class CancerInfo extends React.Component {
 
     // Sending the modified patient object to be saved to main page(cancerFamily)
     this.state.patientDataObject.cancerList = this.state.cancerInfo;
+
+    console.log("patientDataObject IntGender : " + this.state.patientDataObject.intGender)
 
     // console.log("##################### in can info :: " + this.state.cancerInfo[1].site.code)
 
@@ -621,7 +631,7 @@ class CancerInfo extends React.Component {
   }
   setAODDataForEditDialog() {
     this.state.cancerInfo[this.state.tumorNo].ageDiagnosis = this.state.ageDiagnosisFromDb
-    this.state.cancerInfoEdited[this.state.tumorNo].ageDiagnosisFromDb = this.state.ageDiagnosisFromDb
+    this.state.cancerInfoEdited[this.state.tumorNo].ageDiagnosis = this.state.ageDiagnosisFromDb
     // this.setParamCodeANDId(this.state.cancerInfo[this.state.tumorNo].behaviour.description,this.state.behaviourcodesData)
 
     // var fieldValues = this.setParamCodeANDId(this.state.cancerInfo[this.state.tumorNo].behaviour.description, this.state.behaviourcodesData)

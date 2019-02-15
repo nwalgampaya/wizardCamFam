@@ -56,7 +56,8 @@ export default class Wizard extends React.Component {
     //   values  
     // }))}
     // else{
-    console.log("********************(Next) in else" + this.page);
+    const { onSavePatientOnly } = this.props
+    console.log("********************(Next) in else" + this.state.page);
     // this.state.isModalOpen=true
     if (this.props.choosePathFamily == true && this.state.page > 1) {
       console.log("PAGE NO : " + this.state.page)
@@ -79,11 +80,14 @@ export default class Wizard extends React.Component {
           values
         }))
       } else {
-
+        console.log("NEZT : " + this.state.page)
         this.setState(state => ({
           page: Math.min(state.page + 1, this.props.children.length - 1),
           values
         }))
+        if (this.state.page == 3) {
+          return onSavePatientOnly(values);
+        }
       }
     }
     // }
@@ -285,7 +289,7 @@ export default class Wizard extends React.Component {
                     {/* Need to be type of submit in order to get the formik validation. */}
                     {/* {page ==3  &&(<button className="btn btn-primary pull-right" type="submit"  >Next</button>)}  */}
                     {page == 2 && (<button className="btn btn-primary" onClick={() => this.next()}/*type="submit"*/  >Search</button>)}
-                    
+
                     {/* TODo add condition to disable save button when nothing edited or new added */}
                     {page == 5 && (<button  /*disabled ={false ? this.props.choosePathFamily: true} */ className="btn btn-primary pull-right" type="submit"  >Save to database</button>)}
 

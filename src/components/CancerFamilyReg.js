@@ -52,7 +52,10 @@ class CancerFamilyReg extends React.Component {
             //todu
             aodeath: '',
             sourceOFDeath: '',
-            courseOFDeath: '',
+            courseOFDeath: {
+                id: '',
+                description: ''
+            },
             dateOfLKDA: '',
             sourceOfLiveDate:
             {
@@ -126,6 +129,7 @@ class CancerFamilyReg extends React.Component {
             fupcodesRest: [],
             srcOfDeathRest: [],
             lastKnownDatesRest: [],
+            relcodesRest: [],
 
             // isModalOpen:'',
 
@@ -168,7 +172,7 @@ class CancerFamilyReg extends React.Component {
             patientDataValue: [],
 
             // Values after Editing OR Adding New cancer with 'EDIT' OR 'Add Cancer' dialog
-            patientDataObjectChanged: [],
+            // patientDataObjectChanged: [],
 
             // Values after Adding new canceer with 'Add Cancer' dialog
             newCancerArr: [],
@@ -247,8 +251,19 @@ class CancerFamilyReg extends React.Component {
                     changedField.newVal = nextValue;
                     this.state.arrayOfChangedFields[i] = changedField;
                     console.log("values :" + i + " : " + value.column)
+                    console.log("values :" + i + " : " + columnName)
                     this.state.columnExist = true;
                 }
+
+                // if (columnName == "Relationship Code") {
+                //     // changeCol.column = "Site"
+                //     // if (changedField.previousVal != '') {
+                //     changedField.previousVal = changedField.previousVal != '' ? changedField.previousVal.description : '';
+                //     // }
+
+                //     console.log("Relationship Code --------------------------------" + changedField.previousVal)
+                // }
+
             })
 
             if (!this.state.columnExist) {
@@ -259,6 +274,15 @@ class CancerFamilyReg extends React.Component {
                 console.log("values noteq :" + this.state.countChangedFields + " : " + columnName)
                 // this.state.columnExist=false;
 
+                if (columnName == "Cause Of Death") {
+                    // || columnName == "Relationship Code" || columnName == "Source Of LiveDate ") 
+                    // changeCol.column = "Site"
+                    // if (changedField.previousVal != '') {
+                    changedField.previousVal = changedField.previousVal != '' ? previousValue.description : '';
+                    // }
+
+                    console.log("Cause Of Death --------------------------------" + changedField.previousVal)
+                }
                 this.setState({ countChangedFields: ++this.state.countChangedFields })
 
             }
@@ -271,8 +295,20 @@ class CancerFamilyReg extends React.Component {
             changedField.newVal = nextValue;
             this.state.arrayOfChangedFields[this.state.countChangedFields] = changedField;
             console.log("First Time: " + this.state.countChangedFields + " : ")
+            console.log("First Time: previousValue " + previousValue.description)
 
             this.setState({ countChangedFields: ++this.state.countChangedFields })
+
+            if (columnName == "Cause Of Death") {
+                // || columnName == "Relationship Code" || columnName == "Source Of LiveDate ") 
+                // changeCol.column = "Site"
+                // if (changedField.previousVal != '') {
+                changedField.previousVal = changedField.previousVal != '' ? previousValue.description : '';
+                // }
+
+                console.log("Cause Of Death --------------------------------" + changedField.previousVal)
+            }
+
         }
 
         console.log("countChangedFields" + this.state.countChangedFields)
@@ -464,9 +500,9 @@ class CancerFamilyReg extends React.Component {
             currentCourseOFDeath: event.target.value,
         });
 
-        if (this.state.currentCourseOFDeath != event.target.value) {
-            this.setPreviewScreenData("Cause Of Death", this.state.courseOFDeath, event.target.value)
-        }
+        // if (this.state.currentCourseOFDeath != event.target.value) {
+        //     this.setPreviewScreenData("Cause Of Death", this.state.courseOFDeath, event.target.value)
+        // }
     }
 
     setUnknownCauseDeath(event) {
@@ -538,6 +574,9 @@ class CancerFamilyReg extends React.Component {
         this.setState({
             currentRelationshipCode: event.target.value,
         });
+        if (this.state.relationshipCode.description != event.target.value && event.target.value != 'Choose One') {
+            this.setPreviewScreenData("Relationship Code ", this.state.relationshipCode.description, event.target.value)
+        }
     }
 
 
@@ -601,7 +640,18 @@ class CancerFamilyReg extends React.Component {
                 });
                 // this.state.profession.push(data);
             })
+        const urlrelcodes = properties.baseUrl + "relcodes/";
+        fetch(urlrelcodes)
+            .then(response => response.json())
+            .then((data) => {
 
+                console.log(data);
+                this.setState({
+                    relcodesRest: data,
+
+                });
+                // this.state.profession.push(data);
+            })
 
     }
 
@@ -648,14 +698,19 @@ class CancerFamilyReg extends React.Component {
 
         });
         this.setState({
-            courseOFDeath: patientData.CourseOfDeath,
+            courseOFDeath: {
 
+                id: patientData.courseOfDeath.id,
+                description: patientData.courseOfDeath.description,
+                // code: patientData.sourceOfLiveDate.code,
+                // patientData.courseOfDeath,
+            }
         });
 
-        this.setState({
-            sourceOfLiveDate: patientData.sourceOfLiveDate,
+        // this.setState({
+        //     sourceOfLiveDate: patientData.sourceOfLiveDate,
 
-        });
+        // });
 
         this.setState({
             dateOfLKDA: this.convertDateFormat(patientData.liveDate),
@@ -760,6 +815,17 @@ class CancerFamilyReg extends React.Component {
     //         })    
     //     }
 
+    setParamCodeANDId(description, dataFromFetch) {
+        var fieldValues
+        dataFromFetch.map((values, i) => {
+            if (values.description == description) {
+                // console.log("siteData : " + values.description);
+                fieldValues = values
+            }
+        })
+        return fieldValues
+    }
+
     // Used for saving 'New Details' to the db
     postRequest() {
 
@@ -792,8 +858,12 @@ class CancerFamilyReg extends React.Component {
             this.state.patientDataValue.sourceOfDeath = (this.state.patientDataValue.sourceOfDeath == '' ? '' : this.state.currentSourceOFDeath);
         }
         if (this.state.currentCourseOFDeath != this.state.courseOFDeath && this.state.currentCourseOFDeath != '') {
+            console.log("IN POST REQUEST currentCourseOFDeath : " + this.state.currentCourseOFDeath)
 
-            this.state.patientDataValue.CourseOfDeath = (this.state.patientDataValue.CourseOfDeath == '' ? '' : this.state.currentCourseOFDeath);
+            this.state.patientDataValue.courseOfDeath.description = (this.state.patientDataValue.courseOfDeath == '' ? '' : this.state.currentCourseOFDeath);
+            // this.state.columnExist = true;
+            this.setPreviewScreenData("Cause Of Death", this.state.courseOFDeath, this.state.currentCourseOFDeath)
+
         }
         if (this.state.currentLKDA != this.state.dateOfLKDA && this.state.currentLKDA != '') {
 
@@ -802,29 +872,63 @@ class CancerFamilyReg extends React.Component {
         if (this.state.currentCourseOfLiveDate != this.state.sourceOfLiveDate && this.state.currentCourseOfLiveDate != '') {
 
             this.state.patientDataValue.sourceOfLiveDate.description = (this.state.patientDataValue.sourceOfLiveDate == '' ? '' : this.state.currentCourseOfLiveDate);
+
+            var fieldValues = this.setParamCodeANDId(this.state.currentCourseOfLiveDate, this.state.lastKnownDatesRest)
+            this.state.patientDataValue.sourceOfLiveDate.code = fieldValues.code
+            this.state.patientDataValue.sourceOfLiveDate.id = fieldValues.id
+            console.log("IN POST REQUEST currentsourceOfLiveDate  id: " + this.state.patientDataValue.sourceOfLiveDate.id)
+
         }
         if (this.state.currentfPI1Status != this.state.fPI1Status && this.state.currentfPI1Status != '') {
+            console.log("IN POST REQUEST currentfPI1Status : " + this.state.currentfPI1Status)
 
             this.state.patientDataValue.fPI1Status.description = (this.state.patientDataValue.fPI1Status == '' ? '' : this.state.currentfPI1Status);
+
+            var fieldValues = this.setParamCodeANDId(this.state.currentfPI1Status, this.state.fupcodesRest)
+            this.state.patientDataValue.fPI1Status.code = fieldValues.code
+            this.state.patientDataValue.fPI1Status.id = fieldValues.id
+            console.log("IN POST REQUEST currentfPI1Status  id: " + this.state.patientDataValue.fPI1Status.id)
+
         }
         if (this.state.currentfPI2Status != this.state.fPI2Status && this.state.currentfPI2Status != '') {
 
             this.state.patientDataValue.fPI2Status.description = (this.state.patientDataValue.fPI2Status == '' ? '' : this.state.currentfPI2Status);
+
+            var fieldValues = this.setParamCodeANDId(this.state.currentfPI2Status, this.state.fupcodesRest)
+            this.state.patientDataValue.fPI2Status.code = fieldValues.code
+            this.state.patientDataValue.fPI2Status.id = fieldValues.id
+
         }
         if (this.state.currentfPI3Status != this.state.fPI3Status && this.state.currentfPI3Status != '') {
 
             this.state.patientDataValue.fPI3Status.description = (this.state.patientDataValue.fPI3Status == '' ? '' : this.state.currentfPI3Status);
+
+            var fieldValues = this.setParamCodeANDId(this.state.currentfPI3Status, this.state.fupcodesRest)
+            this.state.patientDataValue.fPI3Status.code = fieldValues.code
+            this.state.patientDataValue.fPI3Status.id = fieldValues.id
+
         }
         if (this.state.currentfPI4Status != this.state.fPI4Status && this.state.currentfPI4Status != '') {
 
             this.state.patientDataValue.fPI4Status.description = (this.state.patientDataValue.fPI4Status == '' ? '' : this.state.currentfPI4Status);
+
+            var fieldValues = this.setParamCodeANDId(this.state.currentfPI4Status, this.state.fupcodesRest)
+            this.state.patientDataValue.fPI4Status.code = fieldValues.code
+            this.state.patientDataValue.fPI4Status.id = fieldValues.id
+
+        }
+
+        if (this.state.currentRelationshipCode != this.state.relationshipCode && this.state.currentRelationshipCode != '') {
+
+            this.state.patientDataValue.membership.relationshipCode.description = (this.state.patientDataValue.membership.relationshipCode == '' ? '' : this.state.currentRelationshipCode);
+
+            var fieldValues = this.setParamCodeANDId(this.state.currentRelationshipCode, this.state.relcodesRest)
+            this.state.patientDataValue.membership.relationshipCode.code = fieldValues.code
+            // this.state.patientDataValue.relationshipCode.id = fieldValues.id
+
         }
         // this.state.patientDataObjectChanged == this.state.patientDataValue;
 
-        this.setState({
-            patientDataObjectChanged: this.state.patientDataValue,
-        });
-        console.log("patientDataObjectChanged : " + this.state.patientDataObjectChanged.intGender)
         // this.state.currentRelationshipCode,
         // let postData = {
         //     currentGender: this.state.currentGender,
@@ -839,7 +943,7 @@ class CancerFamilyReg extends React.Component {
         //     currentfPI1Status: this.state.currentfPI1Status,
         //     currentfPI2Status: this.state.currentfPI2Status,
         //     currentfPI3Status: this.state.currentfPI3Status,
-        //     currentfPI4Status: this.state.currentfPI4Status,
+        //     currentRelationshipCode: this.state.currentfPI4Status,
         //     currentRelationshipCode: this.state.currentRelationshipCode,
         // todu
         // currentDeath:this.state.currentDeath,
@@ -847,7 +951,7 @@ class CancerFamilyReg extends React.Component {
         // currentLKDA:this.state.currentLKDA,
         // this.state.urrentsourceOfLiveDate,
         // }
-        console.log("postData <><><><><><><><><><><><>" + this.state.patientDataValue.currentfPI1Status)
+        console.log("postData <><><><><><><><><><><><>" + this.state.patientDataValue.fPI1Status.description)
 
         // const url = properties.baseUrl + 'practitioners/create';
         // const url = 'practitioners/create';
@@ -936,14 +1040,14 @@ class CancerFamilyReg extends React.Component {
         // console.log("#####################finalObject :: " + patientDataObject.cancerList[1].site.description)
         this.setState({ arrayEditedData: arrayEditedDataArr });
         this.setState({ isCancerEdited: isCancerEdited });
-        this.setState({ patientDataObjectChanged: patientDataObjectChanged });
+        this.setState({ patientDataValue: patientDataObjectChanged });
 
         // this.savePatient(patientDataObjectChanged);
     }
     handleNewRecFrmChild = (arrayNewCancerArr, patientDataObjectChanged, isCanecerAdded) => {
         // console.log("in New Cancer Arr"+ arrayNewCancerArr.site.id)
         this.setState({ newCancerArr: arrayNewCancerArr });
-        this.setState({ patientDataObjectChanged: patientDataObjectChanged });
+        this.setState({ patientDataValue: patientDataObjectChanged });
         this.setState({ isCanecerAdded: isCanecerAdded });
 
     }
@@ -988,7 +1092,7 @@ class CancerFamilyReg extends React.Component {
         if (this.state.isInPreviewScreen == true) {
             console.log("in Submit IF : ")
 
-            this.savePatient(this.state.patientDataObjectChanged);
+            this.savePatient(this.state.patientDataValue);
             // e.preventDefault();
         } else {
 
@@ -1297,7 +1401,7 @@ class CancerFamilyReg extends React.Component {
                                         </div>
 
                                             <div className="col-sm-12">
-                                                <span>{this.state.courseOFDeath}</span>
+                                                <span>{this.state.courseOFDeath.description}</span>
                                             </div><br />
 
                                             <div className="col-sm-12">
@@ -1617,15 +1721,15 @@ class CancerFamilyReg extends React.Component {
                                                 <select className="form-control dorp-box" value={this.state.currentRelationshipCode} onChange={this.setcurrentRelationshipCode.bind(this)} name="currentRelCodeColumn">
                                                     <option >{"Choose One"}</option>
                                                     {
-                                                        // this.state.ageData.map((ageGroup, i) => {
+                                                        this.state.relcodesRest.map((read, i) => {
 
-                                                        //     this.state.ageGroup = ageGroup.name;
-                                                        //     console.log("location ID :  " + ageGroup.id);
-                                                        //     return <option key={ageGroup.value} value={ageGroup.id}>{ageGroup.name}</option>
+                                                            this.state.read = read.name;
+                                                            // console.log("location ID :  " + read.id);
+                                                            return <option key={read.value} value={read.description}>{read.description}</option>
 
-                                                        // })
+                                                        })
 
-                                                        <option >{"Hospital Rec"}</option>
+                                                        // <option >{"Hospital Rec"}</option>
                                                     }
                                                 </select>
                                             </div><br />

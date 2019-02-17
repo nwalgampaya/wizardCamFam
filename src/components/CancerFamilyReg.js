@@ -51,7 +51,12 @@ class CancerFamilyReg extends React.Component {
             dateOfDeath: '1/1/1',
             //todu
             aodeath: '',
-            sourceOFDeath: '',
+            sourceOFDeath:
+            {
+                id: '',
+                code: '',
+                description: ''
+            },
             courseOFDeath: {
                 id: '',
                 description: ''
@@ -274,7 +279,7 @@ class CancerFamilyReg extends React.Component {
                 console.log("values noteq :" + this.state.countChangedFields + " : " + columnName)
                 // this.state.columnExist=false;
 
-                if (columnName == "Cause Of Death") {
+                if (columnName == "Cause Of Death" || columnName == "Source Of Death") {
                     // || columnName == "Relationship Code" || columnName == "Source Of LiveDate ") 
                     // changeCol.column = "Site"
                     // if (changedField.previousVal != '') {
@@ -295,11 +300,11 @@ class CancerFamilyReg extends React.Component {
             changedField.newVal = nextValue;
             this.state.arrayOfChangedFields[this.state.countChangedFields] = changedField;
             console.log("First Time: " + this.state.countChangedFields + " : ")
-            console.log("First Time: previousValue " + previousValue.description)
+            console.log("First Time: columnName " + columnName)
 
             this.setState({ countChangedFields: ++this.state.countChangedFields })
 
-            if (columnName == "Cause Of Death") {
+            if (columnName == "Cause Of Death" || columnName == "Source Of Death") {
                 // || columnName == "Relationship Code" || columnName == "Source Of LiveDate ") 
                 // changeCol.column = "Site"
                 // if (changedField.previousVal != '') {
@@ -308,6 +313,7 @@ class CancerFamilyReg extends React.Component {
 
                 console.log("Cause Of Death --------------------------------" + changedField.previousVal)
             }
+
 
         }
 
@@ -694,7 +700,10 @@ class CancerFamilyReg extends React.Component {
         });
 
         this.setState({
-            sourceOFDeath: patientData.sourceOfDeath,
+            sourceOFDeath: {
+                id: patientData.sourceOfDeath.id,
+                description: patientData.sourceOfDeath.description,
+            }
 
         });
         this.setState({
@@ -818,8 +827,10 @@ class CancerFamilyReg extends React.Component {
     setParamCodeANDId(description, dataFromFetch) {
         var fieldValues
         dataFromFetch.map((values, i) => {
+            console.log("siteData loop: " + values.description);
+
             if (values.description == description) {
-                // console.log("siteData : " + values.description);
+                console.log("siteData : " + values.description);
                 fieldValues = values
             }
         })
@@ -856,6 +867,18 @@ class CancerFamilyReg extends React.Component {
         if (this.state.currentSourceOFDeath != this.state.sourceOFDeath && this.state.currentSourceOFDeath != '') {
 
             this.state.patientDataValue.sourceOfDeath = (this.state.patientDataValue.sourceOfDeath == '' ? '' : this.state.currentSourceOFDeath);
+            var fieldValues = this.setParamCodeANDId(this.state.currentSourceOFDeath, this.state.srcOfDeathRest)
+            console.log("IN POST REQUEST currentSourceOFDeath  code: " + fieldValues.code)
+
+            this.state.sourceOFDeath.code = fieldValues.code;
+            this.state.sourceOFDeath.id = fieldValues.id;
+            this.state.sourceOFDeath.description = fieldValues.description;
+
+            this.state.patientDataValue.sourceOfDeath = this.state.sourceOFDeath
+            // code = 
+            // this.state.patientDataValue.sourceOfDeath.id = fieldValues.id
+            console.log("IN POST REQUEST currentSourceOFDeath  id: " + this.state.patientDataValue.sourceOfDeath.id)
+
         }
         if (this.state.currentCourseOFDeath != this.state.courseOFDeath && this.state.currentCourseOFDeath != '') {
             console.log("IN POST REQUEST currentCourseOFDeath : " + this.state.currentCourseOFDeath)
@@ -1393,7 +1416,7 @@ class CancerFamilyReg extends React.Component {
                                         </div>
 
                                             <div className="col-sm-12">
-                                                <span>{this.state.sourceOFDeath}</span>
+                                                <span>{this.state.sourceOFDeath.description}</span>
                                             </div><br />
 
                                             <div className="col-sm-12">

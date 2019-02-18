@@ -260,6 +260,15 @@ class CancerFamilyReg extends React.Component {
                     this.state.columnExist = true;
                 }
 
+                if (columnName == "Cause Of Death" || columnName == "Source Of Death") {
+                    // || columnName == "Relationship Code" || columnName == "Source Of LiveDate ") 
+                    // changeCol.column = "Site"
+                    // if (changedField.previousVal != '') {
+                    changedField.previousVal = changedField.previousVal != '' ? previousValue.description : '';
+                    // }
+
+                    console.log("Cause Of Death --------------------------------" + changedField.previousVal)
+                }
                 // if (columnName == "Relationship Code") {
                 //     // changeCol.column = "Site"
                 //     // if (changedField.previousVal != '') {
@@ -701,8 +710,8 @@ class CancerFamilyReg extends React.Component {
 
         this.setState({
             sourceOFDeath: {
-                id: patientData.sourceOfDeath.id,
-                description: patientData.sourceOfDeath.description,
+                id: patientData.sourceOfDeath ==''? '': patientData.sourceOfDeath.id,
+                description: patientData.sourceOfDeath ==''? '': patientData.sourceOfDeath.description ,
             }
 
         });
@@ -846,19 +855,26 @@ class CancerFamilyReg extends React.Component {
             // this.state.patientDataValue.intGender = (this.state.patientDataValue.intGender == '' ? '' : this.state.currentGender = this.state.currentGender == 1 ? "Male" : this.state.currentGender == 2 ? "Female" : "Unknown");
             this.state.patientDataValue.intGender = this.state.currentGender;
         }
-        if (this.state.sendCurrentDOB != this.state.dateOFDOB && this.state.sendCurrentDOB != '') {
-            console.log("IN POST REQUEST dateOFDOB : " + this.state.dateOFDOB)
+        // if (this.state.sendCurrentDOB != this.state.dateOFDOB && this.state.sendCurrentDOB != '') {
+            if (this.state.currentDOB != this.state.dateOFDOB && this.state.currentDOB != '') {
+                this.state.currentDOB = this.state.selectedYearDOB + this.state.selectedMonthDOB + this.state.selectedDateDOB;
+            
+            console.log("IN POST REQUEST dateOFDOB : " + this.state.currentDOB)
 
-            this.state.patientDataValue.dateOfBirth = (this.state.patientDataValue.dateOfBirth == '' ? '' : this.state.sendCurrentDOB);
+            this.state.patientDataValue.dateOfBirth = (this.state.patientDataValue.dateOfBirth == '' ? '' : (this.state.currentDOB));
         }
         if (this.state.currentStatus != this.state.status && this.state.currentStatus != '') {
             console.log("IN POST REQUEST status : " + this.state.status)
 
             this.state.patientDataValue.status = (this.state.patientDataValue.status == '' ? '' : this.state.currentStatus);
         }
-        if (this.state.sendCurrentDateDeath != this.state.dateOfDeath && this.state.sendCurrentDateDeath != '') {
+        if (this.state.currentDeath != this.state.dateOfDeath && this.state.currentDeath != '') {
+            this.state.currentDeath = this.state.selectedYear+ this.state.selectedMonth + this.state.selectedDate;
 
-            this.state.patientDataValue.dateOfDeath = (this.state.patientDataValue.dateOfDeath == '' ? '' : this.state.sendCurrentDateDeath);
+            this.state.patientDataValue.dateOfDeath = (this.state.patientDataValue.dateOfDeath == '' ? '' : this.state.currentDeath);
+            
+            //Calculate the Age of Death
+            // this.state.currentaodeath = this.getYearsFromDate(new Date(this.state.currentDeath), new Date(this.state.dateOFDOB))
         }
         if (this.state.currentaodeath != this.state.aodeath && this.state.currentaodeath != '') {
 
@@ -870,6 +886,7 @@ class CancerFamilyReg extends React.Component {
             var fieldValues = this.setParamCodeANDId(this.state.currentSourceOFDeath, this.state.srcOfDeathRest)
             console.log("IN POST REQUEST currentSourceOFDeath  code: " + fieldValues.code)
 
+            //Added due to error "id of null"
             this.state.sourceOFDeath.code = fieldValues.code;
             this.state.sourceOFDeath.id = fieldValues.id;
             this.state.sourceOFDeath.description = fieldValues.description;
@@ -885,10 +902,12 @@ class CancerFamilyReg extends React.Component {
 
             this.state.patientDataValue.courseOfDeath.description = (this.state.patientDataValue.courseOfDeath == '' ? '' : this.state.currentCourseOFDeath);
             // this.state.columnExist = true;
+            // to fix error due to typing data to the text box
             this.setPreviewScreenData("Cause Of Death", this.state.courseOFDeath, this.state.currentCourseOFDeath)
 
         }
         if (this.state.currentLKDA != this.state.dateOfLKDA && this.state.currentLKDA != '') {
+            this.state.currentLKDA = this.state.selectedYearLKD+ this.state.selectedMonthLKD + this.state.selectedDateLKD;
 
             this.state.patientDataValue.liveDate = (this.state.patientDataValue.liveDate == '' ? '' : this.state.currentLKDA);
         }
@@ -1235,45 +1254,6 @@ class CancerFamilyReg extends React.Component {
                     //         selectedDate: ''
                     //     });
                     // }
-                    if (this.state.currentDeath == '') {
-                        // alert("In error")
-
-                        if (this.state.selectedDate != '' && this.state.selectedMonth != '' && this.state.selectedYear != '') {
-                            this.state.currentDeath = this.convertDateFormat(this.state.selectedYear + this.state.selectedMonth + this.state.selectedDate);
-                            console.log("dod : " + this.state.currentDeath)
-                            console.log("dateOFDOB : " + this.state.dateOFDOB)
-
-                            this.state.currentaodeath = this.getYearsFromDate(new Date(this.state.currentDeath), new Date(this.state.dateOFDOB))
-                            console.log("currentaodeath : " + this.state.currentaodeath)
-
-
-                        } else if (this.state.selectedDate == '' && this.state.selectedMonth == '' && this.state.selectedYear == '') {
-                        } else if (this.state.selectedDate != '' || this.state.selectedMonth != '' || this.state.selectedYear != '') {
-                            errors.currentdodColumn = 'Please enter valid date of death'
-
-                        }
-                        // else {
-                        //     errors.currentdodColumn = 'In validate currentDeath unknown'
-                        // }
-
-                        // if(this.state.currentaodeath!=''){
-                        if (this.state.currentaodeath == 'NaN') {
-                            this.state.currentaodeath = 10000,
-                                this.setPreviewScreenData("Death Date", this.state.dateOfDeath, this.state.currentDeath)
-                            this.setPreviewScreenData("Death Age", this.state.aodeath, this.state.currentaodeath)
-
-                        } else if (this.state.currentaodeath != '') {
-                            this.state.isDODNotNull = true
-                            this.state.currentaodeath = 1111,
-                                this.setPreviewScreenData("Death Date", this.state.dateOfDeath, this.state.currentDeath)
-                            this.setPreviewScreenData("Death Age", this.state.aodeath, this.state.currentaodeath)
-
-                        }
-                        if (new Date(this.state.dateOfLKDA) > new Date(this.state.currentDeath)) {
-                            errors.currentdodColumn = 'LKD Date cannot be greater than the Death Date'
-                        }
-
-                    }
 
                     if (this.state.currentLKDA == '') {
                         // alert("In error")
@@ -1297,6 +1277,69 @@ class CancerFamilyReg extends React.Component {
                         }
 
 
+                    }
+                    if (this.state.currentDeath == '') {
+                        // alert("In error")
+
+                        if (this.state.selectedDate != '' && this.state.selectedMonth != '' && this.state.selectedYear != '') {
+                            this.state.currentDeath = this.convertDateFormat(this.state.selectedYear + this.state.selectedMonth + this.state.selectedDate);
+                            console.log("dod : " + this.state.currentDeath)
+                            console.log("dateOfLKDA : " + this.state.dateOfLKDA)
+
+                            // this.state.currentaodeath = this.getYearsFromDate(new Date(this.state.currentDeath), new Date(this.state.dateOFDOB))
+                            console.log("currentaodeath : " + this.state.currentaodeath)
+
+
+                        } else if (this.state.selectedDate == '' && this.state.selectedMonth == '' && this.state.selectedYear == '') {
+                        } else if (this.state.selectedDate != '' || this.state.selectedMonth != '' || this.state.selectedYear != '') {
+                            errors.currentdodColumn = 'Please enter valid date of death'
+
+                        }
+                        console.log("dod 2: " + this.state.currentLKDA)
+                        console.log("currentDeath 2: " + this.state.currentDeath)
+
+                        
+                        // if (this.state.currentDeath != ''){
+                        //     this.state.currentaodeath = this.getYearsFromDate(new Date(this.state.currentDeath), new Date(this.state.dateOFDOB))
+                        // }
+
+                        // else {
+                        //     errors.currentdodColumn = 'In validate currentDeath unknown'
+                        // }
+
+                        // if(this.state.currentaodeath!=''){
+                        // if (this.state.currentaodeath == 'NaN') {
+                        //     this.state.currentaodeath = 10000,
+                        //         this.setPreviewScreenData("Death Date", this.state.dateOfDeath, this.state.currentDeath)
+                        //     this.setPreviewScreenData("Death Age", this.state.aodeath, this.state.currentaodeath)
+
+                        // } else if (this.state.currentaodeath != '') {
+                        //     this.state.isDODNotNull = true
+                        //     this.state.currentaodeath = 1111,
+                        //         this.setPreviewScreenData("Death Date", this.state.dateOfDeath, this.state.currentDeath)
+                        //     this.setPreviewScreenData("Death Age", this.state.aodeath, this.state.currentaodeath)
+
+                        // }
+
+                       
+                    }
+                    
+                    // if(this.state.currentDeath != '') {
+                    //         // this.setState({ currentaodeath: this.getYearsFromDate(new Date(this.state.currentDeath), new Date(this.state.dateOFDOB)) });
+                        
+                    //     this.state.currentaodeath = this.getYearsFromDate(new Date(this.state.currentDeath), new Date(this.state.dateOFDOB))
+                    //     console.log("currentaodeath 2: " + this.state.currentaodeath)
+                    // }
+
+                    
+
+                    if (new Date(this.state.currentLKDA) > new Date(this.state.currentDeath)) {
+                        console.log("dod 2: " + this.state.currentDeath)
+                            console.log("dateOfLKDA  2: " + this.state.dateOfLKDA)
+                            
+                            errors.currentdodColumn = 'LKD Date cannot be greater than the Death Date'
+                    }else if (new Date(this.state.dateOfLKDA) > new Date(this.state.currentDeath)) {
+                            errors.currentdodColumn = 'Existing LKD Date cannot be greater than the Death Date'
                     }
                     if (this.state.currentCourseOfLiveDate == '') {
                         if (this.state.currentLKDA != '') {

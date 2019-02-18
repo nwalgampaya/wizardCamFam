@@ -47,6 +47,9 @@ export default class Individual extends React.Component {
                 // this.assignDbDataToFields()
                 // this.state.profession.push(data);
             })
+            .catch((error) => {
+                document.write("Error : "+ error);
+            });
     }
     render() {
 

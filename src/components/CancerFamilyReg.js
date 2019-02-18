@@ -1338,7 +1338,7 @@ class CancerFamilyReg extends React.Component {
                             console.log("dateOfLKDA  2: " + this.state.dateOfLKDA)
                             
                             errors.currentdodColumn = 'LKD Date cannot be greater than the Death Date'
-                    }else if (new Date(this.state.dateOfLKDA) > new Date(this.state.currentDeath)) {
+                    }else if (this.state.currentLKDA=='' && (new Date(this.state.dateOfLKDA) > new Date(this.state.currentDeath))) {
                             errors.currentdodColumn = 'Existing LKD Date cannot be greater than the Death Date'
                     }
                     if (this.state.currentCourseOfLiveDate == '') {

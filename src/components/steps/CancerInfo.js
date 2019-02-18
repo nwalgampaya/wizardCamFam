@@ -8,6 +8,7 @@ import * as Yup from 'yup'
 import { properties } from '../../properties.js';
 import cloneDeep from 'lodash/cloneDeep';
 import FormValidator from '../validator/FormValidator';
+import DateSelect from "../util/DateSelect";
 
 // import ExampleModal from '../steps/ExampleModal';
 
@@ -72,6 +73,11 @@ class CancerInfo extends React.Component {
       changedParameters: [],
       cancerInfoCopy: [],
       enableSaveButton: false,  // this should be modified to 'true' when each and every individual field is modified in the dialog 
+
+      selectedEditYear: '',
+      selectedEditMonth: '',
+      selectedEditDate: '',
+
 
       // Add Cancer dialog variables
       newSiteValue: '',
@@ -860,6 +866,25 @@ class CancerInfo extends React.Component {
 
     this.enableSaveInEditDialog("behaviourcodesFromDb", event);
   }
+  /* Diagnostic Date values START*/
+  handleYearPickedDiag = (selectedEditYear, e) => {
+    console.log("handleYearPicked : " + selectedEditYear)
+    this.setState({ selectedEditYear: selectedEditYear != "Year" ? selectedEditYear : '' });
+
+  }
+  handleMonthPickedDiag = (selectedEditMonth) => {
+    console.log("Month Picked : " + selectedEditMonth)
+    this.setState({ selectedEditMonth: selectedEditMonth != "Month" ? selectedEditMonth : '' });
+
+  }
+
+  handleDatePickedDiag = (selectedEditDate) => {
+    console.log("Date    Picked : " + selectedEditDate)
+    this.setState({ selectedEditDate: selectedEditDate != "Day" ? selectedEditDate : '' });
+
+  }
+  /* Diagnostic Date values END*/
+
   setDiagSource(event) {
     this.setState({
       diagSourceFromDb: event.target.value,
@@ -1079,10 +1104,21 @@ class CancerInfo extends React.Component {
                   Date Of Diagnosis: :
                       </div>
                 <div className="col-sm-4">
-                  <DatePicker
+
+                  <DateSelect isAlive={false} value={this.state.currentDOB} name="diagDateColumn" onSelectYear={this.handleYearPickedDiag} onSelectMonth={this.handleMonthPickedDiag} onSelectDate={this.handleDatePickedDiag} />
+
+                  {/* <DatePicker
+                                                    onChange={this.oncurrentDOBChange}
+                                                    value={this.state.currentDOB}
+                                                /> */}
+                  <div className="validationMsg">
+                    {/* <Error name="currentdobColumn" /> */}
+                  </div>
+                
+                  {/* <DatePicker
                     // onChange={this.oncurrentDOBChange}
                     value={this.state.currentDOB}
-                  />
+                  /> */}
                 </div><br /><br />
               </div>
               <div className="{validation.ageDiagnosisFromDb.isInvalid && 'has-error'}" /*"row form-check form-check-inline"*/>

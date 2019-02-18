@@ -9,9 +9,15 @@ export default class DateSelect extends React.Component {
             dateArray: [],
             monthArray: [],
             yearArray: [],
-            selectedDate: '',
             selectedMonth: '',
+            selectedDate: '',
             selectedYear: '',
+
+            defaultMonth: '',
+            defaultDate: '',
+            defaultYear: '',
+
+            dateOfDiagFromDb: '',
 
         }
 
@@ -50,12 +56,25 @@ export default class DateSelect extends React.Component {
 
     }
 
+    componentDidMount() {
+
+        this.setState({ dateOfDiagFromDb: this.props.dateOfDiagFromDb });
+        var EditYear = this.props.dateOfDiagFromDb;
+        var EditMonth = this.props.dateOfDiagFromDb;
+        var EditDate = this.props.dateOfDiagFromDb;
+
+        // console.log("PICKER VALUES : " + EditDate.substr(0, 4))
+        this.setState({ selectedEditYear: EditYear });
+        this.setState({ selectedEditMonth: EditMonth });
+        this.setState({ selectedEditDate: EditDate });
+        // console.log("PICKER VALUES : " + "" + this.props.dateOfDiagFromDb.substring(0, 4))
+    }
     getDateArray() {
         var i;
         for (i = 1; i < 32; i++) {
-            if(i<10){
-                this.state.dateArray[i] = "0"+i;
-            }else{
+            if (i < 10) {
+                this.state.dateArray[i] = "0" + i;
+            } else {
                 this.state.dateArray[i] = i;
 
             }
@@ -68,9 +87,9 @@ export default class DateSelect extends React.Component {
     getMonths() {
         var i;
         for (i = 1; i < 13; i++) {
-            if(i<10){
-                this.state.monthArray[i] = "0"+i;
-            }else{
+            if (i < 10) {
+                this.state.monthArray[i] = "0" + i;
+            } else {
                 this.state.monthArray[i] = i;
             }
             // console.log(this.state.monthArray[i])
@@ -101,14 +120,14 @@ export default class DateSelect extends React.Component {
                         <tr>
                             <td>
                                 <div className="col-sm-4">
-                                    <select disabled={this.props.isAlive} className="form-control " value={this.state.currentCourseOfLiveMonth} onChange={this.setMonth.bind(this)} name="monthColumn">
+                                    <select disabled={this.props.isAlive} className="form-control " defaultValue={this.props.defaultMonth} onChange={this.setMonth.bind(this)} name="monthColumn">
                                         <option >{"Month"}</option>
                                         {
                                             this.state.monthArray.map((value, i) => {
 
 
                                                 // console.log("ageGroup ID :  " + ageGroup);
-                                                return <option key={i} /*value={ageGroup}*/>{value}</option>
+                                                return <option key={i} /*defaultValue={ageGroup}*/>{value}</option>
 
                                             })
 
@@ -118,7 +137,7 @@ export default class DateSelect extends React.Component {
                                 {/* </td> */}
                                 {/* <td> */}
                                 <div className="col-sm-4">
-                                    <select disabled={this.props.isAlive} className="form-control " value={this.state.currentCourseOfLiveDate} onChange={this.setDate.bind(this)} name="dateColumn">
+                                    <select disabled={this.props.isAlive} className="form-control " defaultValue={this.props.defaultDate} onChange={this.setDate.bind(this)} name="dateColumn">
                                         <option >{"Day"}</option>
 
                                         {
@@ -126,7 +145,7 @@ export default class DateSelect extends React.Component {
 
 
                                                 // console.log("ageGroup ID :  " + ageGroup);
-                                                return <option key={i} /*value={ageGroup}*/>{value}</option>
+                                                return <option key={i} /*defaultValue={ageGroup}*/>{value}</option>
 
                                             })
 
@@ -135,7 +154,7 @@ export default class DateSelect extends React.Component {
                                     </select>
                                 </div>
                                 <div className="col-sm-4">
-                                    <select disabled={this.props.isAlive} className="form-control " value={this.state.currentCourseOfLiveDate} onChange={this.setYear.bind(this)} name="yearColumn">
+                                    <select disabled={this.props.isAlive} className="form-control " defaultValue={this.props.defaultYear} onChange={this.setYear.bind(this)} name="yearColumn">
                                         <option >{"Year"}</option>
 
                                         {

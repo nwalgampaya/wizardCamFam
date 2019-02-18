@@ -26,19 +26,32 @@ export default class AddCancerModal extends React.Component {
     var dt2 = new Date(date2);
     return Math.floor((Date.UTC(dt2.getFullYear(), dt2.getMonth(), dt2.getDate()) - Date.UTC(dt1.getFullYear(), dt1.getMonth(), dt1.getDate())) / (1000 * 60 * 60 * 24));
   }
+
+  date_split(dateOfDiagFromDb) {
+    console.log("Year : " + dateOfDiagFromDb.substr(0, 4));
+    console.log("Year : " + dateOfDiagFromDb.substr(4, 2));
+    console.log("Year : " + dateOfDiagFromDb.substr(6, 2));
+
+    // selectedEditYear = dateOfDiagFromDb.split(0,3);
+    //     selectedEditMonth = dateOfDiagFromDb.split(4,5);
+    //     selectedEditDate = dateOfDiagFromDb.split(6,7)
+  }
   componentDidMount() {
-    var d1 = new Date("12/31/1885")
-    var d2 = new Date("02/02/2005")
-    console.log(Math.floor((d2 - d1) / 31536000000));
-    // console.log("Minus : "+ this.date_diff_indays('12/02/2012', '11/04/2014').toUTCString());
 
-    if (d1 < new Date()) {
-      console.log("In If");
+    this.date_split("20040317")
 
-    } else {
-      console.log("In else");
+    // var d1 = new Date("12/31/1885")
+    // var d2 = new Date("02/02/2005")
+    // console.log(Math.floor((d2 - d1) / 31536000000));
+    // // console.log("Minus : "+ this.date_diff_indays('12/02/2012', '11/04/2014').toUTCString());
 
-    }
+    // if (d1 < new Date()) {
+    //   console.log("In If");
+
+    // } else {
+    //   console.log("In else");
+
+    // }
   }
 
   render() {

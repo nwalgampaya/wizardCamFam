@@ -67,6 +67,7 @@ class CancerInfo extends React.Component {
       lateralFromDb: '',
       histocodesFromDb: '',
       behaviourcodesFromDb: '',
+      dateOfDiagFromDb: '',
       ageDiagnosisFromDb: '',
       diagSourceFromDb: '',
       tissueFromDb: '',
@@ -723,6 +724,16 @@ class CancerInfo extends React.Component {
     // Remove comment
     // this.setState({ histocodesFromDb : this.state.cancerInfo[id].histology.code + " | " +this.state.cancerInfo[id].histology.description     })
     this.setState({ behaviourcodesFromDb: this.state.cancerInfo[id].behaviour.description })
+    this.setState({ dateOfDiagFromDb: this.state.cancerInfo[id].dateOfDiagnosis })
+    console.log("dateOfDiagFromDb : " + this.state.cancerInfo[id].dateOfDiagnosis)
+    if (this.state.cancerInfo[id].dateOfDiagnosis != '') {
+      this.setState({ selectedEditYear: this.state.cancerInfo[id].dateOfDiagnosis.substr(0, 4) });
+      this.setState({ selectedEditMonth: this.state.cancerInfo[id].dateOfDiagnosis.substr(4, 2) });
+      this.setState({ selectedEditDate: this.state.cancerInfo[id].dateOfDiagnosis.substr(6, 2) });
+      console.log("selectedEditDate : " + this.state.selectedEditDate)
+
+    }
+
     this.setState({ ageDiagnosisFromDb: this.state.cancerInfo[id].ageDiagnosis })
     this.setState({ diagSourceFromDb: this.state.cancerInfo[id].diagSource.description })
     this.setState({ tissueFromDb: this.state.cancerInfo[id].tissue.description })
@@ -1101,11 +1112,11 @@ class CancerInfo extends React.Component {
               </div>
               <div className="row form-check form-check-inline">
                 <div className="col-sm-5">
-                  Date Of Diagnosis: :
+                  Date Of Diagnosis:
                       </div>
                 <div className="col-sm-4">
 
-                  <DateSelect isAlive={false} value={this.state.currentDOB} name="diagDateColumn" onSelectYear={this.handleYearPickedDiag} onSelectMonth={this.handleMonthPickedDiag} onSelectDate={this.handleDatePickedDiag} />
+                  <DateSelect isAlive={false} dateOfDiagFromDb={this.state.dateOfDiagFromDb} value={this.state.currentDOB} name="diagDateColumn" onSelectYear={this.handleYearPickedDiag} onSelectMonth={this.handleMonthPickedDiag} onSelectDate={this.handleDatePickedDiag} />
 
                   {/* <DatePicker
                                                     onChange={this.oncurrentDOBChange}
@@ -1114,7 +1125,7 @@ class CancerInfo extends React.Component {
                   <div className="validationMsg">
                     {/* <Error name="currentdobColumn" /> */}
                   </div>
-                
+
                   {/* <DatePicker
                     // onChange={this.oncurrentDOBChange}
                     value={this.state.currentDOB}

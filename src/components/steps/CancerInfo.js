@@ -967,7 +967,7 @@ class CancerInfo extends React.Component {
     return (
       <div>
         Cancer Information
-              <table>
+              <table className="TFtable">
           <tbody>
             <tr>
               <th>
@@ -1008,15 +1008,11 @@ class CancerInfo extends React.Component {
             {rows}
 
 
-            <tr>
-              <td>
-                <Button bsSize="small" onClick={() => this.handleShowAddCancer(this.state.newCancerModalId)} /*onClick={this.handleShowAddCancer}*/>
-                  Add Cancer
-                    </Button>
-              </td>
-            </tr>
-          </tbody>
+           </tbody>
         </table>
+        <Button  className="btn btn-cancer"  onClick={this.handleShowAddCancer}>       Add Cancer
+                    </Button>
+               <p>“If you wish to delete any of these cancers please contact CFR Informatics.” </p>
 
         {/* Modal for Editing New Cancer - START*/}
         <div >

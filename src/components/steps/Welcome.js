@@ -10,7 +10,7 @@ export default class Welcome extends React.Component {
 
         return (
             <div>
-                <div className="col-sm-8 App">
+                <div className="welcome-para">
 
                     <p >WELCOME TO THE USC CCFR INFORMATICS DATA PORTAL</p>
                     

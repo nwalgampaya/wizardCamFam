@@ -11,6 +11,7 @@ body {
   font-family: "verdana";
   font-size: 16px;
   line-height: 1.5;
+  background:url("../src/img/dna4x.jpg") repeat 
 }
 /*img {  
 max-width: 100% !important;  
@@ -34,17 +35,17 @@ padding-left: 15px;
 padding-right: 15px;
 padding-top: 15px;
 padding-bottom: 25px;
--webkit-box-shadow: 1px 1px 3px #aaa;
--moz-box-shadow: 1px 1px 3px #aaa;
+/* -webkit-box-shadow: 1px 1px 3px #aaa; */
+/* -moz-box-shadow: 1px 1px 3px #aaa; */
 /* box-shadow: 0 0px 0 5px rgba(0,0,0,.1), 0px 1px 1px rgba(0,0,0,.35); */
 /* -webkit-border-radius: 2px; */
--moz-border-radius: 2px;
+/* -moz-border-radius: 2px; */
 /* border-radius: 2px; */
 background: #fff;
 /* border-top-right-radius: 7px; */
 /* border-bottom-left-radius: 7px; */
 /* border-bottom-right-radius: 7px; */
-box-shadow: 1px 1px 3px #aaa;
+/* box-shadow: 1px 1px 3px #aaa; */
 }
 
 table{
@@ -222,11 +223,199 @@ vertical-align: middle;
 .date-table{
   /* border: 1px solid black; */
   /* border-collapse: collapse; */
-  padding: 0px;
-  padding-left: 0px;
-  width:400px;
-  border-spacing: 1005px
+  display: flex;
+  width:500px;
+  
 
   /* style: width:50% */
 
 }
+.img-banner{
+  
+  margin: auto;
+  display: block;
+
+}
+.btn-primary {
+  color: #666;
+  /* background-color: #007bff; */
+  /* border-color: #007bff; */
+  background-color: #cfc7b8;
+  font-family: "Muli-SemiBold";
+  height: 35px;
+  width: 100px;
+}
+
+.btn {
+  display: inline-block;
+  font-weight: 400;
+  text-align: center;
+  white-space: nowrap;
+  vertical-align: middle;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+  border: 1px solid transparent;
+  padding: 0em;
+  font-size: 1.7rem;
+  line-height: 1.5;
+   border-radius: 0rem; 
+  transition: color .15s ease-in-out,background-color .15s ease-in-out,border-color .15s ease-in-out,box-shadow .15s ease-in-out;
+}
+.btn-cancer {
+  color: rgb(46, 41, 41);
+  /* background-color: #007bff; */
+   
+   border : 2px solid gray;
+  background-color: white;
+  font-family: "Muli-SemiBold";
+  height: 35px;
+  width: 100px;
+  margin-top:10px;
+}
+
+.welcome-para{
+
+  font-weight:bold;
+  text-align: center;
+
+}
+.form-control-Search
+{
+height :37px;
+border :none;
+border-bottom : 2px solid #e6e6e6;
+width : 300px;
+color :#666;
+text-align: center;
+}
+
+.form-holder-search{
+  text-align: center;
+}
+
+.panel-header-left{
+  border-bottom : 2px solid #e9e0cf;
+  font-size: 18px
+}
+
+
+.TFtable {
+	
+	border-collapse: collapse;
+/* 	border: #dae5f4 8px solid; */
+	margin: auto;
+	
+}
+
+.TFtable td,th {
+	
+	    border: 1px solid #dee2e6;
+	text-align: center !important;
+}
+
+.TFtable tr {
+	background: #ecf1f9;
+}
+/*  Define the background color for all the ODD background rows  */
+.TFtable tr:nth-child(odd) {
+  background: #f0eeec;
+ /* background: #f8f8f8;*/
+}
+/*  Define the background color for all the EVEN background rows  */
+.TFtable tr:nth-child(even) {
+	background: white;
+}
+
+th.last-name *, td.last-name {
+	font-weight: bold;
+	color: #AA0000;
+}
+
+th.numeric, td.numeric {
+	text-align: right !important;
+}
+
+.TFtable tr th {
+	background-position: right;
+	background-repeat: no-repeat;
+	background: #f5f5f5;
+}
+
+.TFtable tr th {
+	
+	
+	background-color: #f5f5f5;
+	
+}
+
+.form-control{height:42px;border:1px solid #e6e6e6;width:100%;background:0 0;padding:0 35px 0 19px;color:#999}.form-control:focus{border-color:#8eb852}.form-control::-webkit-input-placeholder{color:#999}.form-control::-moz-placeholder{color:#999}
+.existingDetails{
+
+  background-color: #f9f6f1;
+  border: 2px solid #e6e6e6;
+  border-radius: 1px
+}
+.spanText{
+
+  color:#999
+}
+
+.Ptable{
+  width:100%; 
+  border-collapse:collapse; 
+}
+.Ptable td{ 
+  padding:6px; 
+  border: 1px solid #dee2e6;
+}
+
+.Ptable th{ 
+  padding:6px; 
+  border: 1px solid #dee2e6;
+}
+/* provide some minimal visual accomodation for IE8 and below */
+.Ptable tr{
+  background: #ecf1f9;
+}
+
+/*  Define the background color for all the ODD background rows  */
+.Ptable tr:nth-child(odd) {
+  background: white;
+ /* background: #f8f8f8;*/
+}
+/*  Define the background color for all the EVEN background rows  */
+.Ptable tr:nth-child(even) {
+	background: #dff0d8;
+}
+      th.last-name *, td.last-name {
+          font-weight: bold;
+          color: #AA0000;
+      }
+      th.numeric, td.numeric {
+          text-align: right !important;
+      }
+ .Ptable tr th {
+  background-position: right;
+  background-repeat: no-repeat;
+}
+ 
+
+.Ptable tr.changed{
+
+background-color: #fff7ea;
+}
+.changed{
+
+color: chocolate;
+}
+
+.chooseImage{
+border:0px;
+background:transparent;
+cursor:pointer;
+
+}
+h3{font-family:muli-semibold;font-size:22px;color:#453e79;text-transform:uppercase;letter-spacing:7px;padding:5px 15px;display:inline-block;border:1px solid #dad8e4;}
+p{font-family:muli-semibold;font-size:20px;color:#6d7f52;text-align:center;margin-bottom:26px}

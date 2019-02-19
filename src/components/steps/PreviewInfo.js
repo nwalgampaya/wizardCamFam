@@ -22,7 +22,7 @@ export default class PreviewInfo extends React.Component {
         return (
 
 
-            <table>
+            <table className="Ptable">
                 <tbody>
                     <tr>
                         <th>

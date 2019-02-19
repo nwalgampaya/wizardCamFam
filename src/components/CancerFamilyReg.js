@@ -1410,8 +1410,8 @@ class CancerFamilyReg extends React.Component {
                                 <div className="col-sm-12">
                                     <div className="row">
                                         {/* Existing Details Start */}
-                                        <div className="col-sm-6">
-                                            <div className="col-sm-12">
+                                        <div className="col-sm-6 existingDetails"> 
+                                            <div className="col-sm-12 panel-header-left">
                                                 Existing Details
                                         </div> <br />
                                             <div className="col-sm-12">
@@ -1433,14 +1433,14 @@ class CancerFamilyReg extends React.Component {
                                         </div>
 
                                             <div className="col-sm-12">
-                                                <span>{this.state.dateOFDOB}</span>
+                                                <span className="spanText">{this.state.dateOFDOB}</span>
                                             </div> <br />
                                             <div className="col-sm-12">
                                                 Vital Status:
                                         </div>
 
                                             <div className="col-sm-12">
-                                                <span>{this.state.status}</span>
+                                                <span className="spanText">{this.state.status}</span>
                                             </div><br />
 
                                             <div className="col-sm-12">
@@ -1448,7 +1448,7 @@ class CancerFamilyReg extends React.Component {
                                         </div>
 
                                             <div className="col-sm-12">
-                                                <span>{this.state.dateOfDeath}</span>
+                                                <span className="spanText">{this.state.dateOfDeath}</span>
                                             </div><br />
 
                                             <div className="col-sm-12">
@@ -1457,7 +1457,7 @@ class CancerFamilyReg extends React.Component {
 
                                             <div className="col-sm-12">
                                                 {/* <span><label className="form-check-label" name ="aodeathColumn"  >{values.aodeathColumn}</label></span> */}
-                                                <span>{this.state.aodeath}</span>
+                                                <span className="spanText">{this.state.aodeath}</span>
                                                 {/* {this.state.aodeath} */}
                                             </div><br />
 
@@ -1466,7 +1466,7 @@ class CancerFamilyReg extends React.Component {
                                         </div>
 
                                             <div className="col-sm-12">
-                                                <span>{this.state.sourceOFDeath.description}</span>
+                                                <span className="spanText">{this.state.sourceOFDeath.description}</span>
                                             </div><br />
 
                                             <div className="col-sm-12">
@@ -1474,7 +1474,7 @@ class CancerFamilyReg extends React.Component {
                                         </div>
 
                                             <div className="col-sm-12">
-                                                <span>{this.state.courseOFDeath.description}</span>
+                                                <span className="spanText">{this.state.courseOFDeath.description}</span>
                                             </div><br />
 
                                             <div className="col-sm-12">
@@ -1482,7 +1482,7 @@ class CancerFamilyReg extends React.Component {
                                         </div>
 
                                             <div className="col-sm-12">
-                                                <span>{this.state.dateOfLKDA}</span>
+                                                <span className="spanText">{this.state.dateOfLKDA}</span>
                                             </div><br />
 
                                             <div className="col-sm-12">
@@ -1491,7 +1491,7 @@ class CancerFamilyReg extends React.Component {
 
                                             <div className="col-sm-12">
                                                 {/* ToDo correct value  */}
-                                                <span>{this.state.sourceOfLiveDate.description}</span>
+                                                <span className="spanText">{this.state.sourceOfLiveDate.description}</span>
                                             </div><br />
 
                                             <div className="col-sm-12">
@@ -1499,7 +1499,7 @@ class CancerFamilyReg extends React.Component {
                                         </div>
 
                                             <div className="col-sm-12">
-                                                <span>{this.state.fPI1Status.description}</span>
+                                                <span className="spanText">{this.state.fPI1Status.description}</span>
                                             </div><br />
 
                                             <div className="col-sm-12">
@@ -1507,7 +1507,7 @@ class CancerFamilyReg extends React.Component {
                                         </div>
 
                                             <div className="col-sm-12">
-                                                <span>{this.state.fPI2Status.description}</span>
+                                                <span className="spanText">{this.state.fPI2Status.description}</span>
                                             </div><br />
 
                                             <div className="col-sm-12">
@@ -1515,7 +1515,7 @@ class CancerFamilyReg extends React.Component {
                                         </div>
 
                                             <div className="col-sm-12">
-                                                <span>{this.state.fPI3Status.description}</span>
+                                                <span className="spanText">{this.state.fPI3Status.description}</span>
                                             </div><br />
 
 
@@ -1524,7 +1524,7 @@ class CancerFamilyReg extends React.Component {
                                         </div>
 
                                             <div className="col-sm-12">
-                                                <span>{this.state.fPI4Status.description}</span>
+                                                <span className="spanText">{this.state.fPI4Status.description}</span>
                                             </div><br />
 
                                             <div className="col-sm-12">
@@ -1532,7 +1532,7 @@ class CancerFamilyReg extends React.Component {
                                         </div>
 
                                             <div className="col-sm-12">
-                                                <span>{this.state.relationshipCode.description}</span>
+                                                <span className="spanText">{this.state.relationshipCode.description}</span>
                                             </div><br />
 
                                         </div>
@@ -1542,7 +1542,7 @@ class CancerFamilyReg extends React.Component {
 
                                         {/* New Details Start*/}
                                         <div className="col-sm-6">
-                                            <div className="col-sm-12">
+                                            <div className="col-sm-12 panel-header-left">
                                                 New Details
                                         </div><br />
                                             <div className="col-sm-12">

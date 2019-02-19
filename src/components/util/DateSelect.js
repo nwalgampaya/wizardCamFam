@@ -115,10 +115,6 @@ export default class DateSelect extends React.Component {
 
             <div className="date-table">
 
-                <table>
-                    <tbody>
-                        <tr>
-                            <td>
                                 <div className="col-sm-4">
                                     <select disabled={this.props.isAlive} className="form-control " defaultValue={this.props.defaultMonth} onChange={this.setMonth.bind(this)} name="monthColumn">
                                         <option >{"Month"}</option>
@@ -170,12 +166,7 @@ export default class DateSelect extends React.Component {
                                         }
                                     </select>
                                 </div>
-                            </td>
-                        </tr>
-                    </tbody>
-                </table>
-
-
+                            
             </div>
         )
     }

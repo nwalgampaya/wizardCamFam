@@ -51,7 +51,7 @@ console.log("in individual : "+  this.state.chooseTheFamily)
 
      <div style={alignStyle}>
         <div>
-        <button  className='col-sm-12 chooseImage' style={buttonMargin} type="submit"  ><img src={require('../../img/step-3.png')} onClick={this.handleIndividual} /></button>
+        <button  className='col-sm-12 chooseImage' style={buttonMargin} type="submit"  ><img src={require('../../img/step-3.png')} onClick={this.handleFamily} /></button>
         <span className='col-sm-12'>Family</span>
         </div>
         <div>

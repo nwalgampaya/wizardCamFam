@@ -695,10 +695,12 @@ class CancerFamilyReg extends React.Component {
         });
         console.log("EEEEEEEEEEEEEEEEEEEEEEEEEEEEEE" + this.state.dateOFDOB)
         this.setState({
-            dateOfDeath: this.convertDateFormat(patientData.dateOfDeath),
+            dateOfDeath: patientData.dateOfDeath ==null? '':this.convertDateFormat(patientData.dateOfDeath),
+            // this.convertDateFormat(patientData.dateOfDeath),
 
         });
 
+        
         // this.state.dateOfDeath= patientData.dateOfDeath,
         // //this.state.= //this.existingPersonData.//u
         // this.state.aodeath= patientData.aodeath,
@@ -707,23 +709,28 @@ class CancerFamilyReg extends React.Component {
             aodeath: patientData.ageOfDeath,
 
         });
+        console.log("EEEEEEEEEEEEEEEEEEEEEEEEEEEEEE aodeath" + this.state.aodeath)
 
         this.setState({
             sourceOFDeath: {
-                id: patientData.sourceOfDeath ==''? '': patientData.sourceOfDeath.id,
-                description: patientData.sourceOfDeath ==''? '': patientData.sourceOfDeath.description ,
+                id:   patientData.sourceOfDeath ==null ?'' :patientData.sourceOfDeath.id , 
+                description: patientData.sourceOfDeath ==null  ? '': patientData.sourceOfDeath.description ,
             }
 
         });
+
+        console.log("EEEEEEEEEEEEEEEEEEEEEEEEEEEEEE sourceOFDeath" )
+
         this.setState({
             courseOFDeath: {
 
-                id: patientData.courseOfDeath.id,
-                description: patientData.courseOfDeath.description,
+                id: patientData.courseOfDeath ==null ? '': patientData.courseOfDeath.id,
+                description: patientData.courseOfDeath ==null ? '': patientData.courseOfDeath.description,
                 // code: patientData.sourceOfLiveDate.code,
                 // patientData.courseOfDeath,
             }
         });
+        console.log("EEEEEEEEEEEEEEEEEEEEEEEEEEEEEE courseOfDeath" )
 
         // this.setState({
         //     sourceOfLiveDate: patientData.sourceOfLiveDate,

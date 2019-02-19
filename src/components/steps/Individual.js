@@ -56,12 +56,13 @@ export default class Individual extends React.Component {
         return (
 
             <div>
-                <p> Please enter Patient ID to update a participant's follow-up and cancer data </p>
-                <h4> Patient ID:</h4>
-                <input type="text" value={this.state.patientId} onChange={this.setPatientId.bind(this)} name="iDColumn" />
+                 <p> Please enter Patient ID to update a participant's follow-up and cancer datap </p>
+                <div className="form-holder-search">
+                
+                <input className="form-control-Search" type="search"  placeholder="Patient CID" value={this.state.patientId} onChange={this.setPatientId.bind(this)} name="iDColumn"/> 
                 {/* <p>{this.state.patientId}</p> */}
                 {/* <h2>In Individual Screen</h2> */}
-
+                </div>
             </div>
         )
     }

@@ -222,24 +222,9 @@ export default class Wizard extends React.Component {
         </div>
         <div className="container">
           <div className='content_body centered' >
-            <table>
-              <tbody>
-                <tr>
-                  <td>
-                    <div className="pull-right top_menu container">
-                      <a ><img src={cFamImg} /> </a>
-                    </div>
-                  </td>
-                  <td>
-                    <div className="pull-left logo">
-                      {/* <a><img src={} alt={"logo"} /> </a> */}
-                    </div>
-
-                  </td>
-                </tr>
-              </tbody>
-            </table>
-            <br />
+          <div >
+                                    <a ><img  className="img-banner" src={cFamImg}  /> </a>
+                          </div> <br />
             <Form
               initialValues={values}
               validate={this.validate}

@@ -31,14 +31,37 @@ console.log("in individual : "+  this.state.chooseTheFamily)
     }
     render(){
 
+        const buttonMargin = {
+            marginRight:'25px'
+        
+          }; 
+          const alignStyle = {
+            textAlign: 'center',
+            marginBottom: '50px',
+            marginTop: '25px',
+            display:'flex',
+            marginLeft:'30%',
+
+            
+        
+          }; 
         return(
 
-            <div>
+           
 
-                <button type="submit" onClick={this.handleFamily}>Family </button>
-                <button type="submit" onClick={this.handleIndividual}> Individual </button>
+     <div style={alignStyle}>
+        <div>
+        <button  className='col-sm-12 chooseImage' style={buttonMargin} type="submit"  ><img src={require('../../img/step-3.png')} onClick={this.handleIndividual} /></button>
+        <span className='col-sm-12'>Family</span>
+        </div>
+        <div>
+         <button className='col-sm-12 chooseImage' type="submit"  ><img src={require('../../img/step-4.png')} onClick={this.handleIndividual} /></button>
+         <span className='col-sm-12'>Individual</span>
+         </div>
+           </div>
 
-            </div>
+               
+            
         )
     }
 }

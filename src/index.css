@@ -80,9 +80,9 @@ table > tr {
   float: right;
 }
 .control-margin {
-  margin-bottom: 15px;
+  margin-bottom: 10px;
   font-size: 16px;
-  font-weight: bold;
+  /* font-weight: bold; */
 }
 
 .control-margin-bottom15 {

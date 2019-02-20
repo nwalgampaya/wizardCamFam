@@ -11,11 +11,16 @@ import StartPageRegistry from "./components/StartPageRegistry"
 import TestValidations from "./components/TestValidations";
 import DateSelect from "./components/util/DateSelect"
 import AddCancerModal from "./components/steps/AddCancerModal";
+import Login from "./components/Login";
+import Routes from './components/Routes';
+
+
 
 const template = (
   // <MyDate/>
   // <BootstrapDialogOld/>
-  <FormikApp />
+  <Routes />
+  //<FormikApp/>
   // <AddCancerModal/>
   // <DateSelect />
   // <CancerInfo/>

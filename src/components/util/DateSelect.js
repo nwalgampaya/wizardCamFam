@@ -13,9 +13,9 @@ export default class DateSelect extends React.Component {
             selectedDate: '',
             selectedYear: '',
 
-            defaultMonth: '',
-            defaultDate: '',
-            defaultYear: '',
+            selectedEditMonth: '',
+            selectedEditDate: '',
+            selectedEditYear: '',
 
             dateOfDiagFromDb: '',
 
@@ -49,25 +49,83 @@ export default class DateSelect extends React.Component {
         this.props.onSelectYear(event.target.value)
 
     }
+
+    convertDateToString(date) {
+        var date = date;
+        // "03/22/2004"
+        // 03222004
+
+        date = date.replace("/", '');
+        console.log(" convertDateToString " + date)
+        date = date.substr(5, 4) + date.substr(0, 4);
+        console.log(" convertDateToString : " + date)
+        return date;
+    }
     componentWillMount() {
         this.getDateArray();
         this.getMonths();
         this.getYears();
 
+        // this.setState({ dateOfDiagFromDb: this.props.dateOfDiagFromDb });
+        // var EditYear = this.props.dateOfDiagFromDb;
+        // var EditMonth = this.props.dateOfDiagFromDb;
+        // var EditDate = this.props.dateOfDiagFromDb;
+        var dateOfDiagFromDb = this.props.dateOfDiagFromDb + "";
+        // EditDate = "20041012"
+
+
+        console.log("REGX MATCH :" + dateOfDiagFromDb)
+
+
+        // var res = 
+        if (dateOfDiagFromDb.match(/[0-9][0-9]\/[0-9][0-9]\/[0-9][0-9][0-9][0-9]/)) {
+            console.log("REGX MATCH FOUND")
+            this.setDatePicker(this.convertDateToString(dateOfDiagFromDb));
+        } else {
+            this.setDatePicker(dateOfDiagFromDb)
+        }
+
+        // this.state.dateOfDiagFromDb = this.props.dateOfDiagFromDb;
+        // EditDate = this.props.dateOfDiagFromDb + "";
+        // console.log("PICKER VALUES db : " + "" + this.state.dateOfDiagFromDb.substring(0, 4))
+
+
+        // this.state.selectedEditYear = dateOfDiagFromDb.substr(0, 4)
+        // this.state.selectedEditMonth = dateOfDiagFromDb.substr(4, 6)
+        // this.state.selectedEditDate = dateOfDiagFromDb.substr(6, 8)
+
+        console.log("PICKER VALUES : " + "" + this.state.selectedEditDate)
+
+    }
+
+    setDatePicker(dateOfDiagFromDb) {
+
+        console.log("PICKER VALUES year : " + dateOfDiagFromDb.substr(0, 4))
+        console.log("PICKER VALUES mnth: " + dateOfDiagFromDb.substr(4, 2))
+        console.log("PICKER VALUES date: " + dateOfDiagFromDb.substr(6, 2))
+
+        this.setState({ selectedEditYear: dateOfDiagFromDb.substr(0, 4) });
+        this.setState({ selectedEditMonth: dateOfDiagFromDb.substr(4, 2) });
+        this.setState({ selectedEditDate: dateOfDiagFromDb.substr(6, 2) });
     }
 
     componentDidMount() {
 
-        this.setState({ dateOfDiagFromDb: this.props.dateOfDiagFromDb });
-        var EditYear = this.props.dateOfDiagFromDb;
-        var EditMonth = this.props.dateOfDiagFromDb;
-        var EditDate = this.props.dateOfDiagFromDb;
+        // this.setState({ dateOfDiagFromDb: this.props.dateOfDiagFromDb });
+        // var EditYear = this.props.dateOfDiagFromDb;
+        // var EditMonth = this.props.dateOfDiagFromDb;
+        // var EditDate = this.props.dateOfDiagFromDb;
+        // // EditDate = "20041012"
 
-        // console.log("PICKER VALUES : " + EditDate.substr(0, 4))
-        this.setState({ selectedEditYear: EditYear });
-        this.setState({ selectedEditMonth: EditMonth });
-        this.setState({ selectedEditDate: EditDate });
-        // console.log("PICKER VALUES : " + "" + this.props.dateOfDiagFromDb.substring(0, 4))
+        // // this.state.dateOfDiagFromDb = this.props.dateOfDiagFromDb;
+        // EditDate = this.props.dateOfDiagFromDb + "";
+        // // console.log("PICKER VALUES db : " + "" + this.state.dateOfDiagFromDb.substring(0, 4))
+        // console.log("PICKER VALUES : " + EditDate.substr(6, 8))
+        // this.setState({ selectedEditYear: EditYear });
+        // this.setState({ selectedEditMonth: EditMonth });
+        // this.setState({ selectedEditDate: EditDate.substr(6, 8) });
+        // this.state.selectedEditDate = EditDate.substr(6, 8)
+        // console.log("PICKER VALUES : " + "" + this.state.selectedEditDate)
     }
     getDateArray() {
         var i;
@@ -115,58 +173,58 @@ export default class DateSelect extends React.Component {
 
             <div className="date-table">
 
-                                <div className="col-sm-4">
-                                    <select disabled={this.props.isAlive} className="form-control " defaultValue={this.props.defaultMonth} onChange={this.setMonth.bind(this)} name="monthColumn">
-                                        <option >{"Month"}</option>
-                                        {
-                                            this.state.monthArray.map((value, i) => {
+                <div className="col-sm-4">
+                    <select disabled={this.props.isAlive} className="form-control " defaultValue={this.state.selectedEditMonth} onChange={this.setMonth.bind(this)} name="monthColumn">
+                        <option >{"Month"}</option>
+                        {
+                            this.state.monthArray.map((value, i) => {
 
 
-                                                // console.log("ageGroup ID :  " + ageGroup);
-                                                return <option key={i} /*defaultValue={ageGroup}*/>{value}</option>
+                                // console.log("ageGroup ID :  " + ageGroup);
+                                return <option key={i} /*defaultValue={ageGroup}*/>{value}</option>
 
-                                            })
+                            })
 
-                                        }
-                                    </select>
-                                </div>
-                                {/* </td> */}
-                                {/* <td> */}
-                                <div className="col-sm-4">
-                                    <select disabled={this.props.isAlive} className="form-control " defaultValue={this.props.defaultDate} onChange={this.setDate.bind(this)} name="dateColumn">
-                                        <option >{"Day"}</option>
+                        }
+                    </select>
+                </div>
+                {/* </td> */}
+                {/* <td> */}
+                <div className="col-sm-4">
+                    <select disabled={this.props.isAlive} className="form-control " defaultValue={this.state.selectedEditDate} onChange={this.setDate.bind(this)} name="dateColumn">
+                        <option >{"Day"}</option>
 
-                                        {
-                                            this.state.dateArray.map((value, i) => {
-
-
-                                                // console.log("ageGroup ID :  " + ageGroup);
-                                                return <option key={i} /*defaultValue={ageGroup}*/>{value}</option>
-
-                                            })
-
-                                            // <option >{"Hospital Rec"}</option>
-                                        }
-                                    </select>
-                                </div>
-                                <div className="col-sm-4">
-                                    <select disabled={this.props.isAlive} className="form-control " defaultValue={this.props.defaultYear} onChange={this.setYear.bind(this)} name="yearColumn">
-                                        <option >{"Year"}</option>
-
-                                        {
-                                            this.state.yearArray.map((value, i) => {
+                        {
+                            this.state.dateArray.map((value, i) => {
 
 
-                                                // console.log("ageGroup ID :  " + ageGroup);
-                                                return <option key={i} /*value={ageGroup}*/>{value}</option>
+                                // console.log("ageGroup ID :  " + ageGroup);
+                                return <option key={i} /*defaultValue={ageGroup}*/>{value}</option>
 
-                                            })
+                            })
 
-                                            // <option >{"Hospital Rec"}</option>
-                                        }
-                                    </select>
-                                </div>
-                            
+                            // <option >{"Hospital Rec"}</option>
+                        }
+                    </select>
+                </div>
+                <div className="col-sm-4">
+                    <select disabled={this.props.isAlive} className="form-control " defaultValue={this.state.selectedEditYear} onChange={this.setYear.bind(this)} name="yearColumn">
+                        <option >{"Year"}</option>
+
+                        {
+                            this.state.yearArray.map((value, i) => {
+
+
+                                // console.log("ageGroup ID :  " + ageGroup);
+                                return <option key={i} /*value={ageGroup}*/>{value}</option>
+
+                            })
+
+                            // <option >{"Hospital Rec"}</option>
+                        }
+                    </select>
+                </div>
+
             </div>
         )
     }

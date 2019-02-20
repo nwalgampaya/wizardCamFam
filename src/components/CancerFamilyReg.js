@@ -695,12 +695,12 @@ class CancerFamilyReg extends React.Component {
         });
         console.log("EEEEEEEEEEEEEEEEEEEEEEEEEEEEEE" + this.state.dateOFDOB)
         this.setState({
-            dateOfDeath: patientData.dateOfDeath ==null? '':this.convertDateFormat(patientData.dateOfDeath),
+            dateOfDeath: patientData.dateOfDeath == null ? '' : this.convertDateFormat(patientData.dateOfDeath),
             // this.convertDateFormat(patientData.dateOfDeath),
 
         });
 
-        
+
         // this.state.dateOfDeath= patientData.dateOfDeath,
         // //this.state.= //this.existingPersonData.//u
         // this.state.aodeath= patientData.aodeath,
@@ -713,24 +713,24 @@ class CancerFamilyReg extends React.Component {
 
         this.setState({
             sourceOFDeath: {
-                id:   patientData.sourceOfDeath ==null ?'' :patientData.sourceOfDeath.id , 
-                description: patientData.sourceOfDeath ==null  ? '': patientData.sourceOfDeath.description ,
+                id: patientData.sourceOfDeath == null ? '' : patientData.sourceOfDeath.id,
+                description: patientData.sourceOfDeath == null ? '' : patientData.sourceOfDeath.description,
             }
 
         });
 
-        console.log("EEEEEEEEEEEEEEEEEEEEEEEEEEEEEE sourceOFDeath" )
+        console.log("EEEEEEEEEEEEEEEEEEEEEEEEEEEEEE sourceOFDeath")
 
         this.setState({
             courseOFDeath: {
 
-                id: patientData.courseOfDeath ==null ? '': patientData.courseOfDeath.id,
-                description: patientData.courseOfDeath ==null ? '': patientData.courseOfDeath.description,
+                id: patientData.courseOfDeath == null ? '' : patientData.courseOfDeath.id,
+                description: patientData.courseOfDeath == null ? '' : patientData.courseOfDeath.description,
                 // code: patientData.sourceOfLiveDate.code,
                 // patientData.courseOfDeath,
             }
         });
-        console.log("EEEEEEEEEEEEEEEEEEEEEEEEEEEEEE courseOfDeath" )
+        console.log("EEEEEEEEEEEEEEEEEEEEEEEEEEEEEE courseOfDeath")
 
         // this.setState({
         //     sourceOfLiveDate: patientData.sourceOfLiveDate,
@@ -863,9 +863,9 @@ class CancerFamilyReg extends React.Component {
             this.state.patientDataValue.intGender = this.state.currentGender;
         }
         // if (this.state.sendCurrentDOB != this.state.dateOFDOB && this.state.sendCurrentDOB != '') {
-            if (this.state.currentDOB != this.state.dateOFDOB && this.state.currentDOB != '') {
-                this.state.currentDOB = this.state.selectedYearDOB + this.state.selectedMonthDOB + this.state.selectedDateDOB;
-            
+        if (this.state.currentDOB != this.state.dateOFDOB && this.state.currentDOB != '') {
+            this.state.currentDOB = this.state.selectedYearDOB + this.state.selectedMonthDOB + this.state.selectedDateDOB;
+
             console.log("IN POST REQUEST dateOFDOB : " + this.state.currentDOB)
 
             this.state.patientDataValue.dateOfBirth = (this.state.patientDataValue.dateOfBirth == '' ? '' : (this.state.currentDOB));
@@ -876,10 +876,10 @@ class CancerFamilyReg extends React.Component {
             this.state.patientDataValue.status = (this.state.patientDataValue.status == '' ? '' : this.state.currentStatus);
         }
         if (this.state.currentDeath != this.state.dateOfDeath && this.state.currentDeath != '') {
-            this.state.currentDeath = this.state.selectedYear+ this.state.selectedMonth + this.state.selectedDate;
+            this.state.currentDeath = this.state.selectedYear + this.state.selectedMonth + this.state.selectedDate;
 
             this.state.patientDataValue.dateOfDeath = (this.state.patientDataValue.dateOfDeath == '' ? '' : this.state.currentDeath);
-            
+
             //Calculate the Age of Death
             // this.state.currentaodeath = this.getYearsFromDate(new Date(this.state.currentDeath), new Date(this.state.dateOFDOB))
         }
@@ -914,7 +914,7 @@ class CancerFamilyReg extends React.Component {
 
         }
         if (this.state.currentLKDA != this.state.dateOfLKDA && this.state.currentLKDA != '') {
-            this.state.currentLKDA = this.state.selectedYearLKD+ this.state.selectedMonthLKD + this.state.selectedDateLKD;
+            this.state.currentLKDA = this.state.selectedYearLKD + this.state.selectedMonthLKD + this.state.selectedDateLKD;
 
             this.state.patientDataValue.liveDate = (this.state.patientDataValue.liveDate == '' ? '' : this.state.currentLKDA);
         }
@@ -1114,6 +1114,7 @@ class CancerFamilyReg extends React.Component {
 
     // }
 
+
     convertDateFormat(date) {
         var formatDatestr = date
         // console.log( "year: "+ str.slice(0,4) )
@@ -1305,7 +1306,7 @@ class CancerFamilyReg extends React.Component {
                         console.log("dod 2: " + this.state.currentLKDA)
                         console.log("currentDeath 2: " + this.state.currentDeath)
 
-                        
+
                         // if (this.state.currentDeath != ''){
                         //     this.state.currentaodeath = this.getYearsFromDate(new Date(this.state.currentDeath), new Date(this.state.dateOFDOB))
                         // }
@@ -1328,25 +1329,25 @@ class CancerFamilyReg extends React.Component {
 
                         // }
 
-                       
+
                     }
-                    
+
                     // if(this.state.currentDeath != '') {
                     //         // this.setState({ currentaodeath: this.getYearsFromDate(new Date(this.state.currentDeath), new Date(this.state.dateOFDOB)) });
-                        
+
                     //     this.state.currentaodeath = this.getYearsFromDate(new Date(this.state.currentDeath), new Date(this.state.dateOFDOB))
                     //     console.log("currentaodeath 2: " + this.state.currentaodeath)
                     // }
 
-                    
+
 
                     if (new Date(this.state.currentLKDA) > new Date(this.state.currentDeath)) {
                         console.log("dod 2: " + this.state.currentDeath)
-                            console.log("dateOfLKDA  2: " + this.state.dateOfLKDA)
-                            
-                            errors.currentdodColumn = 'LKD Date cannot be greater than the Death Date'
-                    }else if (this.state.currentLKDA=='' && (new Date(this.state.dateOfLKDA) > new Date(this.state.currentDeath))) {
-                            errors.currentdodColumn = 'Existing LKD Date cannot be greater than the Death Date'
+                        console.log("dateOfLKDA  2: " + this.state.dateOfLKDA)
+
+                        errors.currentdodColumn = 'LKD Date cannot be greater than the Death Date'
+                    } else if (this.state.currentLKDA == '' && (new Date(this.state.dateOfLKDA) > new Date(this.state.currentDeath))) {
+                        errors.currentdodColumn = 'Existing LKD Date cannot be greater than the Death Date'
                     }
                     if (this.state.currentCourseOfLiveDate == '') {
                         if (this.state.currentLKDA != '') {
@@ -1361,30 +1362,30 @@ class CancerFamilyReg extends React.Component {
                         }
                     }
 
-                    if (this.state.currentDOB == '') {
-                        // alert("In error")
-                        if (this.state.selectedDateDOB != '' && this.state.selectedMonthDOB != '' && this.state.selectedYearDOB != '') {
-                            this.state.currentDOB = this.convertDateFormat(this.state.selectedYearDOB + this.state.selectedMonthDOB + this.state.selectedDateDOB);
-                            console.log("dob : " + this.state.selectedMonthDOB)
-                            console.log("dob : " + this.state.selectedDateDOB)
-                            console.log("dob : " + this.state.selectedYearDOB)
-                            console.log("dob : " + this.state.currentDOB)
+                    // if (this.state.currentDOB == '') {
+                    // alert("In error")
+                    if (this.state.selectedDateDOB != '' && this.state.selectedMonthDOB != '' && this.state.selectedYearDOB != '') {
+                        this.state.currentDOB = this.convertDateFormat(this.state.selectedYearDOB + this.state.selectedMonthDOB + this.state.selectedDateDOB);
+                        console.log("dob : " + this.state.selectedMonthDOB)
+                        console.log("dob : " + this.state.selectedDateDOB)
+                        console.log("dob : " + this.state.selectedYearDOB)
+                        console.log("dob : " + this.state.currentDOB)
 
-                            // Send to the preview screen only  if the value has changed from the old dob
-                            // if(this.state.dateOFDOB!=this.state.currentDOB){
-                            this.setPreviewScreenData("DOB", this.state.dateOFDOB, this.state.currentDOB)
-                            // }
+                        // Send to the preview screen only  if the value has changed from the old dob
+                        // if(this.state.dateOFDOB!=this.state.currentDOB){
+                        this.setPreviewScreenData("DOB", this.state.dateOFDOB, this.state.currentDOB)
+                        // }
 
 
-                        } else if (this.state.selectedDateDOB == '' && this.state.selectedMonthDOB == '' && this.state.selectedYearDOB == '') {
+                    } else if (this.state.selectedDateDOB == '' && this.state.selectedMonthDOB == '' && this.state.selectedYearDOB == '') {
 
-                        } else if (this.state.selectedDateDOB != '' || this.state.selectedMonthDOB != '' || this.state.selectedYearDOB != '') {
+                    } else if (this.state.selectedDateDOB != '' || this.state.selectedMonthDOB != '' || this.state.selectedYearDOB != '') {
 
-                            errors.currentdobColumn = 'Please enter valid DOB Date'
-                        } else {
-                        }
-
+                        errors.currentdobColumn = 'Please enter valid DOB Date'
+                    } else {
                     }
+
+                    // }
                     if (this.state.isAlive) {
                         // this.state.uknCourseOFDeath =true;
                     }
@@ -1410,7 +1411,7 @@ class CancerFamilyReg extends React.Component {
                                 <div className="col-sm-12">
                                     <div className="row">
                                         {/* Existing Details Start */}
-                                        <div className="col-sm-6 existingDetails"> 
+                                        <div className="col-sm-6 existingDetails">
                                             <div className="col-sm-12 panel-header-left">
                                                 Existing Details
                                         </div> <br />
@@ -1563,7 +1564,7 @@ class CancerFamilyReg extends React.Component {
                                                 Date of Birth:
                                         </div>
                                             <div className="col-sm-7">
-                                                <DateSelect isAlive={false} value={this.state.currentDOB} name="currentdobColumn" onSelectYear={this.handleYearPickedDOB} onSelectMonth={this.handleMonthPickedDOB} onSelectDate={this.handleDatePickedDOB} onChange={this.createDate.bind(this)} />
+                                                <DateSelect isAlive={false} value={this.state.currentDOB} dateOfDiagFromDb={this.state.currentDOB} name="currentdobColumn" onSelectYear={this.handleYearPickedDOB} onSelectMonth={this.handleMonthPickedDOB} onSelectDate={this.handleDatePickedDOB} onChange={this.createDate.bind(this)} />
 
                                                 {/* <DatePicker
                                                     onChange={this.oncurrentDOBChange}

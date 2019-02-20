@@ -14,6 +14,14 @@ export default class FamilySearch extends React.Component {
             currentLKD:'',
             sendCurrentLKD:'',
             isSearched:false,
+            srlcodesRest: [],
+            selectedSrlCode : '',
+            familyIdValue :'',
+            chkBoxId:[],
+            // { id:'',
+            //   value:'',
+
+            // },
         }
         this.handleLkd = this.handleLkd.bind(this);
         this.handleSearchGetFamily = this.handleSearchGetFamily.bind(this);
@@ -55,6 +63,8 @@ export default class FamilySearch extends React.Component {
         // return [ date[3], mnths[date[1]], date[2] ].join("-");
         return [date[3], mnths[date[1]], date[2]].join("");
     }
+
+
     componentDidMount(){
         const urlfamilyId = properties.baseUrl + "patients/family/";
         console.log("in compdidmount" + urlfamilyId)
@@ -63,13 +73,13 @@ export default class FamilySearch extends React.Component {
             .then(response => response.json())
             .then((data) => {
 
-                console.log(data);
+                // console.log(data);
                 this.setState({
                     familyData: data,
 
                 });
                 // this.state.profession.push(data);
-                console.log("data :" +data);
+                // console.log("data :" +data);
 
             })
         .catch((error) => {
@@ -78,6 +88,31 @@ export default class FamilySearch extends React.Component {
             document.write("Error : "+ error);
         });
         
+
+        
+        const urlsrlcodes = properties.baseUrl + "srlcodes/" ;
+
+        fetch(urlsrlcodes)
+            .then(response => response.json())
+            .then((data) => {
+
+                // console.log(data);
+                this.setState({
+                    srlcodesRest : data,
+
+                });
+                // this.state.IndividualData = data;
+                // console.log("data :" + data);
+
+            })
+            .catch((error) => {
+                console.log("Error :");
+
+
+                document.write("Error : " + error);
+            });
+
+      
        
     }
 
@@ -92,38 +127,62 @@ export default class FamilySearch extends React.Component {
     } 
     showFamilyId() {
         console.log("In showFamily")
-        if(this.state.isSearched==true){
 
-            return (this.state.familyLkd.map((value, i) => 
+        if(this.state.isSearched==true){
+            return (this.state.individualId.map((value, i) => 
             <tr>
-                <td><input onChange={this.setfamilyId.bind(this)} value={i} type="radio" name="familyId"/></td>
+                {/* value={this.state.chkBoxId} */}
+                {/* {i+","+value} */}
+                <td><input className="form-check-input" type="checkbox"  name="individualChkbx" onChange={this.setCheckBoxValues.bind(this)} /></td>
+                                                
+                {/* <td><input onChange={this.setfamilyId.bind(this)} value={i} type="radio" name="familyId"/></td> */}
                 <td>{value}</td>
             </tr>
         ))
     }
     }
    
+    setCheckBoxValues(event){
+        console.log("setUnknownCauseDeath :" + event);
+        console.log("setUnknownCauseDeath :" + event.target.value);
 
-    setFamilyId(value) {
+        // this.state.uknCourseOFDeath=false;
+        this.setState({
+            chkBoxId: event,
+        });
+       
+
+    }
+    setFamilyValue(value) {
         // {e => this.setState({ value: e.target.value })}
         console.log("family Id :" + value);
         this.setState({
-            value: value,
+            familyIdValue: value,
         });
+    
+    }
 
-        const urlIndividualId = properties.baseUrl + "patients/family/" + value;
+    handleSearchGetFamily() {
+
+        // console.log("handleSearchGetFamily : " + this.state.sendCurrentLKD);
+        console.log("individualId : " + this.state.value);
+        
+        // if(sendCurrentLKD!=='' && familyIdValue!='' &&  selectedSrlCode!=''){
+
+        // }
+        var familyIdValue = this.state.familyIdValue;
+        const urlIndividualId = properties.baseUrl + "patients/family/" + familyIdValue;
 
         fetch(urlIndividualId)
             .then(response => response.json())
             .then((data) => {
 
-                console.log(data);
+                console.log("individualId" + data);
                 this.setState({
                     individualId: data,
 
                 });
-                // this.state.IndividualData = data;
-                console.log("data :" + data);
+                // this.state.individualId = data;
 
             })
             .catch((error) => {
@@ -132,6 +191,8 @@ export default class FamilySearch extends React.Component {
 
                 document.write("Error : " + error);
             });
+            console.log("data : " + this.state.individualId);
+            this.state.isSearched=true;
 
         this.state.individualId.map((value, i) => {
             console.log("individual : " + value)
@@ -139,11 +200,21 @@ export default class FamilySearch extends React.Component {
         })
     }
 
-    handleSearchGetFamily() {
-
-        console.log("handleSearchGetFamily : " + this.state.sendCurrentLKD);
-        console.log("individualId : " + this.state.value);
+    setSrlcodes(event){
+        console.log("Srlcode :" + event.target.value);
+        // this.setState
+        this.setState({
+            selectedSrlCode: event.target.value,
+        });
         
+    }
+    onSavePatientOnly(e) {
+        console.log(" onSavePatientOnly onSavePatientOnly ")
+
+    }
+
+    handleSubmit(){
+        console.log("In submit")
         const urlFamilyLkd = properties.baseUrl + "patients/family/" + this.state.value+"?lkd="+this.state.sendCurrentLKD;
 
         fetch(urlFamilyLkd)
@@ -165,12 +236,6 @@ export default class FamilySearch extends React.Component {
 
                 document.write("Error : " + error);
             });
-
-            this.state.isSearched=true;
-    }
-
-    onSavePatientOnly(e) {
-        console.log(" onSavePatientOnly onSavePatientOnly ")
 
     }
     render(){
@@ -199,15 +264,15 @@ export default class FamilySearch extends React.Component {
                         </div>
                     }
                     value={this.state.value}
-                    //   onChange={this.setFamilyId.bind(this)}
+                    //   onChange={this.setFamilyValue.bind(this)}
                     onChange={e => this.setState({ value: e.target.value })}
-                    onSelect={this.setFamilyId.bind(this)}
+                    onSelect={this.setFamilyValue.bind(this)}
                 //   onSelect={value => this.setState({ value })}
                 //   on
 
                 />
                
-                <Autocomplete
+                {/* <Autocomplete
                     items={this.state.individualId}
 
                     // items ={this.state.familyData}
@@ -234,14 +299,32 @@ export default class FamilySearch extends React.Component {
                     onSelect={individualVal => this.setState({ individualVal })}
                 //   on
 
-                />
+                /> */}
+                <div className="col-sm-5">
+                    <select className="form-control dorp-box" value={this.state.selectedSrlCode} onChange={this.setSrlcodes.bind(this)} name="srlCodesColumn">
+                        <option >{"Choose One"}</option>
+                        {
+
+                            this.state.srlcodesRest.map((read, i) => {
+                                this.state.read = read.description;
+                                // console.log("profession ID :  " + read.id);
+                                return <option key={read.id} value={read.description}>{read.description}</option>
+                            })
+                        }
+
+                        {/* <option >{"Hospital Rec"}</option> */}
+                        }
+                                            </select>
+                    
+                </div>
 
                 <DatePicker
                     onChange={this.handleLkd}
                     value={this.state.currentLKD}
                 />
                 <br/><br/>
-                <button type="button" onClick={this.handleSearchGetFamily}> Search</button>
+                {/* disabled={this.state.sendCurrentLKD =='' && this.state.familyIdValue =='' &&  this.state.selectedSrlCode ==''} */}
+                <button  disabled={this.state.sendCurrentLKD =='' || this.state.familyIdValue =='' ||  this.state.selectedSrlCode ==''} type="button" onClick={this.handleSearchGetFamily}> Search</button>
                 <button type="button"> Reset</button>
 
                 <table>

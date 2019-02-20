@@ -1362,7 +1362,7 @@ class CancerFamilyReg extends React.Component {
                         }
                     }
 
-                    // if (this.state.currentDOB == '') {
+                    if (this.state.currentDOB == '') {
                     // alert("In error")
                     if (this.state.selectedDateDOB != '' && this.state.selectedMonthDOB != '' && this.state.selectedYearDOB != '') {
                         this.state.currentDOB = this.convertDateFormat(this.state.selectedYearDOB + this.state.selectedMonthDOB + this.state.selectedDateDOB);
@@ -1385,7 +1385,7 @@ class CancerFamilyReg extends React.Component {
                     } else {
                     }
 
-                    // }
+                    }
                     if (this.state.isAlive) {
                         // this.state.uknCourseOFDeath =true;
                     }

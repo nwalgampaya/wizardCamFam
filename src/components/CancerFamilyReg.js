@@ -199,9 +199,9 @@ class CancerFamilyReg extends React.Component {
             selectedDateDOB: '',
 
             // FamilySearch page
-            chkBoxId:'',
-            selectedSrlCode:'',  
-            currentLKD:'',
+            chkBoxId: '',
+            selectedSrlCode: '',
+            currentLKD: '',
 
         };
         this.oncurrentDOBChange = this.oncurrentDOBChange.bind(this);
@@ -223,7 +223,7 @@ class CancerFamilyReg extends React.Component {
         console.log("SELECTED OPTION family" + this.state.choosePathFamily)
         if (this.state.choosePathFamily) {
             //  fourthPage:'',
-            this.state.sixthPage = <FamilySearch ref={this.child} onFamilySearch={this.handleDataFromFamilySearch}/>
+            this.state.sixthPage = <FamilySearch ref={this.child} onFamilySearch={this.handleDataFromFamilySearch} />
 
             return <Family />
         } else {
@@ -1082,16 +1082,16 @@ class CancerFamilyReg extends React.Component {
                 document.write(error);
             });
     }
-    handleDataFromFamilySearch= (chkBoxId,selectedSrlCode,currentLKD) => {
+    handleDataFromFamilySearch = (chkBoxId, selectedSrlCode, currentLKD) => {
         console.log("handleDataFromFamilySearch : " + chkBoxId)
         console.log("handleDataFromFamilySearch : " + selectedSrlCode)
         console.log("handleDataFromFamilySearch : " + currentLKD)
         this.setState({ chkBoxId: chkBoxId });
         this.setState({ selectedSrlCode: selectedSrlCode });
         this.setState({ currentLKD: currentLKD });
-        
-         
-        
+
+
+
     }
 
     handleDataFromPreviewPage = (isInPreviewScreen) => {
@@ -1151,15 +1151,15 @@ class CancerFamilyReg extends React.Component {
     onSavePatientOnly(e) {
         console.log(" onSavePatientOnly onSavePatientOnly ")
     }
-    onSelectCancerFamId(e){
+    onSelectCancerFamId(e) {
         console.log(" cancerFamily onSelectCancerFamId ")
-        
+
         this.child.current.onSelectCancerFamId();
     }
 
-    onSaveCancerFamilyID(){
+    onSaveCancerFamilyID() {
         console.log(" cancerFamily onSaveCancerFamilyID ")
-        
+
         this.child.current.onSaveCancerFamilyID();
     }
     // When "Save to database" is clicked in the preview screen(Previewinfo.js) this method will be fired.
@@ -1209,7 +1209,15 @@ class CancerFamilyReg extends React.Component {
                 name={name}
                 subscribe={{ touched: true, error: true }}
                 render={({ meta: { touched, error } }) =>
-                    touched && error ? <span>{error}</span> : null
+                    touched && error ? (
+                        <div className="inline-error">
+                            <ul>
+                                <li className="validationMsg">
+                                    <span>{error}</span>
+                                </li>
+                            </ul>
+                        </div>
+                    ) : null
                 }
             />
         )
@@ -1222,7 +1230,9 @@ class CancerFamilyReg extends React.Component {
 
         // } = this.props;
 
-
+        const alignLeft0 = {
+            paddingLeft: "0px"
+        };
         return (
             // isModalOpenValue={this.state.isModalOpen}
             // <Wizard >
@@ -1251,7 +1261,7 @@ class CancerFamilyReg extends React.Component {
                 onSavePatientOnly={this.onSavePatientOnly.bind(this)}
                 onSelectCancerFamId={this.onSelectCancerFamId.bind(this)}
                 onSaveCancerFamilyID={this.onSaveCancerFamilyID.bind(this)}
-                
+
             >
                 <Wizard.Page>
                     <Welcome />  {/* Page 0 */}
@@ -1392,7 +1402,7 @@ class CancerFamilyReg extends React.Component {
                         }
                     }
 
-                    if (this.state.currentDOB == '') {
+                    // if (this.state.currentDOB == '') {
                     // alert("In error")
                     if (this.state.selectedDateDOB != '' && this.state.selectedMonthDOB != '' && this.state.selectedYearDOB != '') {
                         this.state.currentDOB = this.convertDateFormat(this.state.selectedYearDOB + this.state.selectedMonthDOB + this.state.selectedDateDOB);
@@ -1415,12 +1425,12 @@ class CancerFamilyReg extends React.Component {
                     } else {
                     }
 
-                    }
+                    // }
                     if (this.state.isAlive) {
                         // this.state.uknCourseOFDeath =true;
                     }
 
-                   
+
                     console.log(" ERRORS " + errors)
 
                     if (errors.length == 0) {
@@ -1431,7 +1441,9 @@ class CancerFamilyReg extends React.Component {
                     return errors
                 }}>
 
-                    <div>                                                          {/* Page 3 */}
+                    <div>
+                        {" "}
+                        {/* Page 3 */}
                         {/* <Wizard.Page> */}
                         <div className="row">
                             {/* <div className="form-horizontal"> */}
@@ -1440,14 +1452,12 @@ class CancerFamilyReg extends React.Component {
                                     <div className="row">
                                         {/* Existing Details Start */}
                                         <div className="col-sm-6 existingDetails">
-                                            <div className="col-sm-12 panel-header-left">
+                                            <div className="col-sm-12 panel-header-left control-margin">
                                                 Existing Details
-                                        </div> <br />
-                                            <div className="col-sm-12">
-                                                Gender:
-                                        </div>
-
-                                            <div className="col-sm-12">
+                      </div>{" "}
+                                            <br />
+                                            <div className="col-sm-12 control-margin">Gender:</div>
+                                            <div className="col-sm-12 control-margin">
                                                 {/* <span>{this.state.gender}</span> */}
                                                 {/* <input type="text" name="genderOldColumn" value={this.state.gender} /><br /> */}
                                                 <span>{this.state.gender}</span>
@@ -1456,144 +1466,186 @@ class CancerFamilyReg extends React.Component {
                                                 {/* <Error name="ageColumn" /> */}
                                                 {/* {touched.email && errors.email && <p>{errors.email}</p>} */}
                                                 {/* </div> */}
-                                            </div><br />
-                                            <div className="col-sm-12">
+                                            </div>
+                                            <br />
+                                            <div className="col-sm-12 control-margin">
                                                 Date of Birth:
-                                        </div>
-
-                                            <div className="col-sm-12">
+                      </div>
+                                            <div className="col-sm-12 control-margin">
                                                 <span className="spanText">{this.state.dateOFDOB}</span>
-                                            </div> <br />
-                                            <div className="col-sm-12">
+                                            </div>{" "}
+                                            <br />
+                                            <div className="col-sm-12 control-margin">
                                                 Vital Status:
-                                        </div>
-
-                                            <div className="col-sm-12">
+                      </div>
+                                            <div className="col-sm-12 control-margin">
                                                 <span className="spanText">{this.state.status}</span>
-                                            </div><br />
-
-                                            <div className="col-sm-12">
+                                            </div>
+                                            <br />
+                                            <div className="col-sm-12 control-margin">
                                                 Date of Death:
-                                        </div>
-
-                                            <div className="col-sm-12">
-                                                <span className="spanText">{this.state.dateOfDeath}</span>
-                                            </div><br />
-
-                                            <div className="col-sm-12">
+                      </div>
+                                            <div className="col-sm-12 control-margin">
+                                                <span className="spanText">
+                                                    {this.state.dateOfDeath}
+                                                </span>
+                                            </div>
+                                            <br />
+                                            <div className="col-sm-12 control-margin">
                                                 Age of Death:
-                                        </div>
-
-                                            <div className="col-sm-12">
+                      </div>
+                                            <div className="col-sm-12 control-margin">
                                                 {/* <span><label className="form-check-label" name ="aodeathColumn"  >{values.aodeathColumn}</label></span> */}
                                                 <span className="spanText">{this.state.aodeath}</span>
                                                 {/* {this.state.aodeath} */}
-                                            </div><br />
-
-                                            <div className="col-sm-12">
+                                            </div>
+                                            <br />
+                                            <div className="col-sm-12 control-margin">
                                                 Source of Death Information:
-                                        </div>
-
-                                            <div className="col-sm-12">
-                                                <span className="spanText">{this.state.sourceOFDeath.description}</span>
-                                            </div><br />
-
-                                            <div className="col-sm-12">
+                      </div>
+                                            <div className="col-sm-12 control-margin">
+                                                <span className="spanText">
+                                                    {this.state.sourceOFDeath.description}
+                                                </span>
+                                            </div>
+                                            <br />
+                                            <div className="col-sm-12 control-margin">
                                                 Cause of Death:
-                                        </div>
-
-                                            <div className="col-sm-12">
-                                                <span className="spanText">{this.state.courseOFDeath.description}</span>
-                                            </div><br />
-
-                                            <div className="col-sm-12">
+                      </div>
+                                            <div className="col-sm-12 control-margin">
+                                                <span className="spanText">
+                                                    {this.state.courseOFDeath.description}
+                                                </span>
+                                            </div>
+                                            <br />
+                                            <div className="col-sm-12 control-margin">
                                                 Last Known Date:
-                                        </div>
-
-                                            <div className="col-sm-12">
-                                                <span className="spanText">{this.state.dateOfLKDA}</span>
-                                            </div><br />
-
-                                            <div className="col-sm-12">
+                      </div>
+                                            <div className="col-sm-12 control-margin">
+                                                <span className="spanText">
+                                                    {this.state.dateOfLKDA}
+                                                </span>
+                                            </div>
+                                            <br />
+                                            <div className="col-sm-12 control-margin">
                                                 Source of Last Known Date:
-                                        </div>
-
-                                            <div className="col-sm-12">
+                      </div>
+                                            <div className="col-sm-12 control-margin">
                                                 {/* ToDo correct value  */}
-                                                <span className="spanText">{this.state.sourceOfLiveDate.description}</span>
-                                            </div><br />
-
-                                            <div className="col-sm-12">
+                                                <span className="spanText">
+                                                    {this.state.sourceOfLiveDate.description}
+                                                </span>
+                                            </div>
+                                            <br />
+                                            <div className="col-sm-12 control-margin">
                                                 EPI FUP 1 STATUS:
-                                        </div>
-
-                                            <div className="col-sm-12">
-                                                <span className="spanText">{this.state.fPI1Status.description}</span>
-                                            </div><br />
-
-                                            <div className="col-sm-12">
+                      </div>
+                                            <div className="col-sm-12 control-margin">
+                                                <span className="spanText">
+                                                    {this.state.fPI1Status.description}
+                                                </span>
+                                            </div>
+                                            <br />
+                                            <div className="col-sm-12 control-margin">
                                                 EPI FUP 2 STATUS:
-                                        </div>
-
-                                            <div className="col-sm-12">
-                                                <span className="spanText">{this.state.fPI2Status.description}</span>
-                                            </div><br />
-
-                                            <div className="col-sm-12">
+                      </div>
+                                            <div className="col-sm-12 control-margin">
+                                                <span className="spanText">
+                                                    {this.state.fPI2Status.description}
+                                                </span>
+                                            </div>
+                                            <br />
+                                            <div className="col-sm-12 control-margin">
                                                 EPI FUP 3 STATUS:
-                                        </div>
-
-                                            <div className="col-sm-12">
-                                                <span className="spanText">{this.state.fPI3Status.description}</span>
-                                            </div><br />
-
-
-                                            <div className="col-sm-12">
+                      </div>
+                                            <div className="col-sm-12 control-margin">
+                                                <span className="spanText">
+                                                    {this.state.fPI3Status.description}
+                                                </span>
+                                            </div>
+                                            <br />
+                                            <div className="col-sm-12 control-margin">
                                                 EPI FUP 4 STATUS:
-                                        </div>
-
-                                            <div className="col-sm-12">
-                                                <span className="spanText">{this.state.fPI4Status.description}</span>
-                                            </div><br />
-
-                                            <div className="col-sm-12">
+                      </div>
+                                            <div className="col-sm-12 control-margin">
+                                                <span className="spanText">
+                                                    {this.state.fPI4Status.description}
+                                                </span>
+                                            </div>
+                                            <br />
+                                            <div className="col-sm-12 control-margin">
                                                 Relationship Code:
+                      </div>
+                                            <div className="col-sm-12 control-margin">
+                                                <span className="spanText">
+                                                    {this.state.relationshipCode.description}
+                                                </span>
+                                            </div>
+                                            <br />
                                         </div>
-
-                                            <div className="col-sm-12">
-                                                <span className="spanText">{this.state.relationshipCode.description}</span>
-                                            </div><br />
-
-                                        </div>
-
 
                                         {/* Existing Details End */}
 
                                         {/* New Details Start*/}
                                         <div className="col-sm-6">
-                                            <div className="col-sm-12 panel-header-left">
+                                            <div className="col-sm-12 panel-header-left control-margin">
                                                 New Details
-                                        </div><br />
-                                            <div className="col-sm-12">
-                                                Gender:
-                                            </div>
-                                            <div className="col-sm-12">
-                                                <div className="form-check form-check-inline" onChange={this.setSex.bind(this)} >
-                                                    <input className="form-check-input" type="radio" value="1" checked={this.state.currentGender == 1 ? true : false} name="genderColumn" />
-                                                    <label className="form-check-label" >Male</label>
-                                                    <input className="form-check-input" type="radio" value="2" checked={this.state.currentGender == 2 ? true : false} name="genderColumn" />
-                                                    <label className="form-check-label" >Female</label>
-                                                    <input className="form-check-input" type="radio" value="3" checked={this.state.currentGender == 3 ? true : false} name="genderColumn" />
-                                                    <label className="form-check-label" >Unknown</label>
-
-                                                </div><br />
-                                            </div> <br />
-                                            <div className="col-sm-12">
+                      </div>
+                                            <br />
+                                            <div className="col-sm-12">Gender:</div>
+                                            <div className="col-sm-12 control-margin">
+                                                <div
+                                                    className="form-check form-check-inline"
+                                                    onChange={this.setSex.bind(this)}
+                                                >
+                                                    <input
+                                                        className="form-check-input"
+                                                        type="radio"
+                                                        value="1"
+                                                        checked={
+                                                            this.state.currentGender == 1 ? true : false
+                                                        }
+                                                        name="genderColumn"
+                                                    />
+                                                    <label className="form-check-label">Male</label>
+                                                    <input
+                                                        className="form-check-input"
+                                                        type="radio"
+                                                        value="2"
+                                                        checked={
+                                                            this.state.currentGender == 2 ? true : false
+                                                        }
+                                                        name="genderColumn"
+                                                    />
+                                                    <label className="form-check-label">Female</label>
+                                                    <input
+                                                        className="form-check-input"
+                                                        type="radio"
+                                                        value="3"
+                                                        checked={
+                                                            this.state.currentGender == 3 ? true : false
+                                                        }
+                                                        name="genderColumn"
+                                                    />
+                                                    <label className="form-check-label">Unknown</label>
+                                                </div>
+                                                <br />
+                                            </div>{" "}
+                                            <br />
+                                            <div className="col-sm-12 control-margin">
                                                 Date of Birth:
-                                        </div>
-                                            <div className="col-sm-7">
-                                                <DateSelect isAlive={false} value={this.state.currentDOB} dateOfDiagFromDb={this.state.currentDOB} name="currentdobColumn" onSelectYear={this.handleYearPickedDOB} onSelectMonth={this.handleMonthPickedDOB} onSelectDate={this.handleDatePickedDOB} onChange={this.createDate.bind(this)} />
-
+                      </div>
+                                            <div className="col-sm-12 control-margin">
+                                                <DateSelect
+                                                    isAlive={false}
+                                                    value={this.state.currentDOB}
+                                                    dateOfDiagFromDb={this.state.currentDOB}
+                                                    name="currentdobColumn"
+                                                    onSelectYear={this.handleYearPickedDOB}
+                                                    onSelectMonth={this.handleMonthPickedDOB}
+                                                    onSelectDate={this.handleDatePickedDOB}
+                                                    onChange={this.createDate.bind(this)}
+                                                />
                                                 {/* <DatePicker
                                                     onChange={this.oncurrentDOBChange}
                                                     value={this.state.currentDOB}
@@ -1602,40 +1654,88 @@ class CancerFamilyReg extends React.Component {
                                                     <Error name="currentdobColumn" />
                                                 </div>
                                             </div><br />
-                                            <div className="col-sm-12">
+                                            <br />
+                                            <div className="col-sm-12 control-margin">
                                                 Vital Status:
-                                        </div>
-                                            <div className="col-sm-12" value={this.state.currentStatus}>
-                                                <div className="form-check form-check-inline" onChange={this.setCurrentStatus.bind(this)} >
-                                                    <input className="form-check-input" type="radio" value="1" checked={this.state.currentStatus == 1 ? true : false} name="vitalStatusColumn" />
-                                                    <label className="form-check-label" >Alive</label>
-                                                    <input className="form-check-input" type="radio" value="2" checked={this.state.currentStatus == 2 ? true : false} name="vitalStatusColumn" />
-                                                    <label className="form-check-label" >Dead</label>
-                                                    <input className="form-check-input" type="radio" value="3" checked={this.state.currentStatus == 3 ? true : false} name="vitalStatusColumn" />
-                                                    <label className="form-check-label" >Unknown</label>
-
+                      </div>
+                                            <div
+                                                className="col-sm-12 control-margin"
+                                                value={this.state.currentStatus}
+                                            >
+                                                <div
+                                                    className="form-check form-check-inline"
+                                                    onChange={this.setCurrentStatus.bind(this)}
+                                                >
+                                                    <input
+                                                        className="form-check-input"
+                                                        type="radio"
+                                                        value="1"
+                                                        checked={
+                                                            this.state.currentStatus == 1 ? true : false
+                                                        }
+                                                        name="vitalStatusColumn"
+                                                    />
+                                                    <label className="form-check-label">Alive</label>
+                                                    <input
+                                                        className="form-check-input"
+                                                        type="radio"
+                                                        value="2"
+                                                        checked={
+                                                            this.state.currentStatus == 2 ? true : false
+                                                        }
+                                                        name="vitalStatusColumn"
+                                                    />
+                                                    <label className="form-check-label">Dead</label>
+                                                    <input
+                                                        className="form-check-input"
+                                                        type="radio"
+                                                        value="3"
+                                                        checked={
+                                                            this.state.currentStatus == 3 ? true : false
+                                                        }
+                                                        name="vitalStatusColumn"
+                                                    />
+                                                    <label className="form-check-label">Unknown</label>
                                                 </div>
-                                            </div><br />
-                                            <div className="col-sm-12">
+                                            </div>
+                                            <br />
+                                            <div className="col-sm-12 control-margin">
                                                 Date of Death:
-                                        </div>
-
-                                            <div className="col-sm-7">
+                      </div>
+                                            <div className="col-sm-12 control-margin">
                                                 {/* <DatePicker disabled={this.state.isAlive}
                                                     onChange={this.setCurrentDateDeath}
                                                     value={this.state.currentDeath}
                                                 /> */}
-                                                <DateSelect isAlive={this.state.isAlive} value={this.state.currentDeath} name="currentdodColumn" onSelectYear={this.handleYearPickedDod} onSelectMonth={this.handleMonthPickedDod} onSelectDate={this.handleDatePickedDod} onChange={this.createDate.bind(this)} />
+                                                <DateSelect
+                                                    isAlive={this.state.isAlive}
+                                                    value={this.state.currentDeath}
+                                                    name="currentdodColumn"
+                                                    onSelectYear={this.handleYearPickedDod}
+                                                    onSelectMonth={this.handleMonthPickedDod}
+                                                    onSelectDate={this.handleDatePickedDod}
+                                                    onChange={this.createDate.bind(this)}
+                                                />
                                                 <div className="validationMsg">
                                                     <Error name="currentdodColumn" />
                                                 </div>
-                                            </div><br />
-                                            <div className="col-sm-12">
+                                            </div>
+                                            <br />
+                                            <div className="col-sm-12 control-margin">
                                                 Age of Death:
-                                        </div>
-                                            <div className="col-sm-7"  >
+                      </div>
+                                            <div className="col-sm-12 control-margin">
                                                 {/* <span disabled={this.state.isAlive} name ="currentaodeathColumn" > </span> */}
-                                                <input type="text" value={this.state.currentaodeath} name="currentaodeathColumn" disabled={this.state.isAlive || this.state.isDODNotNull} onChange={this.setAgeOfDeath.bind(this)} />
+                                                <input
+                                                    type="text"
+                                                    value={this.state.currentaodeath}
+                                                    name="currentaodeathColumn"
+                                                    class="form-control"
+                                                    disabled={
+                                                        this.state.isAlive || this.state.isDODNotNull
+                                                    }
+                                                    onChange={this.setAgeOfDeath.bind(this)}
+                                                />
                                                 {/* // {this.state.currentaodeath}
                                                 value={"values.currentaodeathColumn"} */}
                                                 {/* <label type="label" name ="currentaodeathColumn" value={values.currentaodeathColumn}></input> */}
@@ -1643,77 +1743,86 @@ class CancerFamilyReg extends React.Component {
                                                 <div className="validationMsg">
                                                     <Error name="currentaodeathColumn" />
                                                 </div>
-                                            </div><br />
-
-
-                                            <div className="col-sm-12">
+                                            </div>
+                                            <br />
+                                            <div className="col-sm-12 control-margin">
                                                 Source of Death Information:
-                                        </div>
-                                            <div className="col-sm-5">
-                                                <select disabled={this.state.isAlive} className="form-control dorp-box" value={this.state.currentSourceOFDeath} onChange={this.setCurrentSource.bind(this)} name="currentDeathSourceColumn">
-                                                    <option >{"Choose One"}</option>
-                                                    {
-
-                                                        this.state.srcOfDeathRest.map((read, i) => {
-                                                            this.state.read = read.description;
-                                                            // console.log("profession ID :  " + read.id);
-                                                            return <option key={read.value} value={read.description}>{read.description}</option>
-                                                        })
-                                                    }
-
-                                                    {/* <option >{"Hospital Rec"}</option> */}
-                                                    }
-                                            </select>
+                      </div>
+                                            <div className="col-sm-12 control-margin control-margin">
+                                                <select
+                                                    disabled={this.state.isAlive}
+                                                    className="form-control "
+                                                    value={this.state.currentSourceOFDeath}
+                                                    onChange={this.setCurrentSource.bind(this)}
+                                                    name="currentDeathSourceColumn"
+                                                >
+                                                    <option>{"Choose One"}</option>
+                                                    {this.state.srcOfDeathRest.map((read, i) => {
+                                                        this.state.read = read.description;
+                                                        // console.log("profession ID :  " + read.id);
+                                                        return (
+                                                            <option key={read.value} value={read.description}>
+                                                                {read.description}
+                                                            </option>
+                                                        );
+                                                    })}
+                                                    {/* <option >{"Hospital Rec"}</option> */}}
+                        </select>
                                                 <div className="validationMsg">
                                                     <Error name="currentDeathSourceColumn" />
                                                 </div>
-                                            </div><br />
-                                            {/* <div className="form-check-inline col-sm-12">
-                                            <div className="col-sm-4">
-                                                Cause of Death:  
                                             </div>
-                                            
-                                           
-
-                                            <div className="col-sm-2">
-                                                (Unknown)  
-                                            </div>
-                                        </div> */}
-
-
-
-                                            <div className="form-check-inline col-sm-12">
-                                                <div className="col-sm-6">
-                                                    Cause of Death:
-                                            </div>
+                                            <br />
+                                            <div className="form-check-inline col-sm-12 control-margin">
+                                                <div className="col-sm-6">Cause of Death:</div>
 
                                                 {/* <div className="col-sm-1"></div> */}
 
-                                                <div className="col-sm-2">
-                                                    (Unknown)
+                                                <div className="col-sm-2">(Unknown)</div>
                                             </div>
-                                            </div>
-
-                                            <div className="form-check-inline col-sm-12">
-                                                <div className="col-sm-6">
-                                                    <input type="text" name="currentCourseOFDeathColumn" value={this.state.currentCourseOFDeath} disabled={this.state.isAlive || this.state.uknCourseOFDeath} onChange={this.setCurrentCauseDeath.bind(this)} />
+                                            <div className="form-check-inline col-sm-12 control-margin">
+                                                <div className="col-sm-8">
+                                                    <input
+                                                        type="text"
+                                                        name="currentCourseOFDeathColumn"
+                                                        class="form-control"
+                                                        value={this.state.currentCourseOFDeath}
+                                                        disabled={
+                                                            this.state.isAlive || this.state.uknCourseOFDeath
+                                                        }
+                                                        onChange={this.setCurrentCauseDeath.bind(this)}
+                                                    />
                                                 </div>
 
                                                 {/* <div className="col-sm-1"></div> */}
 
-                                                <div className="col-sm-1">
-                                                    <input className="form-check-input" type="checkbox" value={this.state.uknCourseOFDeath} name="unknownCourseOFDeathColumn" disabled={this.state.isAlive} onChange={this.setUnknownCauseDeath.bind(this)} />
+                                                <div className="col-sm-4">
+                                                    <input
+                                                        className="form-control"
+                                                        type="checkbox"
+                                                        value={this.state.uknCourseOFDeath}
+                                                        name="unknownCourseOFDeathColumn"
+                                                        disabled={this.state.isAlive}
+                                                        onChange={this.setUnknownCauseDeath.bind(this)}
+                                                    />
                                                 </div>
                                             </div>
                                             <br />
                                             {/* <span>{this.state.currentCourseOFDeath}</span> */}
                                             {/* checked={values.newsletter} */}
-
-                                            <div className="col-sm-12">
+                                            <div className="col-sm-12 control-margin">
                                                 Last Known Date:
-                                        </div>
-                                            <div className="col-sm-7">
-                                                <DateSelect isAlive={false} value={this.state.currentLKDA} name="currentLkdColumn" onSelectYear={this.handleYearPickedLKD} onSelectMonth={this.handleMonthPickedLKD} onSelectDate={this.handleDatePickedLKD} onChange={this.createDate.bind(this)} />
+                      </div>
+                                            <div className="col-sm-12 control-margin">
+                                                <DateSelect
+                                                    isAlive={false}
+                                                    value={this.state.currentLKDA}
+                                                    name="currentLkdColumn"
+                                                    onSelectYear={this.handleYearPickedLKD}
+                                                    onSelectMonth={this.handleMonthPickedLKD}
+                                                    onSelectDate={this.handleDatePickedLKD}
+                                                    onChange={this.createDate.bind(this)}
+                                                />
                                                 {/* <DatePicker
                                                     onChange={this.setCurrentLKDA}
                                                     value={this.state.currentLKDA}
@@ -1721,21 +1830,31 @@ class CancerFamilyReg extends React.Component {
                                                 <div className="validationMsg">
                                                     <Error name="currentLkdColumn" />
                                                 </div>
-                                            </div><br />
-                                            <div className="col-sm-12">
+                                            </div>
+                                            <br />
+                                            <div className="col-sm-12 control-margin">
                                                 Source of Last Known Date:
-                                        </div>
-                                            <div className="col-sm-7">
-                                                <select className="form-control dorp-box" value={this.state.currentCourseOfLiveDate} onChange={this.setSourceLKD.bind(this)} name="sourceLKDColumn">
-                                                    <option >{"Choose One"}</option>
-                                                    {
-                                                        this.state.lastKnownDatesRest.map((ageGroup, i) => {
-
-                                                            this.state.ageGroup = ageGroup.description;
-                                                            // console.log("location ID :  " + ageGroup.id);
-                                                            return <option key={ageGroup.value} value={ageGroup.description}>{ageGroup.description}</option>
-
-                                                        })
+                      </div>
+                                            <div className="col-sm-12 control-margin">
+                                                <select
+                                                    className="form-control "
+                                                    value={this.state.currentCourseOfLiveDate}
+                                                    onChange={this.setSourceLKD.bind(this)}
+                                                    name="sourceLKDColumn"
+                                                >
+                                                    <option>{"Choose One"}</option>
+                                                    {this.state.lastKnownDatesRest.map((ageGroup, i) => {
+                                                        this.state.ageGroup = ageGroup.description;
+                                                        // console.log("location ID :  " + ageGroup.id);
+                                                        return (
+                                                            <option
+                                                                key={ageGroup.value}
+                                                                value={ageGroup.description}
+                                                            >
+                                                                {ageGroup.description}
+                                                            </option>
+                                                        );
+                                                    })
 
                                                         // <option >{"Hospital Rec"}</option>
                                                     }
@@ -1743,84 +1862,114 @@ class CancerFamilyReg extends React.Component {
                                                 <div className="validationMsg">
                                                     <Error name="sourceLKDColumn" />
                                                 </div>
-                                            </div><br />
-                                            <div className="col-sm-12">
+                                            </div>
+                                            <br />
+                                            <div className="col-sm-12 control-margin">
                                                 EPI FUP 1 STATUS:
-                                        </div>
-                                            <div className="col-sm-5">
-                                                <select className="form-control dorp-box" value={this.state.currentfPI1Status} onChange={this.setcurrentfPI1Status.bind(this)} name="fPI1StatusColumn">
-                                                    <option >{"Choose One"}</option>
-                                                    {
-                                                        this.state.fupcodesRest.map((read, i) => {
-                                                            this.state.read = read.description;
-                                                            // console.log("profession ID :  " + read.id);
-                                                            return <option key={read.value} value={read.description}>{read.description}</option>
-                                                        })
-                                                    }
-
-
-                                                    {/* <option >{"Hospital Rec"}</option> */}
-                                                    }
-                                            </select>
-                                            </div><br />
-                                            <div className="col-sm-12">
+                      </div>
+                                            <div className="col-sm-12 control-margin">
+                                                <select
+                                                    className="form-control "
+                                                    value={this.state.currentfPI1Status}
+                                                    onChange={this.setcurrentfPI1Status.bind(this)}
+                                                    name="fPI1StatusColumn"
+                                                >
+                                                    <option>{"Choose One"}</option>
+                                                    {this.state.fupcodesRest.map((read, i) => {
+                                                        this.state.read = read.description;
+                                                        // console.log("profession ID :  " + read.id);
+                                                        return (
+                                                            <option key={read.value} value={read.description}>
+                                                                {read.description}
+                                                            </option>
+                                                        );
+                                                    })}
+                                                    {/* <option >{"Hospital Rec"}</option> */}}
+                        </select>
+                                            </div>
+                                            <br />
+                                            <div className="col-sm-12 control-margin">
                                                 EPI FUP 2 STATUS:
-                                        </div>
-                                            <div className="col-sm-5">
-                                                <select className="form-control dorp-box" value={this.state.currentfPI2Status} onChange={this.setcurrentfPI2Status.bind(this)} name="fPI2StatusColumn">
-                                                    <option >{"Choose One"}</option>
-                                                    {
-                                                        this.state.fupcodesRest.map((read, i) => {
-                                                            this.state.read = read.description;
-                                                            // console.log("profession ID :  " + read.id);
-                                                            return <option key={read.value} value={read.description}>{read.description}</option>
-                                                        })
-                                                    }
-
-                                                    {/* <option >{"Hospital Rec"}</option> */}
-                                                    }
-                                            </select>
-                                            </div><br />
-                                            <div className="col-sm-12">
+                      </div>
+                                            <div className="col-sm-12 control-margin">
+                                                <select
+                                                    className="form-control "
+                                                    value={this.state.currentfPI2Status}
+                                                    onChange={this.setcurrentfPI2Status.bind(this)}
+                                                    name="fPI2StatusColumn"
+                                                >
+                                                    <option>{"Choose One"}</option>
+                                                    {this.state.fupcodesRest.map((read, i) => {
+                                                        this.state.read = read.description;
+                                                        // console.log("profession ID :  " + read.id);
+                                                        return (
+                                                            <option key={read.value} value={read.description}>
+                                                                {read.description}
+                                                            </option>
+                                                        );
+                                                    })}
+                                                    {/* <option >{"Hospital Rec"}</option> */}}
+                        </select>
+                                            </div>
+                                            <br />
+                                            <div className="col-sm-12 control-margin">
                                                 EPI FUP 3 STATUS:
-                                        </div>
-                                            <div className="col-sm-5">
-                                                <select className="form-control dorp-box" value={this.state.currentfPI3Status} onChange={this.setcurrentfPI3Status.bind(this)} name="fPI3StatusColumn">
-                                                    <option >{"Choose One"}</option>
-                                                    {
-                                                        this.state.fupcodesRest.map((read, i) => {
-                                                            this.state.read = read.description;
-                                                            // console.log("profession ID :  " + read.id);
-                                                            return <option key={read.value} value={read.description}>{read.description}</option>
-                                                        })
-                                                    }
+                      </div>
+                                            <div className="col-sm-12 control-margin">
+                                                <select
+                                                    className="form-control "
+                                                    value={this.state.currentfPI3Status}
+                                                    onChange={this.setcurrentfPI3Status.bind(this)}
+                                                    name="fPI3StatusColumn"
+                                                >
+                                                    <option>{"Choose One"}</option>
+                                                    {this.state.fupcodesRest.map((read, i) => {
+                                                        this.state.read = read.description;
+                                                        // console.log("profession ID :  " + read.id);
+                                                        return (
+                                                            <option key={read.value} value={read.description}>
+                                                                {read.description}
+                                                            </option>
+                                                        );
+                                                    })}
 
                                                     {/* <option >{"Hospital Rec"}</option> */}
-
                                                 </select>
-                                            </div><br />
-                                            <div className="col-sm-12">
+                                            </div>
+                                            <br />
+                                            <div className="col-sm-12 control-margin">
                                                 EPI FUP 4 STATUS:
-                                        </div>
-                                            <div className="col-sm-5">
-                                                <select className="form-control dorp-box" value={this.state.currentfPI4Status} onChange={this.setcurrentfPI4Status.bind(this)} name="fPI4StatusColumn">
-                                                    <option >{"Choose One"}</option>
-                                                    {
-                                                        this.state.fupcodesRest.map((read, i) => {
-                                                            this.state.read = read.description;
-                                                            // console.log("profession ID 4:  " + read.id);
-                                                            return <option key={read.value} value={read.description}>{read.description}</option>
-                                                        })
-                                                    }
-
-
+                      </div>
+                                            <div className="col-sm-12 control-margin">
+                                                <select
+                                                    className="form-control "
+                                                    value={this.state.currentfPI4Status}
+                                                    onChange={this.setcurrentfPI4Status.bind(this)}
+                                                    name="fPI4StatusColumn"
+                                                >
+                                                    <option>{"Choose One"}</option>
+                                                    {this.state.fupcodesRest.map((read, i) => {
+                                                        this.state.read = read.description;
+                                                        // console.log("profession ID 4:  " + read.id);
+                                                        return (
+                                                            <option key={read.value} value={read.description}>
+                                                                {read.description}
+                                                            </option>
+                                                        );
+                                                    })}
                                                 </select>
-                                            </div><br />
-                                            <div className="col-sm-12">
+                                            </div>
+                                            <br />
+                                            <div className="col-sm-12 control-margin">
                                                 Relationship Code:
-                                        </div>
-                                            <div className="col-sm-5">
-                                                <select className="form-control dorp-box" value={this.state.currentRelationshipCode} onChange={this.setcurrentRelationshipCode.bind(this)} name="currentRelCodeColumn">
+                      </div>
+                                            <div className="col-sm-12 control-margin">
+                                                <select
+                                                    className="form-control "
+                                                    value={this.state.currentRelationshipCode}
+                                                    onChange={this.setcurrentRelationshipCode.bind(this)}
+                                                    name="currentRelCodeColumn"
+                                                >
                                                     <option >{"Choose One"}</option>
                                                     {
                                                         this.state.relcodesRest.map((read, i) => {
@@ -1874,7 +2023,7 @@ class CancerFamilyReg extends React.Component {
                 </Wizard.Page>
                 <Wizard.Page>
                     <div>
-                        <FamilySaveInfo  chkBoxId={this.state.chkBoxId} selectedSrlCode={this.state.selectedSrlCode} currentLKD={this.state.currentLKD} ref={this.child}/>                                                              {/* Page 8 */}
+                        <FamilySaveInfo chkBoxId={this.state.chkBoxId} selectedSrlCode={this.state.selectedSrlCode} currentLKD={this.state.currentLKD} ref={this.child} />                                                              {/* Page 8 */}
                     </div>
                 </Wizard.Page>
                 {/* Pages for the Family flow END                 */}

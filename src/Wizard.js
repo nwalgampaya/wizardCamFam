@@ -57,10 +57,30 @@ export default class Wizard extends React.Component {
     // }))}
     // else{
     const { onSavePatientOnly } = this.props
+    const { onSelectCancerFamId } = this.props
+    const { onSaveCancerFamilyID } = this.props
+    
     console.log("********************(Next) in else" + this.state.page);
     // this.state.isModalOpen=true
     if (this.props.choosePathFamily == true && this.state.page > 1) {
       console.log("PAGE NO : " + this.state.page)
+      
+      if (this.state.page == 7) {
+        console.log("NExT : " + this.state.page)
+        this.setState(state => ({
+                  page: Math.min(state.page + 1, this.props.children.length - 1),
+                  values
+                }))
+        return onSelectCancerFamId(values);
+      }
+       if (this.state.page == 8) {
+        console.log("NExT : " + this.state.page)
+        this.setState(state => ({
+                  page: Math.min(state.page + 1, this.props.children.length - 1),
+                  values
+                }))
+        return onSaveCancerFamilyID(values);
+      }
       if (this.state.page > 6) {
         this.setState(state => ({
           page: Math.min(state.page + 1, this.props.children.length - 1),
@@ -85,9 +105,9 @@ export default class Wizard extends React.Component {
           page: Math.min(state.page + 1, this.props.children.length - 1),
           values
         }))
-        if (this.state.page == 3) {
-          return onSavePatientOnly(values);
-        }
+        // if (this.state.page == 3) {
+        //   return onSavePatientOnly(values);
+        // }
       }
     }
     // }

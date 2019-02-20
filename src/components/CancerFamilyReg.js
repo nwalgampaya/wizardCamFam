@@ -19,6 +19,7 @@ import FamilySearch from "./steps/FamilySearch";
 import IndividualFinish from "./steps/IndividualFinish";
 import { properties } from '../properties.js';
 import DateSelect from "./util/DateSelect";
+import FamilySaveInfo from "./steps/FamilySaveInfo";
 
 
 // import FormValidator from './validator/FormValidator';
@@ -41,7 +42,7 @@ class CancerFamilyReg extends React.Component {
         //     },
         // ]);
         // this.submitted = false;
-
+        this.child = React.createRef();
         this.state = {
             // Values form Db
             gender: 'Male@gmail.com',
@@ -197,6 +198,11 @@ class CancerFamilyReg extends React.Component {
             selectedMonthDOB: '',
             selectedDateDOB: '',
 
+            // FamilySearch page
+            chkBoxId:'',
+            selectedSrlCode:'',  
+            currentLKD:'',
+
         };
         this.oncurrentDOBChange = this.oncurrentDOBChange.bind(this);
         this.setCurrentLKDA = this.setCurrentLKDA.bind(this);
@@ -217,7 +223,7 @@ class CancerFamilyReg extends React.Component {
         console.log("SELECTED OPTION family" + this.state.choosePathFamily)
         if (this.state.choosePathFamily) {
             //  fourthPage:'',
-            this.state.sixthPage = <FamilySearch />
+            this.state.sixthPage = <FamilySearch ref={this.child} onFamilySearch={this.handleDataFromFamilySearch}/>
 
             return <Family />
         } else {
@@ -1076,6 +1082,17 @@ class CancerFamilyReg extends React.Component {
                 document.write(error);
             });
     }
+    handleDataFromFamilySearch= (chkBoxId,selectedSrlCode,currentLKD) => {
+        console.log("handleDataFromFamilySearch : " + chkBoxId)
+        console.log("handleDataFromFamilySearch : " + selectedSrlCode)
+        console.log("handleDataFromFamilySearch : " + currentLKD)
+        this.setState({ chkBoxId: chkBoxId });
+        this.setState({ selectedSrlCode: selectedSrlCode });
+        this.setState({ currentLKD: currentLKD });
+        
+         
+        
+    }
 
     handleDataFromPreviewPage = (isInPreviewScreen) => {
         console.log("onPreviewPage : " + this.state.onPreviewPage)
@@ -1133,7 +1150,17 @@ class CancerFamilyReg extends React.Component {
 
     onSavePatientOnly(e) {
         console.log(" onSavePatientOnly onSavePatientOnly ")
+    }
+    onSelectCancerFamId(e){
+        console.log(" cancerFamily onSelectCancerFamId ")
+        
+        this.child.current.onSelectCancerFamId();
+    }
 
+    onSaveCancerFamilyID(){
+        console.log(" cancerFamily onSaveCancerFamilyID ")
+        
+        this.child.current.onSaveCancerFamilyID();
     }
     // When "Save to database" is clicked in the preview screen(Previewinfo.js) this method will be fired.
     onSubmit(e) {
@@ -1222,6 +1249,9 @@ class CancerFamilyReg extends React.Component {
                 choosePathFamily={this.state.choosePathFamily}
                 onSubmit={this.onSubmit.bind(this)}
                 onSavePatientOnly={this.onSavePatientOnly.bind(this)}
+                onSelectCancerFamId={this.onSelectCancerFamId.bind(this)}
+                onSaveCancerFamilyID={this.onSaveCancerFamilyID.bind(this)}
+                
             >
                 <Wizard.Page>
                     <Welcome />  {/* Page 0 */}
@@ -1389,11 +1419,9 @@ class CancerFamilyReg extends React.Component {
                     if (this.state.isAlive) {
                         // this.state.uknCourseOFDeath =true;
                     }
-                    if (this.state.dateOfDeath == '') {
-                        // alert("In error")
-                        errors.ageColumn = 'Please enter an appropriate value'
-                    }
-                    console.log(" ERRORS " + errors.id)
+
+                   
+                    console.log(" ERRORS " + errors)
 
                     if (errors.length == 0) {
                         console.log("NO ERRORS " + this.state.currentDOB)
@@ -1846,7 +1874,7 @@ class CancerFamilyReg extends React.Component {
                 </Wizard.Page>
                 <Wizard.Page>
                     <div>
-                        eight                                                               {/* Page 8 */}
+                        <FamilySaveInfo  chkBoxId={this.state.chkBoxId} selectedSrlCode={this.state.selectedSrlCode} currentLKD={this.state.currentLKD} ref={this.child}/>                                                              {/* Page 8 */}
                     </div>
                 </Wizard.Page>
                 {/* Pages for the Family flow END                 */}

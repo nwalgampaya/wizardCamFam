@@ -17,7 +17,7 @@ export default class FamilySearch extends React.Component {
             srlcodesRest: [],
             selectedSrlCode : '',
             familyIdValue :'',
-            chkBoxId:[],
+            chkBoxId:'',
             // { id:'',
             //   value:'',
 
@@ -133,7 +133,7 @@ export default class FamilySearch extends React.Component {
             <tr>
                 {/* value={this.state.chkBoxId} */}
                 {/* {i+","+value} */}
-                <td><input className="form-check-input" type="checkbox"  name="individualChkbx" onChange={this.setCheckBoxValues.bind(this)} /></td>
+                <td><input className="form-check-input" type="checkbox" value={value} name="individualChkbx" onChange={this.setCheckBoxValues.bind(this)} /></td>
                                                 
                 {/* <td><input onChange={this.setfamilyId.bind(this)} value={i} type="radio" name="familyId"/></td> */}
                 <td>{value}</td>
@@ -148,7 +148,7 @@ export default class FamilySearch extends React.Component {
 
         // this.state.uknCourseOFDeath=false;
         this.setState({
-            chkBoxId: event,
+            chkBoxId: event.target.value,
         });
        
 
@@ -208,8 +208,9 @@ export default class FamilySearch extends React.Component {
         });
         
     }
-    onSavePatientOnly(e) {
-        console.log(" onSavePatientOnly onSavePatientOnly ")
+    onSelectCancerFamId(e) {
+        console.log(" onSelectCancerFamId onSelectCancerFamId ")
+        this.props.onFamilySearch(this.state.chkBoxId , this.state.selectedSrlCode , this.state.sendCurrentLKD)
 
     }
 
@@ -237,6 +238,10 @@ export default class FamilySearch extends React.Component {
                 document.write("Error : " + error);
             });
 
+    }
+
+    onSavePatientOnly(){
+        console.log("onSavePatientOnly in family component")
     }
     render(){
       //var value='';
@@ -272,34 +277,7 @@ export default class FamilySearch extends React.Component {
 
                 />
                
-                {/* <Autocomplete
-                    items={this.state.individualId}
-
-                    // items ={this.state.familyData}
-                    // {[
-                    //     items ={this.state.familyData}
-                    //     { id: 'foo', label: 'foo' },
-                    //     { id: 'bar', label: 'bar' },
-                    //     { id: 'baz', label: 'baz' },
-                    //   ]}
-                    shouldItemRender={(item, value) => item.toLowerCase().indexOf(value.toLowerCase()) > -1}
-                    getItemValue={item => item}
-                    renderItem={(item, highlighted) =>
-                        <div
-                            key={item}
-                            style={{ backgroundColor: highlighted ? '#eee' : 'transparent' }}
-                        >
-                            {item}
-                        </div>
-                    }
-                    value={this.state.individualVal}
-                    //   onChange={this.setFamilyId.bind(this)}
-                    onChange={e => this.setState({ individualVal: e.target.individualVal })}
-                    // onSelect={this.setFamilyId.bind(this)}
-                    onSelect={individualVal => this.setState({ individualVal })}
-                //   on
-
-                /> */}
+                
                 <div className="col-sm-5">
                     <select className="form-control dorp-box" value={this.state.selectedSrlCode} onChange={this.setSrlcodes.bind(this)} name="srlCodesColumn">
                         <option >{"Choose One"}</option>
@@ -308,7 +286,7 @@ export default class FamilySearch extends React.Component {
                             this.state.srlcodesRest.map((read, i) => {
                                 this.state.read = read.description;
                                 // console.log("profession ID :  " + read.id);
-                                return <option key={read.id} value={read.description}>{read.description}</option>
+                                return <option key={read.id} value={read.code}>{read.description}</option>
                             })
                         }
 

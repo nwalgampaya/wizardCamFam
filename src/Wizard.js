@@ -59,26 +59,29 @@ export default class Wizard extends React.Component {
     const { onSavePatientOnly } = this.props
     const { onSelectCancerFamId } = this.props
     const { onSaveCancerFamilyID } = this.props
-    
+
     console.log("********************(Next) in else" + this.state.page);
     // this.state.isModalOpen=true
     if (this.props.choosePathFamily == true && this.state.page > 1) {
       console.log("PAGE NO : " + this.state.page)
-      
+
+      /* To access function onSelectCancerFamId() in FamilySearch.js */
+
       if (this.state.page == 7) {
         console.log("NExT : " + this.state.page)
         this.setState(state => ({
-                  page: Math.min(state.page + 1, this.props.children.length - 1),
-                  values
-                }))
+          page: Math.min(state.page + 1, this.props.children.length - 1),
+          values
+        }))
         return onSelectCancerFamId(values);
       }
-       if (this.state.page == 8) {
+      // To access function onSaveCancerFamilyID() in FamilySaveInfo.js
+      if (this.state.page == 8) {
         console.log("NExT : " + this.state.page)
         this.setState(state => ({
-                  page: Math.min(state.page + 1, this.props.children.length - 1),
-                  values
-                }))
+          page: Math.min(state.page + 1, this.props.children.length - 1),
+          values
+        }))
         return onSaveCancerFamilyID(values);
       }
       if (this.state.page > 6) {
@@ -127,6 +130,10 @@ export default class Wizard extends React.Component {
       page: 0
     }))
   previous = () => {
+
+    const { onCancerInfoPage } = this.props
+
+    console.log("PAGE NO" + this.state.page)
     if (this.props.choosePathFamily == true && this.state.page > 1) {
       if (this.state.page == 7) {
         this.setState(state => ({
@@ -138,6 +145,14 @@ export default class Wizard extends React.Component {
         }))
       }
     } else {
+      if (this.state.page == 5) {
+        this.setState(state => ({
+          page: Math.max(state.page - 1, 0)
+
+        }))
+        return onCancerInfoPage();
+
+      }
       if (this.state.page > 6) {
         this.setState(state => ({
           page: 6
@@ -242,9 +257,9 @@ export default class Wizard extends React.Component {
         </div>
         <div className="container">
           <div className='content_body centered' >
-          <div >
-                                    <a ><img  className="img-banner" src={cFamImg}  /> </a>
-                          </div> <br />
+            <div >
+              <a ><img className="img-banner" src={cFamImg} /> </a>
+            </div> <br />
             <Form
               initialValues={values}
               validate={this.validate}

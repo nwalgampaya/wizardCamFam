@@ -1008,11 +1008,11 @@ class CancerInfo extends React.Component {
             {rows}
 
 
-           </tbody>
+          </tbody>
         </table>
-        <Button  className="btn btn-cancer"  onClick={this.handleShowAddCancer}>       Add Cancer
+        <Button className="btn btn-cancer" onClick={this.handleShowAddCancer}>       Add Cancer
                     </Button>
-               <p>“If you wish to delete any of these cancers please contact CFR Informatics.” </p>
+        <p>“If you wish to delete any of these cancers please contact CFR Informatics.” </p>
 
         {/* Modal for Editing New Cancer - START*/}
         <div >

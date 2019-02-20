@@ -230,8 +230,9 @@ class CancerFamilyReg extends React.Component {
             // this.state.firstPage= <FormikApp />
             // this.state.secoundPage=<CancerInfo onSaveChangeInfo={this.handleChangedRecFrmChild} arrayEditedData= {this.state.arrayEditedData}/>
             // this.state.firstPage= <FormikApp />
+            // ref={this.child} toMakePerviewFlagFalse={this.handlePerviewFlagState}
             this.state.secoundPage = <CancerInfo onSaveChangeInfo={this.handleChangedRecFrmChild} onSaveNewInfo={this.handleNewRecFrmChild} arrayEditedData={this.state.arrayEditedData} patientDataValue={this.state.patientDataValue} newCancerArr={this.state.newCancerArr} />
-            this.state.thirdPage = <PreviewInfo onPreviewPage={this.handleDataFromPreviewPage} arrayEditedData={this.state.arrayEditedData} newCancerArr={this.state.newCancerArr} isCanecerAdded={this.state.isCanecerAdded} isCancerEdited={this.state.isCancerEdited} arrayOfChangedFields={this.state.arrayOfChangedFields} /> // patientDataObjectChanged={this.state.patientDataObjectChanged}
+            this.state.thirdPage = <PreviewInfo ref={this.child} onPreviewPage={this.handleDataFromPreviewPage} arrayEditedData={this.state.arrayEditedData} newCancerArr={this.state.newCancerArr} isCanecerAdded={this.state.isCanecerAdded} isCancerEdited={this.state.isCancerEdited} arrayOfChangedFields={this.state.arrayOfChangedFields} /> // patientDataObjectChanged={this.state.patientDataObjectChanged}
             this.state.IndividualFinish = <IndividualFinish />
             return <Individual onInsertPatientId={this.assignDbDataToFields} />
         }
@@ -1094,8 +1095,16 @@ class CancerFamilyReg extends React.Component {
 
     }
 
+    // To set 'isInPreviewScreen' false 
+    // When in cancerInfo.js and other pages
+    // handlePerviewFlagState(isInPreviewScreen) {
+    //     console.log("onPreviewPage : " + isInPreviewScreen)
+
+    //     this.setState({ isInPreviewScreen: isInPreviewScreen });
+
+    // }
     handleDataFromPreviewPage = (isInPreviewScreen) => {
-        console.log("onPreviewPage : " + this.state.onPreviewPage)
+        console.log("onPreviewPage : " + isInPreviewScreen)
         this.setState({ isInPreviewScreen: isInPreviewScreen });
 
     }
@@ -1161,6 +1170,13 @@ class CancerFamilyReg extends React.Component {
         console.log(" cancerFamily onSaveCancerFamilyID ")
 
         this.child.current.onSaveCancerFamilyID();
+    }
+
+
+    onCancerInfoPage() {
+        console.log("onCancerInfoPage onCancerInfoPage ")
+
+        this.child.current.onCancerInfoPage();
     }
     // When "Save to database" is clicked in the preview screen(Previewinfo.js) this method will be fired.
     onSubmit(e) {
@@ -1261,6 +1277,8 @@ class CancerFamilyReg extends React.Component {
                 onSavePatientOnly={this.onSavePatientOnly.bind(this)}
                 onSelectCancerFamId={this.onSelectCancerFamId.bind(this)}
                 onSaveCancerFamilyID={this.onSaveCancerFamilyID.bind(this)}
+                onCancerInfoPage={this.onCancerInfoPage.bind(this)}
+
 
             >
                 <Wizard.Page>

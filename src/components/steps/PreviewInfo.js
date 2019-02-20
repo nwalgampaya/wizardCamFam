@@ -13,7 +13,17 @@ export default class PreviewInfo extends React.Component {
         }
     }
 
-    componentDidMount(){
+    onCancerInfoPage() {
+        this.state.isInPreviewScreen = false;
+
+        console.log(" onCancerInfoPage onCancerInfoPage " + this.state.isInPreviewScreen)
+        // this.props.toMakePerviewFlagFalse(this.state.isInPreviewScreen)
+        this.props.onPreviewPage(this.state.isInPreviewScreen)
+
+    }
+    componentDidMount() {
+        console.log(" Preview componentDidMount " + this.state.isInPreviewScreen)
+
         // This will make condition true for saving the record in onSubmit() function in CancerFamilyReg.js 
         this.state.isInPreviewScreen = true;
         this.props.onPreviewPage(this.state.isInPreviewScreen)
@@ -247,7 +257,7 @@ export default class PreviewInfo extends React.Component {
     }
 
     createUI() {
-        
+
 
         if (this.props.isCanecerAdded || this.props.isCancerEdited) {
 
@@ -273,11 +283,11 @@ export default class PreviewInfo extends React.Component {
     //     this.state.isInPreviewScreen = true;
     //     if (this.props.isCanecerAdded || this.props.isCancerEdited) {
 
-           
+
     //                 {this.createEditedCancerUI()}
 
     //                 {this.createNewCancerUI()}
-           
+
     //     } else {
     //         return (
     //             <div>

@@ -9,6 +9,7 @@ import { properties } from '../../properties.js';
 import cloneDeep from 'lodash/cloneDeep';
 import FormValidator from '../validator/FormValidator';
 import DateSelect from "../util/DateSelect";
+import Autocomplete from 'react-autocomplete'
 
 // import ExampleModal from '../steps/ExampleModal';
 
@@ -40,6 +41,7 @@ class CancerInfo extends React.Component {
       isCanecerAdded: false,
       currentSourceOFDeath: 2,
 
+      familyData: [],
 
 
       selectedId: '',
@@ -179,6 +181,27 @@ class CancerInfo extends React.Component {
 
         });
 
+        const urlfamilyId = properties.baseUrl + "patients/family/";
+        console.log("in compdidmount" + urlfamilyId)
+
+        fetch(urlfamilyId)
+          .then(response => response.json())
+          .then((data) => {
+
+            // console.log(data);
+            this.setState({
+              familyData: data,
+
+            });
+            // this.state.profession.push(data);
+            // console.log("data :" +data);
+
+          })
+          .catch((error) => {
+            console.log("Error :");
+
+            document.write("Error : " + error);
+          });
         // this.state.siteData.map((values,i)=>{
         //   // console.log("siteData : "+ values.id);
         //   if(values.id== 2){
@@ -283,6 +306,8 @@ class CancerInfo extends React.Component {
   handleClose() {
     this.setState({ show: false });
 
+    //Disable the save button when closing the dialog
+    this.state.enableSaveButton = false;
     // this.setState({ showAddCancer: false });
   }
   handleSaveEditCancer = event => {
@@ -399,6 +424,18 @@ class CancerInfo extends React.Component {
     if (this.state.cancerInfoCopy[this.state.tumorNo].behaviour.description != this.state.behaviourcodesFromDb) {
       console.log("lateral changed ***********" + this.state.behaviourcodesFromDb)
       this.setbehaviourDataForEditDialog();
+    }
+
+
+
+    if (this.state.cancerInfoCopy[this.state.tumorNo].dateOfDiagnosis != (this.state.selectedEditYear + this.state.selectedEditMonth + this.state.selectedEditDate)) {
+
+      console.log("IN createEditedArray : ")
+      this.state.dateOfDiagFromDb = this.state.selectedEditYear + this.state.selectedEditMonth + this.state.selectedEditDate;
+      console.log("IN createEditedArray : " + this.state.dateOfDiagFromDb)
+
+      this.setDODForEditDialog();
+      // this.state.patientDataValue.dateOfBirth = (this.state.patientDataValue.dateOfBirth == '' ? '' : (this.state.currentDOB));
     }
     if (this.state.cancerInfoCopy[this.state.tumorNo].ageDiagnosis != this.state.ageDiagnosisFromDb) {
       console.log("lateral changed ***********" + this.state.ageDiagnosisFromDb)
@@ -636,6 +673,11 @@ class CancerInfo extends React.Component {
     this.state.cancerInfo[this.state.tumorNo].behaviour.code = fieldValues.code
     this.state.cancerInfo[this.state.tumorNo].behaviour.id = fieldValues.id
   }
+  setDODForEditDialog() {
+    this.state.cancerInfo[this.state.tumorNo].dateOfDiagnosis = this.state.dateOfDiagFromDb
+    this.state.cancerInfoEdited[this.state.tumorNo].dateOfDiagnosis = this.state.dateOfDiagFromDb
+
+  }
   setAODDataForEditDialog() {
     this.state.cancerInfo[this.state.tumorNo].ageDiagnosis = this.state.ageDiagnosisFromDb
     this.state.cancerInfoEdited[this.state.tumorNo].ageDiagnosis = this.state.ageDiagnosisFromDb
@@ -767,12 +809,29 @@ class CancerInfo extends React.Component {
       }
     })
   }
-  setSiteNew(event) {
-    console.log("setSiteNew setSiteNew setSiteNew: " + event.target.value)
+
+  setSiteNewOnChange(event) {
+    // console.log("Site :" + value);
+    console.log("Site :" + event.target.value);
+    // siteEditDlg: event.target.value,
     this.setState({
-      newSiteValue: event.target.value,
+      newSiteValue: event.target.value.toUpperCase(),
     });
-    this.setIdANDDescForAddDialog(this.state.newSite, event.target.value, this.state.siteData)
+
+    if (event.target.value != '') {
+      this.state.enableSaveButton = true;
+    }
+    //  onChange={e => this.setState({ siteEditDlg: e.target.value.toUpperCase() })}
+  }
+  setSiteNew(value) {
+    console.log("setSiteNew setSiteNew setSiteNew: " + value)
+    this.setState({
+      newSiteValue: value,
+    });
+    if (value != '') {
+      this.state.enableSaveButton = true;
+    }
+    // this.setIdANDDescForAddDialog(this.state.newSite, event.target.value, this.state.siteData)
   }
   setLateralNew(event) {
     this.setState({
@@ -846,15 +905,34 @@ class CancerInfo extends React.Component {
     this.state.cancerInfo.push(this.state.newCancerObject);
 
   }
-  setSite(event) {
-    console.log("Site :" + event.target.value);
 
+
+  setSiteOnChange(event) {
+    // console.log("Site :" + value);
+    console.log("Site :" + event.target.value);
+    // siteEditDlg: event.target.value,
     this.setState({
-      siteEditDlg: event.target.value,
+      siteEditDlg: event.target.value.toUpperCase(),
     });
 
+    if (event.target.value != '') {
+      this.state.enableSaveButton = true;
+    }
+    //  onChange={e => this.setState({ siteEditDlg: e.target.value.toUpperCase() })}
+  }
 
-    this.enableSaveInEditDialog("siteEditDlg", event);
+  setSite(value) {
+    console.log("Site :" + value);
+    // console.log("Site :" + event.target.value);
+    // siteEditDlg: event.target.value,
+    this.setState({
+      siteEditDlg: value,
+    });
+
+    if (value != '') {
+      this.state.enableSaveButton = true;
+    }
+    // this.enableSaveInEditDialog("siteEditDlg", event);
   }
   setLateral(event) {
     this.setState({
@@ -1017,7 +1095,7 @@ class CancerInfo extends React.Component {
         {/* Modal for Editing New Cancer - START*/}
         <div >
 
-          <Modal /* backdrop={false} */ dialogClassName="dialogclassname" show={this.state.show} onHide={this.handleClose} keyboard={false} selectedid={this.state.selectedId}>
+          <Modal backdrop={false} dialogClassName="dialogclassname" show={this.state.show} onHide={this.handleClose} keyboard={false} selectedid={this.state.selectedId}>
 
             <Modal.Header closeButton={false} >
               <Modal.Title >
@@ -1033,20 +1111,44 @@ class CancerInfo extends React.Component {
                   Site:
                     </div>
                 <div className="col-sm-5">
-                  <select /**disabled={this.state.isAlive}**/ className="form-control dorp-box" defaultValue={this.state.siteEditDlg} onChange={this.setSite.bind(this)} name="currentDeathColumn">
-                    {
-                      this.state.siteData.map((siteGroup, i) => {
-                        // console.log("location ID :  " + siteGroup.id);
+                  <Autocomplete
+                    items={this.state.siteData}
 
-                        this.state.siteGroup = siteGroup.description;
-                        return <option key={siteGroup.value} defaultValue={this.state.siteEditDlg}>{siteGroup.code/*+" | "+siteGroup.description*/}</option>
-
-                      })
-
-                      // <option >{"Hospital Rec"}</option>
-
+                    shouldItemRender={(item, value) => item.code.toUpperCase().indexOf(value.toUpperCase()) > -1}
+                    getItemValue={item => item.code}
+                    // shouldItemRender={(item, value) => item.indexOf(value) > -1}
+                    // getItemValue={item => item}
+                    renderItem={(item, highlighted) =>
+                      <div
+                        key={item.id}
+                        style={{ backgroundColor: highlighted ? '#eee' : 'transparent' }}
+                      >
+                        {item.code + " || " + item.description}
+                      </div>
                     }
-                  </select>
+                    value={this.state.siteEditDlg}
+                    //   onChange={this.setFamilyValue.bind(this)}
+                    // onChange={e => this.setState({ value: e.target.value })}
+                    onChange={this.setSiteOnChange.bind(this)}
+                    // onChange={e => this.setState({ siteEditDlg: e.target.value.toUpperCase() })}setSiteOnChange
+                    onSelect={this.setSite.bind(this)}
+                  //   onSelect={value => this.setState({ value })}
+                  //   on
+
+                  />
+                  {/* disabled={this.state.isAlive} */}
+                  {/* <select className="form-control dorp-box" defaultValue={this.state.siteEditDlg} onChange={this.setSite.bind(this)} name="currentDeathColumn"> */}
+                  {/* {
+                      this.state.siteData.map((siteGroup, i) => {
+                        
+                        this.state.siteGroup = siteGroup.description; */}
+                  {/* return <option key={siteGroup.value} defaultValue={this.state.siteEditDlg}>{siteGroup.code/*+" | "+siteGroup.description*/}
+                  {/* </option> */}
+
+                  {/* }) */}
+
+                  {/* } */}
+                  {/* </select> */}
                 </div><br /><br />
               </div>
               <div className="row form-check form-check-inline">
@@ -1208,20 +1310,32 @@ class CancerInfo extends React.Component {
                     </div>
                 <div className="col-sm-5">
 
-                  <select /**disabled={this.state.isAlive}**/ className="form-control dorp-box" value={this.state.newSiteValue} onChange={this.setSiteNew.bind(this)} name="currentDeathColumn">
-                    <option >{"Choose One"}</option>
-                    {
-                      this.state.siteData.map((siteGroup, i) => {
-                        // console.log("location ID :  " + siteGroup.id);
+                  <Autocomplete
+                    items={this.state.siteData}
 
-                        this.state.siteGroup = siteGroup.description;
-                        return <option key={siteGroup.value} defaultValue={siteGroup.id}>{siteGroup.code/*+" | "+siteGroup.description*/}</option>
-
-                      })
-
-
+                    shouldItemRender={(item, value) => item.code.toUpperCase().indexOf(value.toUpperCase()) > -1}
+                    getItemValue={item => item.code}
+                    // shouldItemRender={(item, value) => item.indexOf(value) > -1}
+                    // getItemValue={item => item}
+                    renderItem={(item, highlighted) =>
+                      <div
+                        key={item.id}
+                        style={{ backgroundColor: highlighted ? '#eee' : 'transparent' }}
+                      >
+                        {item.code + " || " + item.description}
+                      </div>
                     }
-                  </select>
+                    value={this.state.newSiteValue}
+                    //   onChange={this.setFamilyValue.bind(this)}
+                    // onChange={e => this.setState({ value: e.target.value })}
+                    onChange={this.setSiteNewOnChange.bind(this)}
+                    // onChange={e => this.setState({ siteEditDlg: e.target.value.toUpperCase() })}setSiteOnChange
+                    onSelect={this.setSiteNew.bind(this)}
+                  //   onSelect={value => this.setState({ value })}
+                  //   on
+
+                  />
+
                 </div><br /><br />
               </div>
               <div className="row form-check form-check-inline">
@@ -1287,13 +1401,15 @@ class CancerInfo extends React.Component {
               </div>
               <div className="row form-check form-check-inline">
                 <div className="col-sm-5 asteric-required">
-                  Date Of Diagnosis: :
+                  Date Of Diagnosis:
                       </div>
                 <div className="col-sm-4">
-                  <DatePicker
+                  <DateSelect isAlive={false} dateOfDiagFromDb={this.state.dateOfDiagFromDb} value={this.state.currentDOB} name="diagDateNewColumn" onSelectYear={this.handleYearPickedDiag} onSelectMonth={this.handleMonthPickedDiag} onSelectDate={this.handleDatePickedDiag} />
+
+                  {/* <DatePicker
                     // onChange={this.oncurrentDOBChange}
                     value={this.state.currentDOB}
-                  />
+                  /> */}
                 </div><br /><br />
               </div>
               <div className="row form-check form-check-inline">

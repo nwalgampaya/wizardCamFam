@@ -258,8 +258,7 @@ export default class FamilySearch extends React.Component {
                 <Autocomplete
                     items={this.state.familyData}
 
-
-                    shouldItemRender={(item, value) => item.toLowerCase().indexOf(value.toLowerCase()) > -1}
+                    shouldItemRender={(item, value) => item.indexOf(value) > -1}
                     getItemValue={item => item}
                     renderItem={(item, highlighted) =>
                         <div
@@ -269,11 +268,11 @@ export default class FamilySearch extends React.Component {
                             {item}
                         </div>
                     }
-                    value={this.state.value}
+                    value={this.state.familyIdValue}
                     //   onChange={this.setFamilyValue.bind(this)}
-                    onChange={e => this.setState({ value: e.target.value })}
+                    onChange={e => this.setState({ familyIdValue: e.target.value })}
                     onSelect={this.setFamilyValue.bind(this)}
-                //   onSelect={value => this.setState({ value })}
+                // onSelect={familyIdValue => this.setState({ familyIdValue })}
                 //   on
 
                 />

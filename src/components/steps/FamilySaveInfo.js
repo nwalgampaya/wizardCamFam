@@ -7,11 +7,11 @@ export default class FamilySaveInfo extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
-            PatientLKDDTO:{
-                patientIDs:[],
-                lkdDate:'',
-                lkdSource:{
-                    code:'',
+            PatientLKDDTO: {
+                patientIDs: [],
+                lkdDate: '',
+                lkdSource: {
+                    code: '',
                 }
 
             }
@@ -20,9 +20,9 @@ export default class FamilySaveInfo extends React.Component {
         }
     }
 
-    onSaveCancerFamilyID(e){
+    onSaveCancerFamilyID(e) {
         console.log("onSaveCancerFamilyID")
-        this.state.PatientLKDDTO.patientIDs[1] = this.props.chkBoxId;
+        this.state.PatientLKDDTO.patientIDs = this.props.chkBoxId;
         this.state.PatientLKDDTO.lkdDate = this.props.currentLKD;
         this.state.PatientLKDDTO.lkdSource.code = this.props.selectedSrlCode;
 
@@ -62,30 +62,24 @@ export default class FamilySaveInfo extends React.Component {
     }
     createUI() {
         return (
-        // this.props.changedParameters.map((values, i) =>
+            // this.props.changedParameters.map((values, i) =>
 
             <table>
                 <tbody>
                     <tr>
                         <th>
-                            Family Id 
+                            Family Id
                         </th>
-                        
-                    </tr>
-                    <tr>
-                    <td>
-                            {/* {values.age} */} {this.props.chkBoxId}
-                        </td>
-                        <td>
-                            {/* {values.age} */} {this.props.selectedSrlCode}
-                        </td>
-                        <td>
-                             {this.props.currentLKD}
-                        </td>
 
-
-                        
                     </tr>
+                    {this.props.chkBoxId.map((value, i) =>
+                        <tr key={i}>
+                            <td>
+                                {value}
+                            </td>
+                        </tr>
+                    )
+                    }
                 </tbody>
 
             </table>
@@ -101,7 +95,7 @@ export default class FamilySaveInfo extends React.Component {
         return (
             <div>
                 {this.createUI()}
-                RRRRRRRRR
+
                 {
                     // this.props.changedParameters.map((values, i) => {
                     //     // {console.log("ddddddd " + i + " : " + this.props.changedParameters[i].age)}

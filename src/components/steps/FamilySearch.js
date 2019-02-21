@@ -8,16 +8,16 @@ export default class FamilySearch extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
-             value: '',
-            familyData:[],
-            individualId:[],
-            currentLKD:'',
-            sendCurrentLKD:'',
-            isSearched:false,
+            value: '',
+            familyData: [],
+            individualId: [],
+            currentLKD: '',
+            sendCurrentLKD: '',
+            isSearched: false,
             srlcodesRest: [],
-            selectedSrlCode : '',
-            familyIdValue :'',
-            chkBoxId:'',
+            selectedSrlCode: '',
+            familyIdValue: '',
+            chkBoxId: [],
             // { id:'',
             //   value:'',
 
@@ -25,7 +25,7 @@ export default class FamilySearch extends React.Component {
         }
         this.handleLkd = this.handleLkd.bind(this);
         this.handleSearchGetFamily = this.handleSearchGetFamily.bind(this);
-        
+
 
 
     }
@@ -65,10 +65,10 @@ export default class FamilySearch extends React.Component {
     }
 
 
-    componentDidMount(){
+    componentDidMount() {
         const urlfamilyId = properties.baseUrl + "patients/family/";
         console.log("in compdidmount" + urlfamilyId)
-        
+
         fetch(urlfamilyId)
             .then(response => response.json())
             .then((data) => {
@@ -82,15 +82,15 @@ export default class FamilySearch extends React.Component {
                 // console.log("data :" +data);
 
             })
-        .catch((error) => {
-            console.log("Error :");
+            .catch((error) => {
+                console.log("Error :");
 
-            document.write("Error : "+ error);
-        });
-        
+                document.write("Error : " + error);
+            });
 
-        
-        const urlsrlcodes = properties.baseUrl + "srlcodes/" ;
+
+
+        const urlsrlcodes = properties.baseUrl + "srlcodes/";
 
         fetch(urlsrlcodes)
             .then(response => response.json())
@@ -98,7 +98,7 @@ export default class FamilySearch extends React.Component {
 
                 // console.log(data);
                 this.setState({
-                    srlcodesRest : data,
+                    srlcodesRest: data,
 
                 });
                 // this.state.IndividualData = data;
@@ -112,64 +112,65 @@ export default class FamilySearch extends React.Component {
                 document.write("Error : " + error);
             });
 
-      
-       
+
+
     }
 
-    setfamilyId(event){
+    setfamilyId(event) {
         console.log("Sex :" + event.target.value);
-    // this.setState
-    this.setState({
-        familyId: event.target.value,
-    });
+        // this.setState
+        this.setState({
+            familyId: event.target.value,
+        });
 
-    
-    } 
+
+    }
     showFamilyId() {
         console.log("In showFamily")
 
-        if(this.state.isSearched==true){
-            return (this.state.individualId.map((value, i) => 
-            <tr>
-                {/* value={this.state.chkBoxId} */}
-                {/* {i+","+value} */}
-                <td><input className="form-check-input" type="checkbox" value={value} name="individualChkbx" onChange={this.setCheckBoxValues.bind(this)} /></td>
-                                                
-                {/* <td><input onChange={this.setfamilyId.bind(this)} value={i} type="radio" name="familyId"/></td> */}
-                <td>{value}</td>
-            </tr>
-        ))
-    }
-    }
-   
-    setCheckBoxValues(event){
-        console.log("setUnknownCauseDeath :" + event);
-        console.log("setUnknownCauseDeath :" + event.target.value);
+        if (this.state.isSearched == true) {
+            return (this.state.individualId.map((value, i) =>
+                <tr key={i}>
+                    {/* value={this.state.chkBoxId} */}
+                    {/* {i+","+value} */}
+                    <td><input className="form-check-input" type="checkbox" id={i} value={value} name="individualChkbx" onChange={this.setCheckBoxValues.bind(this)} /></td>
 
-        // this.state.uknCourseOFDeath=false;
+                    {/* <td><input onChange={this.setfamilyId.bind(this)} value={i} type="radio" name="familyId"/></td> */}
+                    <td>{value}</td>
+                </tr>
+            ))
+        }
+    }
+
+    setCheckBoxValues(event) {
+        console.log("chkBoxId id:" + event.target.id);
+        console.log("chkBoxId value :" + event.target.value);
+
+        // Get all the checked values into an array
+        this.state.chkBoxId[event.target.id] = event.target.value
+
         this.setState({
-            chkBoxId: event.target.value,
+            chkBoxId: this.state.chkBoxId
         });
-       
+
+        //ToDo remove this code
+        // this.state.chkBoxId.map((value) => {
+        //     console.log("Selected chkbx values : " + value)
+        // })
 
     }
     setFamilyValue(value) {
-        // {e => this.setState({ value: e.target.value })}
         console.log("family Id :" + value);
         this.setState({
             familyIdValue: value,
         });
-    
+
     }
 
     handleSearchGetFamily() {
 
-        // console.log("handleSearchGetFamily : " + this.state.sendCurrentLKD);
         console.log("individualId : " + this.state.value);
-        
-        // if(sendCurrentLKD!=='' && familyIdValue!='' &&  selectedSrlCode!=''){
 
-        // }
         var familyIdValue = this.state.familyIdValue;
         const urlIndividualId = properties.baseUrl + "patients/family/" + familyIdValue;
 
@@ -191,8 +192,8 @@ export default class FamilySearch extends React.Component {
 
                 document.write("Error : " + error);
             });
-            console.log("data : " + this.state.individualId);
-            this.state.isSearched=true;
+        console.log("data : " + this.state.individualId);
+        this.state.isSearched = true;
 
         this.state.individualId.map((value, i) => {
             console.log("individual : " + value)
@@ -200,23 +201,23 @@ export default class FamilySearch extends React.Component {
         })
     }
 
-    setSrlcodes(event){
+    setSrlcodes(event) {
         console.log("Srlcode :" + event.target.value);
         // this.setState
         this.setState({
             selectedSrlCode: event.target.value,
         });
-        
+
     }
     onSelectCancerFamId(e) {
         console.log(" onSelectCancerFamId onSelectCancerFamId ")
-        this.props.onFamilySearch(this.state.chkBoxId , this.state.selectedSrlCode , this.state.sendCurrentLKD)
+        this.props.onFamilySearch(this.state.chkBoxId, this.state.selectedSrlCode, this.state.sendCurrentLKD)
 
     }
 
-    handleSubmit(){
+    handleSubmit() {
         console.log("In submit")
-        const urlFamilyLkd = properties.baseUrl + "patients/family/" + this.state.value+"?lkd="+this.state.sendCurrentLKD;
+        const urlFamilyLkd = properties.baseUrl + "patients/family/" + this.state.value + "?lkd=" + this.state.sendCurrentLKD;
 
         fetch(urlFamilyLkd)
             .then(response => response.json())
@@ -240,20 +241,20 @@ export default class FamilySearch extends React.Component {
 
     }
 
-    onSavePatientOnly(){
+    onSavePatientOnly() {
         console.log("onSavePatientOnly in family component")
     }
-    render(){
-      //var value='';
-        return(
+    render() {
+        //var value='';
+        return (
 
             <div>
                 <h3>Family Scarch</h3>
                 <p>Please enter the Family ID that you would like to update: </p>
 
-                <br/>
-                <br/>
-                <br/>
+                <br />
+                <br />
+                <br />
                 <Autocomplete
                     items={this.state.familyData}
 
@@ -276,8 +277,8 @@ export default class FamilySearch extends React.Component {
                 //   on
 
                 />
-               
-                
+
+
                 <div className="col-sm-5">
                     <select className="form-control dorp-box" value={this.state.selectedSrlCode} onChange={this.setSrlcodes.bind(this)} name="srlCodesColumn">
                         <option >{"Choose One"}</option>
@@ -293,16 +294,16 @@ export default class FamilySearch extends React.Component {
                         {/* <option >{"Hospital Rec"}</option> */}
                         }
                                             </select>
-                    
+
                 </div>
 
                 <DatePicker
                     onChange={this.handleLkd}
                     value={this.state.currentLKD}
                 />
-                <br/><br/>
+                <br /><br />
                 {/* disabled={this.state.sendCurrentLKD =='' && this.state.familyIdValue =='' &&  this.state.selectedSrlCode ==''} */}
-                <button  disabled={this.state.sendCurrentLKD =='' || this.state.familyIdValue =='' ||  this.state.selectedSrlCode ==''} type="button" onClick={this.handleSearchGetFamily}> Search</button>
+                <button disabled={this.state.sendCurrentLKD == '' || this.state.familyIdValue == '' || this.state.selectedSrlCode == ''} type="button" onClick={this.handleSearchGetFamily}> Search</button>
                 <button type="button"> Reset</button>
 
                 <table>

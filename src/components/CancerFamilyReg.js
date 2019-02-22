@@ -202,6 +202,7 @@ class CancerFamilyReg extends React.Component {
             chkBoxId: '',
             selectedSrlCode: '',
             currentLKD: '',
+            isCanFamEdited: false,
 
         };
         this.oncurrentDOBChange = this.oncurrentDOBChange.bind(this);
@@ -232,7 +233,7 @@ class CancerFamilyReg extends React.Component {
             // this.state.firstPage= <FormikApp />
             // ref={this.child} toMakePerviewFlagFalse={this.handlePerviewFlagState}
             this.state.secoundPage = <CancerInfo onSaveChangeInfo={this.handleChangedRecFrmChild} onSaveNewInfo={this.handleNewRecFrmChild} arrayEditedData={this.state.arrayEditedData} patientDataValue={this.state.patientDataValue} newCancerArr={this.state.newCancerArr} />
-            this.state.thirdPage = <PreviewInfo ref={this.child} onPreviewPage={this.handleDataFromPreviewPage} arrayEditedData={this.state.arrayEditedData} newCancerArr={this.state.newCancerArr} isCanecerAdded={this.state.isCanecerAdded} isCancerEdited={this.state.isCancerEdited} arrayOfChangedFields={this.state.arrayOfChangedFields} /> // patientDataObjectChanged={this.state.patientDataObjectChanged}
+            this.state.thirdPage = <PreviewInfo isCanFamEdited={this.state.isCanFamEdited} ref={this.child} onPreviewPage={this.handleDataFromPreviewPage} arrayEditedData={this.state.arrayEditedData} newCancerArr={this.state.newCancerArr} isCanecerAdded={this.state.isCanecerAdded} isCancerEdited={this.state.isCancerEdited} arrayOfChangedFields={this.state.arrayOfChangedFields} /> // patientDataObjectChanged={this.state.patientDataObjectChanged}
             this.state.IndividualFinish = <IndividualFinish />
             return <Individual onInsertPatientId={this.assignDbDataToFields} />
         }
@@ -310,6 +311,7 @@ class CancerFamilyReg extends React.Component {
             this.state.columnExist = false;
 
         } else {
+            this.state.isCanFamEdited = true;
             // var changedField= new  Object;
             changedField.column = columnName;
             changedField.previousVal = previousValue;
@@ -335,7 +337,7 @@ class CancerFamilyReg extends React.Component {
 
         console.log("countChangedFields" + this.state.countChangedFields)
 
-
+        //ToDo remove
         this.state.arrayOfChangedFields.map((value, i) => {
             console.log("values :" + i + " : " + value.column)
             console.log("values :" + i + " : " + value.newVal)

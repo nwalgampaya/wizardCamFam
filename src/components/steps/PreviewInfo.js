@@ -29,36 +29,37 @@ export default class PreviewInfo extends React.Component {
         this.props.onPreviewPage(this.state.isInPreviewScreen)
     }
     createTablePersonDetails() {
-        return (
+        if (this.props.isCanFamEdited) {
+            return (
 
 
-            <table className="Ptable">
-                <tbody>
-                    <tr>
-                        <th>
-                            Column Name
+                <table className="Ptable">
+                    <tbody>
+                        <tr>
+                            <th>
+                                Column Name
                         </th>
-                        <th>
-                            Previous Value
+                            <th>
+                                Previous Value
                         </th>
-                        <th>
-                            New Value
+                            <th>
+                                New Value
                         </th>
-                    </tr>
-                    {/* {values.map((val,i)=> */}
-                    {this.loopPersonDetails()}
+                        </tr>
+                        {/* {values.map((val,i)=> */}
+                        {this.loopPersonDetails()}
 
 
-                </tbody>
+                    </tbody>
 
-            </table>
-            //     <div key={i}>
-            //        <input type="text" value={el||''} onChange={this.handleChange.bind(this, i)} />
-            //        <input type='button' value='remove' onClick={this.removeClick.bind(this, i)}/>
-            //     </div>          
-        )
+                </table>
+                //     <div key={i}>
+                //        <input type="text" value={el||''} onChange={this.handleChange.bind(this, i)} />
+                //        <input type='button' value='remove' onClick={this.removeClick.bind(this, i)}/>
+                //     </div>          
+            )
 
-
+        }
 
 
     }

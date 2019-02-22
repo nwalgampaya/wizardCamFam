@@ -34,13 +34,14 @@ class CancerInfo extends React.Component {
     this.state = {
       patientDataObject: [],
       cancerInfo: [],
+      selectedPersonData: [],
 
       show: false,
       showAddCancer: false,
       isCancerEdited: false,
       isCanecerAdded: false,
       currentSourceOFDeath: 2,
-
+      dodExist: true,
       familyData: [],
 
 
@@ -130,7 +131,16 @@ class CancerInfo extends React.Component {
 
   }
 
+  componentWillMount() {
+    if (this.setState.dateOfDiagFromDb != '') {
+      console.log("dateOfDiagFromDb componentWillMount: ")
+      this.setState({
+        dodExist: true,
 
+      });
+      // this.setState.dodExist = true;
+    }
+  }
   componentDidMount() {
 
     this.state.editedRecordCoun = this.props.editedRecordCoun;
@@ -160,9 +170,16 @@ class CancerInfo extends React.Component {
     // })
 
     // Assigning the patient object to local variables
+    // var OldCancerList = this.props.patientDataValue.cancerList;
     this.state.patientDataObject = this.props.patientDataValue;
     this.state.cancerInfo = this.props.patientDataValue.cancerList;
     this.state.newCancerArr = this.props.newCancerArr;
+
+    //ToDo make this an async call , should load before the edit dialog , (if not there will be no data to be set to the previous values.)
+    // cancerInfoCopy will keep data from the database, It will not change with the modified values. this is used in the "Preview" screen to show the 'previous' values
+    this.getPatientDetails();
+    // if(this.state.selectedPersonData.)
+    // this.setState({ cancerInfoCopy: this.state.selectedPersonData.cancerList })
 
     this.state.newCancerModalId = Math.floor(Math.random() * 10);
     console.log("site &&&&&&&&&&&&&&&&&&&&&77 intGender : " + this.props.patientDataValue.intGender);
@@ -293,7 +310,28 @@ class CancerInfo extends React.Component {
   }
 
 
+  getPatientDetails() {
 
+    console.log("patientId getPatientDetails" + this.state.patientDataObject.personCID)
+
+    const urlpatients = properties.baseUrl + "patients/" + this.state.patientDataObject.personCID;
+    fetch(urlpatients)
+      .then(response => response.json())
+      .then((data) => {
+
+        this.setState({
+          selectedPersonData: data,
+
+        });
+        console.log("pdata" + this.state.selectedPersonData.personCID);
+        // this.props.onInsertPatientId(this.state.selectedPersonData)
+        // this.assignDbDataToFields()
+        // this.state.profession.push(data);
+      })
+      .catch((error) => {
+        document.write("Error : " + error);
+      });
+  }
 
 
 
@@ -340,7 +378,7 @@ class CancerInfo extends React.Component {
     // this.state.changedParameters[this.state.tumorNo] = JSON.parse(JSON.stringify(this.state.cancerInfo));
     // this.state.changedParameters[this.state.tumorNo] = cloneDeep(this.state.cancerInfo[this.state.tumorNo]);
     // this.state.cancerInfoCopy[this.state.tumorNo] = cloneDeep(this.state.cancerInfo[this.state.tumorNo]);
-    this.state.cancerInfoCopy = cloneDeep(this.state.cancerInfo);
+    // this.state.cancerInfoCopy = this.props.patientDataValue.cancerList;
 
     // this.setState({ changedParameters:JSON.parse(JSON.stringify(this.state.cancerInfo)) });
     if (!this.state.isArrayEmpty) {
@@ -350,7 +388,7 @@ class CancerInfo extends React.Component {
     // Condition added To avoid displaying changes in Newly added cancers in "Updated Cancer Details" section in 'Preview' screen
     console.log("TUMORNO EQUAL " + this.state.cancerInfo[this.state.tumorNo].tumorNo)
     console.log("TUMORNO EQUAL " + this.state.newCancerObject.tumorNo)
-    console.log("TUMORNO EQUAL " + this.state.cancerInfoCopy.tumorNo)
+    // console.log("TUMORNO EQUAL " + this.state.cancerInfoCopy.tumorNo)
     this.state.isNewCancer = false
     // Looping through New Cancer Array ,
     // When displaying the changed values in 'Preview' screen, to avoid displaying new records as edited 
@@ -751,12 +789,15 @@ class CancerInfo extends React.Component {
     this.state.tumorNo = id
     console.log("in handleShow selectedId ;" + this.state.selectedId)
 
+
     this.loadDataToEditDialog(id);
   }
 
   // Values set in here will be displayed in the 'select' boxes in the Edit dialog  
   loadDataToEditDialog(id) {
-    console.log("loadDataToEditDialog TUmorNo : " + this.state.cancerInfo[id].site.code)
+    this.setState({ cancerInfoCopy: this.state.selectedPersonData.cancerList })
+    console.log("loadDataToEditDialog TUmorNo : " + id)
+    console.log("loadDataToEditDialog TUmorNo : " + this.state.selectedPersonData.personCID)
     //ToDu
     // save the changed row in to an array , this will be compaired with the original data in the review.
     // this.state.siteEditDlg= this.state.cancerInfo[id].site.code
@@ -766,7 +807,8 @@ class CancerInfo extends React.Component {
     // Remove comment
     // this.setState({ histocodesFromDb : this.state.cancerInfo[id].histology.code + " | " +this.state.cancerInfo[id].histology.description     })
     this.setState({ behaviourcodesFromDb: this.state.cancerInfo[id].behaviour.description })
-    this.setState({ dateOfDiagFromDb: this.state.cancerInfo[id].dateOfDiagnosis })
+    this.setState({ dateOfDiagFromDb: this.state.cancerInfo[id] != '' ? this.state.cancerInfo[id].dateOfDiagnosis : '' })
+
     console.log("dateOfDiagFromDb : " + this.state.cancerInfo[id].dateOfDiagnosis)
     if (this.state.cancerInfo[id].dateOfDiagnosis != '') {
       this.setState({ selectedEditYear: this.state.cancerInfo[id].dateOfDiagnosis.substr(0, 4) });
@@ -1023,6 +1065,7 @@ class CancerInfo extends React.Component {
       this.closeDialog();
       // this.htmlForm.submit();
     }
+
   }
   render() {
     let validation = this.submitted ?                         // if the form has been submitted at least once
@@ -1230,12 +1273,15 @@ class CancerInfo extends React.Component {
                   /> */}
                 </div><br /><br />
               </div>
-              <div className="{validation.ageDiagnosisFromDb.isInvalid && 'has-error'}" /*"row form-check form-check-inline"*/>
+              {/* "{validation.ageDiagnosisFromDb.isInvalid && 'has-error'}"  */}
+              <div className="row form-check form-check-inline">
                 <div className="col-sm-5">
                   Age Of Diagnosis:
                       </div>
-                <div className="col-sm-4">
-                  <input type="text" placeholder="age" value={this.state.ageDiagnosisFromDb} onChange={this.setCurrentAge.bind(this)} name="ageDiagnosisFromDb" />
+                {/* console.log("dod EXIST" + this.state.dodExist) */}
+                {/* {this.setState.dateOfDiagFromDb != '' ? this.state.dodExist = true : this.state.dodExist = false} */}
+                <div className="col-sm-4" disabled={console.log("dod EXIST" + this.state.dodExist)} >
+                  <input disabled={this.state.dodExist} type="text" placeholder="age" value={this.state.ageDiagnosisFromDb} onChange={this.setCurrentAge.bind(this)} name="ageDiagnosisFromDb" />
                 </div><br /><br />
                 <span className="help-block">{validation.ageDiagnosisFromDb.message}</span>
 

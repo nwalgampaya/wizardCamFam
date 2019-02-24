@@ -24,6 +24,12 @@ class CancerInfo extends React.Component {
         validWhen: false,
         message: 'Age is required.'
       },
+      {
+        field: 'dateOfDiagFromDb',
+        method: this.negativeAge,
+        validWhen: false,
+        message: 'Dx Date should be greater than DOB and less than Death Date'
+      },
       // {
       //   field: 'email',
       //   method: 'isEmail',
@@ -36,12 +42,16 @@ class CancerInfo extends React.Component {
       cancerInfo: [],
       selectedPersonData: [],
 
+      // validation fields
+      ageDiagnosisFromDb:'',
+      dateOfDiagFromDb:'',
+
       show: false,
       showAddCancer: false,
       isCancerEdited: false,
       isCanecerAdded: false,
       currentSourceOFDeath: 2,
-      dodExist: true,
+      dodExist: false,
       familyData: [],
 
 
@@ -130,19 +140,23 @@ class CancerInfo extends React.Component {
     // handleSubmit
 
   }
+  // componentDidUpdate() {
+  //   // componentWillMount() {
+  //   // componentWillUpdate  () {
 
-  componentWillMount() {
-    if (this.setState.dateOfDiagFromDb != '') {
-      console.log("dateOfDiagFromDb componentWillMount: ")
+  // }
+
+  negativeAge = () => { console.log("In Negative"); this.state.ageDiagnosisFromDb > 0 }
+
+  componentDidMount() {
+
+    if (this.state.dateOfDiagFromDb != '') {
+      console.log("dateOfDiagFromDb componentDidMount : " + this.state.dateOfDiagFromDb)
       this.setState({
         dodExist: true,
 
       });
-      // this.setState.dodExist = true;
     }
-  }
-  componentDidMount() {
-
     this.state.editedRecordCoun = this.props.editedRecordCoun;
     // if(this.props.editedRecordCoun=='undefined'){
 
@@ -997,22 +1011,76 @@ class CancerInfo extends React.Component {
 
     this.enableSaveInEditDialog("behaviourcodesFromDb", event);
   }
-  /* Diagnostic Date values START*/
-  handleYearPickedDiag = (selectedEditYear, e) => {
-    console.log("handleYearPicked : " + selectedEditYear)
-    this.setState({ selectedEditYear: selectedEditYear != "Year" ? selectedEditYear : '' });
 
+  setDateOfDiag() {
+    console.log("called setDateOfDiag ")
   }
+  /* Diagnostic Date values START*/
   handleMonthPickedDiag = (selectedEditMonth) => {
     console.log("Month Picked : " + selectedEditMonth)
-    this.setState({ selectedEditMonth: selectedEditMonth != "Month" ? selectedEditMonth : '' });
+    this.setState({
+      selectedEditMonth: selectedEditMonth != "Month" ? selectedEditMonth : ''
+      // }, () => {
+      //   this.calculateAgeOfDiag();
 
+    });
+  }
+  handleYearPickedDiag = (selectedEditYear, e) => {
+    console.log("handleYearPicked : " + selectedEditYear)
+    this.setState({
+      selectedEditYear: selectedEditYear != "Year" ? selectedEditYear : ''
+      // }, () => {
+      //   this.calculateAgeOfDiag();
+
+
+    });
+    this.setState({
+      ageDiagnosisFromDb: this.state.ageDiagnosisFromDb,
+    }, () => {
+      this.calculateAgeOfDiag();
+    });
+    // this.calculateAgeOfDiag();
+
+    // if(handleYearPickedDiag!=''    handleMonthPickedDiag!=''    handleDatePickedDiag!='')
+    // this.state.ageDiagnosisFromDb = 22
   }
 
   handleDatePickedDiag = (selectedEditDate) => {
     console.log("Date    Picked : " + selectedEditDate)
-    this.setState({ selectedEditDate: selectedEditDate != "Day" ? selectedEditDate : '' });
+    this.setState({
+      selectedEditDate: selectedEditDate != "Day" ? selectedEditDate : ''
+      // }, () => {
+      //   this.calculateAgeOfDiag();
 
+
+    });
+
+    // this.calculateAgeOfDiag();
+
+  }
+
+  calculateAgeOfDiag() {
+
+    console.log("In calculateAgeOfDiag: " + dob)
+
+    if (this.state.selectedEditYear != '' && this.state.selectedEditMonth != '' && this.state.selectedEditDate != '') {
+      var dob = new Date(this.convertDateFormat(this.state.selectedPersonData.dateOfBirth));
+      var dodiag = new Date(this.state.selectedEditYear + "/" + this.state.selectedEditMonth + "/" + this.state.selectedEditDate);
+      console.log("In didupdate NOT NULL dob : " + dob)
+      console.log("In didupdate NOT NULL DIAG DATE : " + dodiag)
+
+      var dt1 = Math.floor((dodiag - dob) / 31536000000);
+      console.log("In didupdate NOT NULL DIAG DATE : " + dt1)
+      // this.state.ageDiagnosisFromDb = dt1
+
+      this.setState({
+        ageDiagnosisFromDb: dt1,
+      });
+
+      this.state.enableSaveButton = true;
+
+
+    }
   }
   /* Diagnostic Date values END*/
 
@@ -1054,10 +1122,40 @@ class CancerInfo extends React.Component {
 
     this.state.showAddCancer = false;
   }
+  convertDateFormat(date) {
+    var formatDatestr = date
+    // console.log( "year: "+ str.slice(0,4) )
+    // console.log( "mon: "+ str.slice(4,6) )
+    // console.log( "date: "+ str.slice(6,8) )
+
+    // formatDatestr = formatDatestr!=null ? formatDatestr : 0;
+    if (formatDatestr != null)
+      formatDatestr = formatDatestr.slice(4, 6) + "/" + formatDatestr.slice(6, 8) + "/" + formatDatestr.slice(0, 4)
+    else
+      formatDatestr = 'N/A';
+
+    return formatDatestr
+  }
   componentDidUpdate(prevProps) {
     console.log("In didupdate")
+
     const { success: wasSuccess = false } = prevProps.status || {};
     const { success: isSuccess = false } = this.props.status || {};
+
+    // console.log("dateOfDiagFromDb componentWillMount: " + this.state.dateOfDiagFromDb)
+    // if (this.state.dateOfDiagFromDb != '') {
+    //   this.setState({
+    //     dodExist: true,
+
+    //   });
+    //   this.state.ageDiagnosisFromDb = new Date(this.state.dateOfDiagFromDb) - new Date(this.state.selectedPersonData.dateOfBirth);
+    //   // this.setState.dodExist = true;
+    //   console.log("dateOfDiagFromDb : " + this.state.dateOfDiagFromDb)
+    //   console.log("ageDiagnosisFromDb : " + this.state.ageDiagnosisFromDb)
+    //   console.log("selectedPersonData.dateOfBirth : " + this.state.selectedPersonData.dateOfBirth)
+
+    // }
+
     if (isSuccess) {
       console.log("In didupdate IF")
       // this.state.showAddCancer=false;
@@ -1257,7 +1355,7 @@ class CancerInfo extends React.Component {
                       </div>
                 <div className="col-sm-4">
 
-                  <DateSelect isAlive={false} dateOfDiagFromDb={this.state.dateOfDiagFromDb} value={this.state.currentDOB} name="diagDateColumn" onSelectYear={this.handleYearPickedDiag} onSelectMonth={this.handleMonthPickedDiag} onSelectDate={this.handleDatePickedDiag} />
+                  <DateSelect onPropertyChange={this.setDateOfDiag} isAlive={false} dateOfDiagFromDb={this.state.dateOfDiagFromDb} value={this.state.currentDOB} name="diagDateColumn" onSelectYear={this.handleYearPickedDiag} onSelectMonth={this.handleMonthPickedDiag} onSelectDate={this.handleDatePickedDiag} name="dateOfDiagFromDb"/>
 
                   {/* <DatePicker
                                                     onChange={this.oncurrentDOBChange}
@@ -1266,6 +1364,7 @@ class CancerInfo extends React.Component {
                   <div className="validationMsg">
                     {/* <Error name="currentdobColumn" /> */}
                   </div>
+                  <span className="help-block">{validation.dateOfDiagFromDb.message}</span>
 
                   {/* <DatePicker
                     // onChange={this.oncurrentDOBChange}
@@ -1280,8 +1379,8 @@ class CancerInfo extends React.Component {
                       </div>
                 {/* console.log("dod EXIST" + this.state.dodExist) */}
                 {/* {this.setState.dateOfDiagFromDb != '' ? this.state.dodExist = true : this.state.dodExist = false} */}
-                <div className="col-sm-4" disabled={console.log("dod EXIST" + this.state.dodExist)} >
-                  <input disabled={this.state.dodExist} type="text" placeholder="age" value={this.state.ageDiagnosisFromDb} onChange={this.setCurrentAge.bind(this)} name="ageDiagnosisFromDb" />
+                <div className="col-sm-4" disabled={console.log("dod EXIST" + this.state.dateOfDiagFromDb)} >
+                  <input disabled={this.state.dateOfDiagFromDb != '' ? false : false} false="text" placeholder="age" value={this.state.ageDiagnosisFromDb} onChange={this.setCurrentAge.bind(this)} name="ageDiagnosisFromDb" />
                 </div><br /><br />
                 <span className="help-block">{validation.ageDiagnosisFromDb.message}</span>
 

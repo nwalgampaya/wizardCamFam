@@ -43,8 +43,8 @@ class CancerInfo extends React.Component {
       selectedPersonData: [],
 
       // validation fields
-      ageDiagnosisFromDb:'',
-      dateOfDiagFromDb:'',
+      ageDiagnosisFromDb: '',
+      dateOfDiagFromDb: '',
 
       show: false,
       showAddCancer: false,
@@ -146,7 +146,14 @@ class CancerInfo extends React.Component {
 
   // }
 
-  negativeAge = () => { console.log("In Negative"); this.state.ageDiagnosisFromDb > 0 }
+  negativeAge = () => {
+    console.log("In Negative : " + this.state.ageDiagnosisFromDb);
+    console.log("In Negative : " + this.state.selectedPersonData.dateOfDeath);
+
+    if (this.state.ageDiagnosisFromDb < 0 || this.state.selectedPersonData.dateOfDeath) {
+      return true;
+    } else return false;
+  }
 
   componentDidMount() {
 
@@ -1353,9 +1360,9 @@ class CancerInfo extends React.Component {
                 <div className="col-sm-5">
                   Date Of Diagnosis:
                       </div>
-                <div className="col-sm-4">
+                <div className="col-sm-5">
 
-                  <DateSelect onPropertyChange={this.setDateOfDiag} isAlive={false} dateOfDiagFromDb={this.state.dateOfDiagFromDb} value={this.state.currentDOB} name="diagDateColumn" onSelectYear={this.handleYearPickedDiag} onSelectMonth={this.handleMonthPickedDiag} onSelectDate={this.handleDatePickedDiag} name="dateOfDiagFromDb"/>
+                  <DateSelect onPropertyChange={this.setDateOfDiag} isAlive={false} dateOfDiagFromDb={this.state.dateOfDiagFromDb} value={this.state.currentDOB} name="diagDateColumn" onSelectYear={this.handleYearPickedDiag} onSelectMonth={this.handleMonthPickedDiag} onSelectDate={this.handleDatePickedDiag} name="dateOfDiagFromDb" />
 
                   {/* <DatePicker
                                                     onChange={this.oncurrentDOBChange}

@@ -70,12 +70,13 @@ export default class Wizard extends React.Component {
 
     console.log("********************(Next) in else" + this.state.page);
     // this.state.isModalOpen=true
-    if (this.props.choosePathFamily == true && this.state.page > 1) {
+    // && this.state.page > 1
+    if (this.props.choosePathFamily == true) {
       console.log("PAGE NO : " + this.state.page);
 
       /* To access function onSelectCancerFamId() in FamilySearch.js */
 
-      if (this.state.page == 7) {
+      if (this.state.page == 6) {
         console.log("NExT : " + this.state.page);
         this.setState(state => ({
           page: Math.min(state.page + 1, this.props.children.length - 1),
@@ -84,7 +85,7 @@ export default class Wizard extends React.Component {
         return onSelectCancerFamId(values);
       }
       // To access function onSaveCancerFamilyID() in FamilySaveInfo.js
-      if (this.state.page == 8) {
+      if (this.state.page == 7) {
         console.log("NExT : " + this.state.page);
         this.setState(state => ({
           page: Math.min(state.page + 1, this.props.children.length - 1),
@@ -99,7 +100,7 @@ export default class Wizard extends React.Component {
         }));
       } else {
         this.setState(state => ({
-          page: Math.min(state.page + 5, this.props.children.length - 1),
+          page: Math.min(state.page + 6, this.props.children.length - 1),
           values
         }));
       }
@@ -129,21 +130,22 @@ export default class Wizard extends React.Component {
 
   ExitRecord = () =>
     this.setState(state => ({
-      page: 2
+      page: 0
     }));
 
   logout = () =>
     this.setState(state => ({
-      page: 0
+      page: -1
     }));
   previous = () => {
     const { onCancerInfoPage } = this.props;
 
     console.log("PAGE NO" + this.state.page);
-    if (this.props.choosePathFamily == true && this.state.page > 1) {
+    // && this.state.page > 1
+    if (this.props.choosePathFamily == true) {
       if (this.state.page == 7) {
         this.setState(state => ({
-          page: 1
+          page: 6
         }));
       } else {
         this.setState(state => ({
@@ -301,7 +303,7 @@ export default class Wizard extends React.Component {
                     )}
 
                     {/* { page == 3 && (<button className="btn btn-primary" type="button" onClick={this.previous}> Back</button>)} */}
-                    {page > 0 && page != 2 && page != 1 && page != 3 && (
+                    {page > 0 && page != 2 && page != 1 && (!this.props.choosePathFamily || page != 6 || page == 7) && (
                       <button
                         className="btn btn-primary"
                         type="button"
@@ -312,12 +314,12 @@ export default class Wizard extends React.Component {
                       </button>
                     )}
 
-                    {(page == 3 || page == 4 || page == 5) && (
+                    {(page == 3 || page == 4 || page == 2) && (
                       <button className="invisible" type="button">
                         Invisible Invisible Invisible Invisible Invisible{" "}
                       </button>
                     )}
-                    {(page == 3 || page == 4 || page == 5) && (
+                    {(page == 3 || page == 4 || page == 2) && (
                       <button
                         className="btn btn-primary"
                         type="button"
@@ -327,12 +329,12 @@ export default class Wizard extends React.Component {
                         Exit Record
                       </button>
                     )}
-                    {(page == 3 || page == 4 || page == 5) && (
+                    {(page == 3 || page == 4 || page == 2) && (
                       <button className="invisible" type="button">
                         xx{" "}
                       </button>
                     )}
-                    {(page == 3 || page == 4 || page == 5) && (
+                    {(page == 3 || page == 4 || page == 2) && (
                       <button
                         className="btn btn-primary"
                         type="button"
@@ -345,21 +347,17 @@ export default class Wizard extends React.Component {
 
                     {/* { page>0 && (<button className="btn btn-primary" type="button" > Logout</button>)} */}
                     {/* page !=3 &&  */}
-                    {!isLastPage &&
-                      page >= 0 &&
-                      page != 3 &&
-                      page != 2 &&
-                      page != 1 &&
-                      page != 5 && (
-                        <button
-                          className="btn btn-primary pull-right"
-                          type="button"
-                          onClick={() => this.next()}
-                        >
-                          Proceed
+
+                    {(!isLastPage) && page > 0 && page != 2 && page != 1 && page != 4 && (
+                      <button
+                        className="btn btn-primary pull-right"
+                        type="button"
+                        onClick={() => this.next()}
+                      >
+                        Proceed
                         </button>
-                      )}
-                    {page == 3 && (
+                    )}
+                    {page == 2 && (
                       <button
                         className="btn btn-primary pull-right"
                         type="submit"
@@ -369,7 +367,7 @@ export default class Wizard extends React.Component {
                     )}
                     {/* Need to be type of submit in order to get the formik validation. */}
                     {/* {page ==3  &&(<button className="btn btn-primary pull-right" type="submit"  >Next</button>)}  */}
-                    {page == 2 && (
+                    {page == 1 && (!this.props.choosePathFamily || page == 6) && (
                       <button
                         style={alignButton}
                         className="btn btn-primary"
@@ -384,7 +382,7 @@ export default class Wizard extends React.Component {
                     )}
 
                     {/* TODo add condition to disable save button when nothing edited or new added */}
-                    {page == 5 && (
+                    {page == 4 && (
                       <button
                         /*disabled ={false ? this.props.choosePathFamily: true} */ className="btn btn-primary pull-right"
                         type="submit"

@@ -52,19 +52,19 @@ export default class FamilySearch extends React.Component {
 
     // console.log("Mnt" + mnth)
     var mnths = {
-        Jan: "01",
-        Feb: "02",
-        Mar: "03",
-        Apr: "04",
-        May: "05",
-        Jun: "06",
-        Jul: "07",
-        Aug: "08",
-        Sep: "09",
-        Oct: "10",
-        Nov: "11",
-        Dec: "12"
-      },
+      Jan: "01",
+      Feb: "02",
+      Mar: "03",
+      Apr: "04",
+      May: "05",
+      Jun: "06",
+      Jul: "07",
+      Aug: "08",
+      Sep: "09",
+      Oct: "10",
+      Nov: "11",
+      Dec: "12"
+    },
       date = str2.split(" ");
 
     // console.log("date new 1" + date[1])
@@ -169,41 +169,74 @@ export default class FamilySearch extends React.Component {
     });
   }
 
+  // handleSearchGetFamily() {
+  //   console.log("individualId : " + this.state.value);
+
+  //   var familyIdValue = this.state.familyIdValue;
+  //   const urlIndividualId =
+  //     properties.baseUrl + "patients/family"; // + familyIdValue;
+  //   let status;
+  //   fetch(urlIndividualId)
+  //     .then(response => {
+  //       status = response.status;
+  //       return response.json();
+  //     })
+  //     .then(data => {
+  //       if (status == 200) {
+  //         console.log(data);
+  //         this.setErrorFalse();
+  //         this.setState({
+  //           individualId: data
+  //         });
+  //         this.state.isSearched = true;
+
+  //         this.state.individualId.map((value, i) => {
+  //           console.log("individual : " + value);
+  //         });
+  //       } else if (status == 404) {
+  //         console.log(data);
+  //         this.state.errorMsg = data.apierror.message;
+  //         this.setErrortrue();
+  //         //   this.setState({
+  //         //     errorMsg: data.api(error.message
+  //         //   });
+  //       }
+  //     })
+  //     .catch(error => {
+  //       console.log("Error :");
+
+  //       document.write("Error : " + error);
+  //     });
+  //   console.log("data : " + this.state.individualId);
+  //   this.state.isSearched = true;
+
+  //   this.state.individualId.map((value, i) => {
+  //     console.log("individual : " + value);
+  //   });
+  // }
   handleSearchGetFamily() {
-    console.log("individualId : " + this.state.value);
+
+    console.log("individualId : " + this.state.familyIdValue);
 
     var familyIdValue = this.state.familyIdValue;
-    const urlIndividualId =
-      properties.baseUrl + "patients/family/" + familyIdValue;
-    let status;
-    fetch(urlIndividualId)
-      .then(response => {
-        status = response.status;
-        return response.json();
-      })
-      .then(data => {
-        if (status == 200) {
-          console.log(data);
-          this.setErrorFalse();
-          this.setState({
-            individualId: data
-          });
-          this.state.isSearched = true;
+    const urlIndividualId = properties.baseUrl + "patients/family/";
+    //  + familyIdValue;
 
-          this.state.individualId.map((value, i) => {
-            console.log("individual : " + value);
-          });
-        } else if (status == 404) {
-          console.log(data);
-          this.state.errorMsg = data.apierror.message;
-          this.setErrortrue();
-          //   this.setState({
-          //     errorMsg: data.api(error.message
-          //   });
-        }
+    fetch(urlIndividualId)
+      .then(response => response.json())
+      .then((data) => {
+
+        console.log("individualId" + data);
+        this.setState({
+          individualId: data,
+
+        });
+        // this.state.individualId = data;
+
       })
-      .catch(error => {
+      .catch((error) => {
         console.log("Error :");
+
 
         document.write("Error : " + error);
       });
@@ -211,10 +244,10 @@ export default class FamilySearch extends React.Component {
     this.state.isSearched = true;
 
     this.state.individualId.map((value, i) => {
-      console.log("individual : " + value);
-    });
-  }
+      console.log("individual : " + value)
 
+    })
+  }
   setSrlcodes(event) {
     console.log("Srlcode :" + event.target.value);
     // this.setState
@@ -338,8 +371,8 @@ export default class FamilySearch extends React.Component {
                 //   onChange={this.setFamilyValue.bind(this)}
                 onChange={e => this.setState({ familyIdValue: e.target.value })}
                 onSelect={this.setFamilyValue.bind(this)}
-                // onSelect={familyIdValue => this.setState({ familyIdValue })}
-                //   on
+              // onSelect={familyIdValue => this.setState({ familyIdValue })}
+              //   on
               />
             </div>
           </div>
@@ -364,7 +397,6 @@ export default class FamilySearch extends React.Component {
                     </option>
                   );
                 })}
-                {/* <option >{"Hospital Rec"}</option> */}}
               </select>
             </div>
           </div>

@@ -2,55 +2,55 @@
   text-align: center;
 } */
 
-.welcome{
-  color: #C00000;
+.welcome {
+  color: #c00000;
   font-style: italic;
   font-weight: bold;
-  font-family: 'Calibri';
+  font-family: "Calibri";
   font-size: 45px;
 }
 
-.important-info{
-  font-family:  'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
-  color: #C00000;
+.important-info {
+  font-family: "Lucida Sans", "Lucida Sans Regular", "Lucida Grande",
+    "Lucida Sans Unicode", Geneva, Verdana, sans-serif;
+  color: #c00000;
   font-size: 20px;
   font-weight: bold;
 }
 
-.predicted-risk{
-  font-family: 'Calibri';
+.predicted-risk {
+  font-family: "Calibri";
   font-size: 45px;
   /* padding-bottom: 5px;   */
 }
-.predicted-risk-for{
-  font-family: 'Calibri';
+.predicted-risk-for {
+  font-family: "Calibri";
   font-size: 30px;
   /* padding-bottom: 5px;   */
 }
-.personalised-risk-italic{
+.personalised-risk-italic {
   /* padding-top: -1px; */
-  font-family: 'Calibri';
+  font-family: "Calibri";
   font-size: 25px;
-  font-style: italic
+  font-style: italic;
 }
 /* p::first-letter {
   font-weight: bold;
   color: red;
 } */
-.text-button{
+.text-button {
   font-family: Verdana;
   font-weight: bold;
-  color: #17375E;
+  color: #17375e;
   font-size: 20px;
 }
 
-.control-margin-lbl{
-/* margin-bottom: 5px; */
-font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+.control-margin-lbl {
+  /* margin-bottom: 5px; */
+  font-family: "Gill Sans", "Gill Sans MT", Calibri, "Trebuchet MS", sans-serif;
   font-size: 20px;
-/* font-weight:bold; */
-
-} 
+  /* font-weight:bold; */
+}
 /* .selcls { 
   padding: 9px; 
   border: solid 1px #517B97; 
@@ -62,7 +62,6 @@ font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
   -webkit-box-shadow: rgba(0,0,0, 0.1) 0px 0px 8px; 
 
   }  */
-
 
 .App-logo {
   animation: App-logo-spin infinite 20s linear;
@@ -92,51 +91,55 @@ font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
   margin: 25px;
 }
 @keyframes App-logo-spin {
-  from { transform: rotate(0deg); }
-  to { transform: rotate(360deg); }
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
 }
 /*.btn {
   padding: 0.500rem 0.75rem;
 }
 */
 
-.fa-man-blue{
+.fa-man-blue {
   color: rgb(13, 36, 243);
   /* font-size:24px; */
   /* padding: 0px; */
-  font-size:20px;
+  font-size: 20px;
 }
-.fa-man-black{
+.fa-man-black {
   color: black;
 }
-.fa-man-red{
+.fa-man-red {
   color: rgb(235, 131, 131);
-  font-size:20px;
+  font-size: 20px;
   /* padding: 1px; */
 }
-.row-pad{
+.row-pad {
   padding: 25px;
-} 
+}
 
-.img-box{
+.img-box {
   height: 20px;
   width: 20px;
   /* fill: #f0edea */
   /* background-image: red */
 }
-.rect-box{
+.rect-box {
   /* background-color:#fff1e0; */
   /* fill: #fff1e0; */
   height: 500px;
   width: 512px;
   /* border: #855e34; */
-  border:solid #f0edea;
+  border: solid #f0edea;
   /* border-radius: 20px 20px 20px 20px; */
   /* solid rgb(236, 236, 240); */
   /* padding-left: 5px */
   /* align-self: center; */
 }
-.rect-box-outer{
+.rect-box-outer {
   /* background-color:#fff1e0; */
   /* fill: #fff1e0; */
   /* width: 400px; */
@@ -147,106 +150,105 @@ font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
   /* padding-left: 5px */
   /* align-self: center; */
 }
-.para-center{
+.para-center {
   text-align: center;
 }
 
 .icon-malefemale-malefemale:before {
-	/* color: #0000ff; */
-	font-size: 15px;
+  /* color: #0000ff; */
+  font-size: 15px;
 }
 
-.icon-halfmalefemale-halfmalefemale{
-	/* color: #0000ff; */
-	font-size: 15px;
+.icon-halfmalefemale-halfmalefemale {
+  /* color: #0000ff; */
+  font-size: 15px;
 }
 
 table.b {
   table-layout: fixed;
-  width: 500px; 
-  align-self: center;   
+  width: 500px;
+  align-self: center;
 }
 table.c {
   table-layout: fixed;
-  width: 255px; 
-  align-self: center;   
+  width: 255px;
+  align-self: center;
 }
-tr.h{
-  height: 250px; 
+tr.h {
+  height: 250px;
 }
 .button-start {
   /* table-layout: fixed; */
   widows: fixed;
-  width: 400px; 
+  width: 400px;
   height: 150px;
-  align-self: center;   
-  border-radius: 20px 20px 20px 20px;   
+  align-self: center;
+  border-radius: 20px 20px 20px 20px;
 }
-.dorp-box{
+.dorp-box {
   width: 300px;
- border-radius: 5px 5px 5px 5px;
+  border-radius: 5px 5px 5px 5px;
 }
 
-.box-text{
+.box-text {
   width: 100px;
-  border-radius: 5px 5px 5px 5px;   
+  border-radius: 5px 5px 5px 5px;
   background-color: white;
 }
 table.pushright {
   table-layout: fixed;
-  width: 70px; 
-  align-self: center;   
+  width: 70px;
+  align-self: center;
 }
-.para-height{
-  padding-top:20px;
+.para-height {
+  padding-top: 20px;
   /* padding-bottom: 0px; */
   margin-bottom: 0px;
 }
 
-.hidden{
+.hidden {
   display: none;
 }
 
-.plusButton{
+.plusButton {
   align-self: center;
 }
 
-/* Colonoscopy css *//* Colonoscopy css *//* Colonoscopy css *//* Colonoscopy css *//* Colonoscopy css *//* Colonoscopy css */
+/* Colonoscopy css */ /* Colonoscopy css */ /* Colonoscopy css */ /* Colonoscopy css */ /* Colonoscopy css */ /* Colonoscopy css */
 /* .guideline-heading-text{
   font-family: 'Calibri';
   font-size: 30px;
 } */
 /* padding-bottom: 5px;   */
-.guideline-para-text{
-  font-family: 'Calibri';
+.guideline-para-text {
+  font-family: "Calibri";
   font-size: 16px;
 }
-.button-center{
+.button-center {
   align-self: center;
 }
 
 .button-continue {
   /* table-layout: fixed; */
   widows: fixed;
-  width: 275px; 
+  width: 275px;
   height: 100px;
-  align-self: center;   
-  color:white;
+  align-self: center;
+  color: white;
   font-size: 30px;
-  background-color:  #1f6bbb;
+  background-color: #1f6bbb;
   /* border-radius: 20px 20px 20px 20px;    */
 }
 
-.para-heddings{
+.para-heddings {
   font-size: 30px;
-  font-family:'Open Sans',sans-serif;
+  font-family: "Open Sans", sans-serif;
   font-weight: bold;
-  
 }
 
-.para-text{
+.para-text {
   font-size: 25px;
-  font-family: 'Open Sans', sans-serif
+  font-family: "Open Sans", sans-serif;
 }
 
 /* .features {
@@ -259,45 +261,42 @@ table.pushright {
   position: relative;
 } */
 
-.bottom-right{
+.bottom-right {
   position: absolute;
   bottom: 0;
   right: 0;
 }
-/* Colonoscopy css *//* Colonoscopy css *//* Colonoscopy css *//* Colonoscopy css *//* Colonoscopy css *//* Colonoscopy css */
+/* Colonoscopy css */ /* Colonoscopy css */ /* Colonoscopy css */ /* Colonoscopy css */ /* Colonoscopy css */ /* Colonoscopy css */
 
 /* CancerFamily */
 
-.dialogclassname{
+.dialogclassname {
   /* display: block;  */
   /* width: 800px;  */
   /* height: 500px; */
   padding-left: 0px;
   font-size: 17px;
-  font-family: 'Open Sans', sans-serif;
+  font-family: "Open Sans", sans-serif;
   /* color: rgb(79, 94, 230); */
 }
 
-.modalHeader{
-  font-size: 15px;
-  font-family: 'Open Sans', sans-serif;
-  background-color: aquamarine,
-
+.modalHeader {
+  font-size: 18px;
+  font-family: "Open Sans", sans-serif;
 }
 
-.asteric-required:after{
-  content:"*";
+.asteric-required:after {
+  content: "*";
   color: rgb(243, 85, 111);
   /* font-weight:bold; */
-  margin-left: 8px
+  margin-left: 8px;
 }
 
-.inline-error  {
+.inline-error {
   display: inline-block;
   position: relative;
   font-size: 12px;
-  color: red
-  
-  }
+  color: red;
+}
 
 /* CancerFamily */

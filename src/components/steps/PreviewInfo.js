@@ -73,7 +73,7 @@ export default class PreviewInfo extends React.Component {
     if (this.props.isCanecerAdded) {
       return (
         <div>
-          <h3>Added Cancer Details</h3>
+          <h2>Added Cancer Details</h2>
           {this.createCancerFields()}
         </div>
       );
@@ -85,61 +85,45 @@ export default class PreviewInfo extends React.Component {
     // || this.props.isCancerEdited
     // if(this.props.isCanecerAdded ){
     return this.props.newCancerArr.map((values, i) => (
-      <table>
+      <table className="CancerAddTab">
         <tbody>
           <tr>
             <th>Column Name</th>
             <th>Value</th>
           </tr>
           <tr>
-            <td>
-              <p> Site</p>
-            </td>
+            <td>Site</td>
             <td>{values.site.code}</td>
           </tr>
           <tr>
-            <td>
-              <p> Lateral</p>
-            </td>
+            <td>Lateral</td>
             <td>{values.lateral.description}</td>
           </tr>
           <tr>
-            <td>
-              <p> Histology</p>
-            </td>
+            <td>Histology</td>
             <td>
               {/* // Remove comment */}
               {/* {values.histology.code} */}
             </td>
           </tr>
           <tr>
-            <td>
-              <p> Behavior</p>
-            </td>
+            <td>Behavior</td>
             <td>{values.behaviour.description}</td>
           </tr>
           <tr>
-            <td>
-              <p> Date Of Diagnosis</p>
-            </td>
+            <td>Date Of Diagnosis</td>
             <td>{/* {values.site.code} */}</td>
           </tr>
           <tr>
-            <td>
-              <p> Age Of Diagnosis</p>
-            </td>
+            <td>Age Of Diagnosis</td>
             <td>{/* {values.lateral.code} */}</td>
           </tr>
           <tr>
-            <td>
-              <p> Source</p>
-            </td>
+            <td>Source</td>
             <td>{values.diagSource.description}</td>
           </tr>
           <tr>
-            <td>
-              <p> Tissue</p>
-            </td>
+            <td>Tissue</td>
             <td>{values.tissue.description}</td>
           </tr>
         </tbody>
@@ -170,7 +154,7 @@ export default class PreviewInfo extends React.Component {
     // if(this.props.isCancerEdited){
     return this.props.arrayEditedData.map(
       (values, i) => (
-        <table>
+        <table className="CancerEditTab">
           <tbody>
             <tr>
               <th>Column Name</th>
@@ -216,7 +200,7 @@ export default class PreviewInfo extends React.Component {
     } else {
       return (
         <div>
-          <h3> Review Details </h3>
+          <h2> Review Details </h2>
           <p>
             {" "}
             No data changes have been made. Please Exit Record or make changes

@@ -615,3 +615,105 @@ p {
 .modal-dialog {
   width: 800px;
 }
+
+/* for Add cancer table */
+.CancerAddTab {
+  width: 100%;
+  border-collapse: collapse;
+}
+.CancerAddTab td {
+  padding: 6px;
+  text-align: center;
+  border: 1px solid #dee2e6;
+}
+
+.CancerAddTab th {
+  padding: 6px;
+  border: 1px solid #dee2e6;
+}
+/* provide some minimal visual accomodation for IE8 and below */
+.CancerAddTab tr {
+  background: #f0f2f5;
+}
+
+/*  Define the background color for all the ODD background rows  */
+.CancerAddTab tr:nth-child(odd) {
+  background: white;
+  /* background: #f8f8f8;*/
+}
+/*  Define the background color for all the EVEN background rows  */
+.CancerAddTab tr:nth-child(even) {
+  background: #e0e2e0dc;
+}
+th.last-name *,
+td.last-name {
+  font-weight: bold;
+  color: #aa0000;
+}
+th.numeric,
+td.numeric {
+  text-align: right !important;
+}
+.CancerAddTab tr th {
+  background-position: right;
+  background-repeat: no-repeat;
+}
+
+.CancerAddTab tr.changed {
+  background-color: #fff7ea;
+}
+.changed {
+  color: chocolate;
+}
+/* for Add cancer table */
+
+/* for Add cancer table */
+.CancerEditTab {
+  width: 100%;
+  border-collapse: collapse;
+}
+.CancerEditTab td {
+  padding: 6px;
+  text-align: center;
+  border: 1px solid #dee2e6;
+}
+
+.CancerEditTab th {
+  padding: 6px;
+  border: 1px solid #dee2e6;
+}
+/* provide some minimal visual accomodation for IE8 and below */
+.CancerEditTab tr {
+  background: #f0f2f5;
+}
+
+/*  Define the background color for all the ODD background rows  */
+.CancerEditTab tr:nth-child(odd) {
+  background: white;
+  /* background: #f8f8f8;*/
+}
+/*  Define the background color for all the EVEN background rows  */
+.CancerEditTab tr:nth-child(even) {
+  background: #a8c4e9;
+}
+th.last-name *,
+td.last-name {
+  font-weight: bold;
+  color: #004aaa;
+}
+th.numeric,
+td.numeric {
+  text-align: right !important;
+}
+.CancerEditTab tr th {
+  background-position: right;
+  background-repeat: no-repeat;
+}
+
+.CancerEditTab tr.changed {
+  background-color: #fff7ea;
+}
+.changed {
+  color: chocolate;
+}
+/* for Add cancer table */

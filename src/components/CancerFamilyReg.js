@@ -1852,6 +1852,7 @@ class CancerFamilyReg extends React.Component {
         onSavePatientOnly={this.onSavePatientOnly.bind(this)}
         onSelectCancerFamId={this.onSelectCancerFamId.bind(this)}
         onSaveCancerFamilyID={this.onSaveCancerFamilyID.bind(this)}
+        onCancerInfoPage={this.onCancerInfoPage.bind(this)}
         onSearchPatient={this.onSearchPatient.bind(this)}
         ref={wizardCmp => {
           this.wizardCmp = wizardCmp;

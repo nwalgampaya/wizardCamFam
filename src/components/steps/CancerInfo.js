@@ -33,7 +33,7 @@ class CancerInfo extends React.Component {
       {
         field: "dateOfDiagFromDb",
         method: this.negativeAge,
-        validWhen: false,
+        validWhen: true,
         message: "Dx Date should be greater than DOB and less than Death Date"
       }
       // {
@@ -1387,7 +1387,7 @@ class CancerInfo extends React.Component {
               <div className="row form-check form-check-inline">
                 <div className="col-sm-5 control-margin">Site:</div>
                 <div className="col-sm-5 control-margin">
-                  <Autocomplete
+                  {/* <Autocomplete
                     wrapperStyle={{ width: "100%" }}
                     inputProps={{
                       style: {
@@ -1427,20 +1427,29 @@ class CancerInfo extends React.Component {
                     onSelect={this.setSite.bind(this)}
                     //   onSelect={value => this.setState({ value })}
                     //   on
-                  />
+                  /> */}
                   {/* disabled={this.state.isAlive} */}
-                  {/* <select className="form-control dorp-box" defaultValue={this.state.siteEditDlg} onChange={this.setSite.bind(this)} name="currentDeathColumn"> */}
-                  {/* {
-                      this.state.siteData.map((siteGroup, i) => {
-                        
-                        this.state.siteGroup = siteGroup.description; */}
-                  {/* return <option key={siteGroup.value} defaultValue={this.state.siteEditDlg}>{siteGroup.code/*+" | "+siteGroup.description*/}
-                  {/* </option> */}
+                  <select
+                    /**disabled={this.state.isAlive}**/ className="form-control dorp-box"
+                    defaultValue={this.state.siteEditDlg}
+                    onChange={this.setSiteOnChange.bind(this)}
+                    name="currentDeathColumn"
+                  >
+                    {this.state.siteData.map((siteGroup, i) => {
+                      // console.log("location ID :  " + siteGroup.id);
 
-                  {/* }) */}
-
-                  {/* } */}
-                  {/* </select> */}
+                      this.state.siteGroup = siteGroup.description;
+                      return (
+                        <option
+                          key={siteGroup.value}
+                          defaultValue={this.state.siteEditDlg}
+                        >
+                          {siteGroup.code}
+                          {/* + " || " + siteGroup.description */}
+                        </option>
+                      );
+                    })}
+                  </select>
                 </div>
               </div>
               <div className="row form-check form-check-inline">

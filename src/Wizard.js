@@ -153,7 +153,9 @@ export default class Wizard extends React.Component {
         }));
       }
     } else {
-      if (this.state.page == 5) {
+      if (this.state.page == 4) {
+        console.log("PAGE NO in onCancerInfoPage" + this.state.page);
+
         this.setState(state => ({
           page: Math.max(state.page - 1, 0)
         }));
@@ -303,16 +305,21 @@ export default class Wizard extends React.Component {
                     )}
 
                     {/* { page == 3 && (<button className="btn btn-primary" type="button" onClick={this.previous}> Back</button>)} */}
-                    {page > 0 && page != 2 && page != 1 && (!this.props.choosePathFamily || page != 6 || page == 7) && (
-                      <button
-                        className="btn btn-primary"
-                        type="button"
-                        onClick={this.previous}
-                      >
-                        {" "}
-                        Previous
-                      </button>
-                    )}
+                    {page > 0 &&
+                      page != 2 &&
+                      page != 1 &&
+                      (!this.props.choosePathFamily ||
+                        page != 6 ||
+                        page == 7) && (
+                        <button
+                          className="btn btn-primary"
+                          type="button"
+                          onClick={this.previous}
+                        >
+                          {" "}
+                          Previous
+                        </button>
+                      )}
 
                     {(page == 3 || page == 4 || page == 2) && (
                       <button className="invisible" type="button">
@@ -348,15 +355,19 @@ export default class Wizard extends React.Component {
                     {/* { page>0 && (<button className="btn btn-primary" type="button" > Logout</button>)} */}
                     {/* page !=3 &&  */}
 
-                    {(!isLastPage) && page > 0 && page != 2 && page != 1 && page != 4 && (
-                      <button
-                        className="btn btn-primary pull-right"
-                        type="button"
-                        onClick={() => this.next()}
-                      >
-                        Proceed
+                    {!isLastPage &&
+                      page > 0 &&
+                      page != 2 &&
+                      page != 1 &&
+                      page != 4 && (
+                        <button
+                          className="btn btn-primary pull-right"
+                          type="button"
+                          onClick={() => this.next()}
+                        >
+                          Proceed
                         </button>
-                    )}
+                      )}
                     {page == 2 && (
                       <button
                         className="btn btn-primary pull-right"

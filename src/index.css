@@ -580,3 +580,12 @@ p {
   background-color: #f5f0f0;
   font-weight: normal;
 }
+.margin20 {
+  margin-bottom: 20px;
+}
+.marginMinus20 {
+  margin-bottom: -20px;
+}
+.margin15 {
+  margin-bottom: 15px;
+}

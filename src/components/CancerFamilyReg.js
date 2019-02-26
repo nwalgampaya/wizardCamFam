@@ -239,7 +239,7 @@ class CancerFamilyReg extends React.Component {
         />
       );
 
-      return this.state.sixthPage
+      return this.state.sixthPage;
       //  <Family />;
     } else {
       // this.state.secoundPage=<CancerInfo onSaveChangeInfo={this.handleChangedRecFrmChild} arrayEditedData= {this.state.arrayEditedData}/>
@@ -317,7 +317,7 @@ class CancerFamilyReg extends React.Component {
 
           console.log(
             "Cause Of Death --------------------------------" +
-            changedField.previousVal
+              changedField.previousVal
           );
         }
         // if (columnName == "Relationship Code") {
@@ -352,7 +352,7 @@ class CancerFamilyReg extends React.Component {
 
           console.log(
             "Cause Of Death --------------------------------" +
-            changedField.previousVal
+              changedField.previousVal
           );
         }
         this.setState({ countChangedFields: ++this.state.countChangedFields });
@@ -382,7 +382,7 @@ class CancerFamilyReg extends React.Component {
 
         console.log(
           "Cause Of Death --------------------------------" +
-          changedField.previousVal
+            changedField.previousVal
         );
       }
     }
@@ -435,19 +435,19 @@ class CancerFamilyReg extends React.Component {
 
     // console.log("Mnt" + mnth)
     var mnths = {
-      Jan: "01",
-      Feb: "02",
-      Mar: "03",
-      Apr: "04",
-      May: "05",
-      Jun: "06",
-      Jul: "07",
-      Aug: "08",
-      Sep: "09",
-      Oct: "10",
-      Nov: "11",
-      Dec: "12"
-    },
+        Jan: "01",
+        Feb: "02",
+        Mar: "03",
+        Apr: "04",
+        May: "05",
+        Jun: "06",
+        Jul: "07",
+        Aug: "08",
+        Sep: "09",
+        Oct: "10",
+        Nov: "11",
+        Dec: "12"
+      },
       date = str2.split(" ");
 
     // console.log("date new 1" + date[1])
@@ -634,7 +634,7 @@ class CancerFamilyReg extends React.Component {
     this.state.sendCurrentDateDeath = this.convert(currentDeath);
     console.log(
       "sendCurrentDateDeath : ddddddddddddddddddddddd : " +
-      this.state.sendCurrentDateDeath
+        this.state.sendCurrentDateDeath
     );
   }
   setAgeOfDeath(event) {
@@ -688,7 +688,7 @@ class CancerFamilyReg extends React.Component {
     this.state.sendCurrentLKDA = this.convert(currentLKDA);
     console.log(
       "sendCurrentDateDeath : ddddddddddddddddddddddd : " +
-      this.state.sendCurrentLKDA
+        this.state.sendCurrentLKDA
     );
   }
 
@@ -866,8 +866,8 @@ class CancerFamilyReg extends React.Component {
           patientData.intGender == 1
             ? "Male"
             : patientData.intGender == 2
-              ? "Female"
-              : "Unknown"
+            ? "Female"
+            : "Unknown"
       });
     console.log(
       "EEEEEEEEEEEEEEEEEEEEEEEEEEEEEE intGender" + patientData.intGender
@@ -883,8 +883,8 @@ class CancerFamilyReg extends React.Component {
         patientData.vitalStatus == 1
           ? "Alive"
           : patientData.vitalStatus == 2
-            ? "Dead"
-            : "Unknown"
+          ? "Dead"
+          : "Unknown"
     });
     console.log("EEEEEEEEEEEEEEEEEEEEEEEEEEEEEE" + this.state.dateOFDOB);
     this.setState({
@@ -1178,7 +1178,7 @@ class CancerFamilyReg extends React.Component {
       // this.state.patientDataValue.sourceOfDeath.id = fieldValues.id
       console.log(
         "IN POST REQUEST currentSourceOFDeath  id: " +
-        this.state.patientDataValue.sourceOfDeath.id
+          this.state.patientDataValue.sourceOfDeath.id
       );
     }
     if (
@@ -1187,7 +1187,7 @@ class CancerFamilyReg extends React.Component {
     ) {
       console.log(
         "IN POST REQUEST currentCourseOFDeath : " +
-        this.state.currentCourseOFDeath
+          this.state.currentCourseOFDeath
       );
 
       this.state.patientDataValue.courseOfDeath.description =
@@ -1233,7 +1233,7 @@ class CancerFamilyReg extends React.Component {
       this.state.patientDataValue.sourceOfLiveDate.id = fieldValues.id;
       console.log(
         "IN POST REQUEST currentsourceOfLiveDate  id: " +
-        this.state.patientDataValue.sourceOfLiveDate.id
+          this.state.patientDataValue.sourceOfLiveDate.id
       );
     }
     if (
@@ -1257,7 +1257,7 @@ class CancerFamilyReg extends React.Component {
       this.state.patientDataValue.fPI1Status.id = fieldValues.id;
       console.log(
         "IN POST REQUEST currentfPI1Status  id: " +
-        this.state.patientDataValue.fPI1Status.id
+          this.state.patientDataValue.fPI1Status.id
       );
     }
     if (
@@ -1857,7 +1857,6 @@ class CancerFamilyReg extends React.Component {
           this.wizardCmp = wizardCmp;
         }}
       >
-
         {/* <Wizard.Page>
           <Welcome /> 
         </Wizard.Page> */}
@@ -1886,8 +1885,8 @@ class CancerFamilyReg extends React.Component {
               this.state.isValidBirthDateSelected = true;
               this.state.currentDOB = this.convertDateFormat(
                 this.state.selectedYearDOB +
-                this.state.selectedMonthDOB +
-                this.state.selectedDateDOB
+                  this.state.selectedMonthDOB +
+                  this.state.selectedDateDOB
               );
               console.log("dob : " + this.state.selectedMonthDOB);
               console.log("dob : " + this.state.selectedDateDOB);
@@ -1938,8 +1937,8 @@ class CancerFamilyReg extends React.Component {
             ) {
               this.state.currentLKDA = this.convertDateFormat(
                 this.state.selectedYearLKD +
-                this.state.selectedMonthLKD +
-                this.state.selectedDateLKD
+                  this.state.selectedMonthLKD +
+                  this.state.selectedDateLKD
               );
               console.log("dod : " + this.state.currentLKDA);
               console.log("LKD : " + this.state.selectedMonthLKD);
@@ -1994,8 +1993,8 @@ class CancerFamilyReg extends React.Component {
             ) {
               this.state.currentDeath = this.convertDateFormat(
                 this.state.selectedYear +
-                this.state.selectedMonth +
-                this.state.selectedDate
+                  this.state.selectedMonth +
+                  this.state.selectedDate
               );
               this.state.isValidDeathSelected = true;
               console.log("dod : " + this.state.currentDeath);
@@ -2086,10 +2085,8 @@ class CancerFamilyReg extends React.Component {
                         {/* </div> */}
                       </div>
                       <br />
-                      <div className="col-sm-12 control-margin">
-                        Date of Birth:
-                      </div>
-                      <div className="col-sm-12 control-margin">
+                      <div className="col-sm-12 margin15">Date of Birth:</div>
+                      <div className="col-sm-12 margin15">
                         <span className="spanText">{this.state.dateOFDOB}</span>
                       </div>{" "}
                       <br />
@@ -2100,101 +2097,93 @@ class CancerFamilyReg extends React.Component {
                         <span className="spanText">{this.state.status}</span>
                       </div>
                       <br />
-                      <div className="col-sm-12 control-margin">
-                        Date of Death:
-                      </div>
-                      <div className="col-sm-12 control-margin">
+                      <div className="col-sm-12 margin15">Date of Death:</div>
+                      <div className="col-sm-12 margin15">
                         <span className="spanText">
                           {this.state.dateOfDeath}
                         </span>
                       </div>
                       <br />
-                      <div className="col-sm-12 control-margin">
-                        Age of Death:
-                      </div>
-                      <div className="col-sm-12 control-margin">
+                      <div className="col-sm-12 margin15">Age of Death:</div>
+                      <div className="col-sm-12 margin15">
                         {/* <span><label className="form-check-label" name ="aodeathColumn"  >{values.aodeathColumn}</label></span> */}
                         <span className="spanText">{this.state.aodeath}</span>
                         {/* {this.state.aodeath} */}
                       </div>
                       <br />
-                      <div className="col-sm-12 control-margin">
+                      <div className="col-sm-12 margin15">
                         Source of Death Information:
                       </div>
-                      <div className="col-sm-12 control-margin">
+                      <div className="col-sm-12 margin15">
                         <span className="spanText">
                           {this.state.sourceOFDeath.description}
                         </span>
                       </div>
                       <br />
-                      <div className="col-sm-12 control-margin">
-                        Cause of Death:
-                      </div>
-                      <div className="col-sm-12 control-margin">
+                      <div className="col-sm-12 margin15">Cause of Death:</div>
+                      <div className="col-sm-12 margin15">
                         <span className="spanText">
                           {this.state.courseOFDeath.description}
                         </span>
                       </div>
                       <br />
-                      <div className="col-sm-12 control-margin">
-                        Last Known Date:
-                      </div>
-                      <div className="col-sm-12 control-margin">
+                      <div className="col-sm-12 margin15">Last Known Date:</div>
+                      <div className="col-sm-12 margin15">
                         <span className="spanText">
                           {this.state.dateOfLKDA}
                         </span>
                       </div>
                       <br />
-                      <div className="col-sm-12 control-margin">
+                      <div className="col-sm-12 margin15">
                         Source of Last Known Date:
                       </div>
-                      <div className="col-sm-12 control-margin">
+                      <div className="col-sm-12 margin15">
                         {/* ToDo correct value  */}
                         <span className="spanText">
                           {this.state.sourceOfLiveDate.description}
                         </span>
                       </div>
                       <br />
-                      <div className="col-sm-12 control-margin">
+                      <div className="col-sm-12 margin15">
                         EPI FUP 1 STATUS:
                       </div>
-                      <div className="col-sm-12 control-margin">
+                      <div className="col-sm-12 margin15">
                         <span className="spanText">
                           {this.state.fPI1Status.description}
                         </span>
                       </div>
                       <br />
-                      <div className="col-sm-12 control-margin">
+                      <div className="col-sm-12 margin15">
                         EPI FUP 2 STATUS:
                       </div>
-                      <div className="col-sm-12 control-margin">
+                      <div className="col-sm-12 margin15">
                         <span className="spanText">
                           {this.state.fPI2Status.description}
                         </span>
                       </div>
                       <br />
-                      <div className="col-sm-12 control-margin">
+                      <div className="col-sm-12 margin15">
                         EPI FUP 3 STATUS:
                       </div>
-                      <div className="col-sm-12 control-margin">
+                      <div className="col-sm-12 margin15">
                         <span className="spanText">
                           {this.state.fPI3Status.description}
                         </span>
                       </div>
                       <br />
-                      <div className="col-sm-12 control-margin">
+                      <div className="col-sm-12 margin15">
                         EPI FUP 4 STATUS:
                       </div>
-                      <div className="col-sm-12 control-margin">
+                      <div className="col-sm-12 margin15">
                         <span className="spanText">
                           {this.state.fPI4Status.description}
                         </span>
                       </div>
                       <br />
-                      <div className="col-sm-12 control-margin">
+                      <div className="col-sm-12 margin15">
                         Relationship Code:
                       </div>
-                      <div className="col-sm-12 control-margin">
+                      <div className="col-sm-12 margin15">
                         <span className="spanText">
                           {this.state.relationshipCode.description}
                         </span>
@@ -2210,10 +2199,10 @@ class CancerFamilyReg extends React.Component {
                         New Details
                       </div>
                       <br />
-                      <div className="col-sm-12">Gender:</div>
-                      <div className="col-sm-12 control-margin">
+                      <div className="col-sm-12 control-margin">Gender:</div>
+                      <div className="col-sm-12 marginMinus20">
                         <div
-                          className="form-check form-check-inline"
+                          className="form-check form-check-inline "
                           onChange={this.setSex.bind(this)}
                         >
                           <input
@@ -2250,9 +2239,7 @@ class CancerFamilyReg extends React.Component {
                         <br />
                       </div>{" "}
                       <br />
-                      <div className="col-sm-12 control-margin">
-                        Date of Birth:
-                      </div>
+                      <div className="col-sm-12 ">Date of Birth:</div>
                       <div className="col-sm-12 control-margin">
                         <DateSelect
                           isAlive={false}
@@ -2318,9 +2305,7 @@ class CancerFamilyReg extends React.Component {
                         </div>
                       </div>
                       <br />
-                      <div className="col-sm-12 control-margin">
-                        Date of Death:
-                      </div>
+                      <div className="col-sm-12 ">Date of Death:</div>
                       <div className="col-sm-12 control-margin">
                         {/* <DatePicker disabled={this.state.isAlive}
                                                     onChange={this.setCurrentDateDeath}
@@ -2340,9 +2325,7 @@ class CancerFamilyReg extends React.Component {
                         </div>
                       </div>
                       <br />
-                      <div className="col-sm-12 control-margin">
-                        Age of Death:
-                      </div>
+                      <div className="col-sm-12 ">Age of Death:</div>
                       <div className="col-sm-12 control-margin">
                         {/* <span disabled={this.state.isAlive} name ="currentaodeathColumn" > </span> */}
                         <input
@@ -2367,7 +2350,7 @@ class CancerFamilyReg extends React.Component {
                         </div>
                       </div>
                       <br />
-                      <div className="col-sm-12 control-margin">
+                      <div className="col-sm-12 ">
                         Source of Death Information:
                       </div>
                       <div className="col-sm-12 control-margin control-margin">
@@ -2395,7 +2378,7 @@ class CancerFamilyReg extends React.Component {
                         </div>
                       </div>
                       <br />
-                      <div className="form-check-inline col-sm-12 control-margin">
+                      <div className="form-check-inline col-sm-12 ">
                         <div className="col-sm-6">Cause of Death:</div>
 
                         {/* <div className="col-sm-1"></div> */}
@@ -2432,10 +2415,8 @@ class CancerFamilyReg extends React.Component {
                       <br />
                       {/* <span>{this.state.currentCourseOFDeath}</span> */}
                       {/* checked={values.newsletter} */}
-                      <div className="col-sm-12 control-margin">
-                        Last Known Date:
-                      </div>
-                      <div className="col-sm-12 control-margin">
+                      <div className="col-sm-12 ">Last Known Date:</div>
+                      <div className="col-sm-12 margin15">
                         <DateSelect
                           isAlive={false}
                           value={this.state.currentLKDA}
@@ -2454,10 +2435,10 @@ class CancerFamilyReg extends React.Component {
                         </div>
                       </div>
                       <br />
-                      <div className="col-sm-12 control-margin">
+                      <div className="col-sm-12 ">
                         Source of Last Known Date:
                       </div>
-                      <div className="col-sm-12 control-margin">
+                      <div className="col-sm-12 margin15">
                         <select
                           className="form-control "
                           value={this.state.currentCourseOfLiveDate}
@@ -2478,7 +2459,7 @@ class CancerFamilyReg extends React.Component {
                             );
                           })
 
-                            // <option >{"Hospital Rec"}</option>
+                          // <option >{"Hospital Rec"}</option>
                           }
                         </select>
                         <div className="validationMsg">
@@ -2486,10 +2467,8 @@ class CancerFamilyReg extends React.Component {
                         </div>
                       </div>
                       <br />
-                      <div className="col-sm-12 control-margin">
-                        EPI FUP 1 STATUS:
-                      </div>
-                      <div className="col-sm-12 control-margin">
+                      <div className="col-sm-12 ">EPI FUP 1 STATUS:</div>
+                      <div className="col-sm-12 margin15">
                         <select
                           className="form-control "
                           value={this.state.currentfPI1Status}
@@ -2510,10 +2489,8 @@ class CancerFamilyReg extends React.Component {
                         </select>
                       </div>
                       <br />
-                      <div className="col-sm-12 control-margin">
-                        EPI FUP 2 STATUS:
-                      </div>
-                      <div className="col-sm-12 control-margin">
+                      <div className="col-sm-12 ">EPI FUP 2 STATUS:</div>
+                      <div className="col-sm-12 margin15">
                         <select
                           className="form-control "
                           value={this.state.currentfPI2Status}
@@ -2534,10 +2511,8 @@ class CancerFamilyReg extends React.Component {
                         </select>
                       </div>
                       <br />
-                      <div className="col-sm-12 control-margin">
-                        EPI FUP 3 STATUS:
-                      </div>
-                      <div className="col-sm-12 control-margin">
+                      <div className="col-sm-12 ">EPI FUP 3 STATUS:</div>
+                      <div className="col-sm-12 margin15">
                         <select
                           className="form-control "
                           value={this.state.currentfPI3Status}
@@ -2559,10 +2534,8 @@ class CancerFamilyReg extends React.Component {
                         </select>
                       </div>
                       <br />
-                      <div className="col-sm-12 control-margin">
-                        EPI FUP 4 STATUS:
-                      </div>
-                      <div className="col-sm-12 control-margin">
+                      <div className="col-sm-12 ">EPI FUP 4 STATUS:</div>
+                      <div className="col-sm-12 margin15">
                         <select
                           className="form-control "
                           value={this.state.currentfPI4Status}
@@ -2603,7 +2576,7 @@ class CancerFamilyReg extends React.Component {
                             );
                           })
 
-                            // <option >{"Hospital Rec"}</option>
+                          // <option >{"Hospital Rec"}</option>
                           }
                         </select>
                       </div>

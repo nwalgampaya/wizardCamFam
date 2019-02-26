@@ -675,26 +675,29 @@ td.numeric {
 .CancerEditTab td {
   padding: 6px;
   text-align: center;
-  border: 1px solid #dee2e6;
+  /* border: 1px solid #dee2e6; */
 }
 
 .CancerEditTab th {
   padding: 6px;
   border: 1px solid #dee2e6;
+  /* border-color: grey; */
+  background: #cdd4df;
 }
 /* provide some minimal visual accomodation for IE8 and below */
 .CancerEditTab tr {
-  background: #f0f2f5;
+  /* background: #f0f2f5; */
 }
 
 /*  Define the background color for all the ODD background rows  */
 .CancerEditTab tr:nth-child(odd) {
-  background: white;
+  background: #f0f2f5;
+
   /* background: #f8f8f8;*/
 }
 /*  Define the background color for all the EVEN background rows  */
 .CancerEditTab tr:nth-child(even) {
-  background: #a8c4e9;
+  background: white;
 }
 th.last-name *,
 td.last-name {

@@ -647,13 +647,27 @@ class CancerInfo extends React.Component {
         this.state.editedRecordCount++;
       }
 
+      // EditedParam = this.setLiveDateInfoForPreview(
+      //   this.state.editedRecordCount,
+      //   EditedParam
+      // );
       // console.log("before i /////////////////////////////// : " )
 
       this.state.arrayEditedData[this.state.tumorNo] = EditedParam;
     }
     this.sendEditedCancerToPreview();
   }
-
+  setLiveDateInfoForPreview(editedRecordCount, EditedParam) {
+    var changeCol = new Object();
+    changeCol.column = "Live Date";
+    changeCol.previousVal = this.state.cancerInfoCopy[
+      this.state.tumorNo
+    ].dateOfDiagnosis;
+    changeCol.newVal = this.state.cancerInfoCopy[
+      this.state.tumorNo
+    ].dateOfDiagnosis;
+    return (EditedParam[editedRecordCount] = changeCol);
+  }
   sendNewCancerToPreview() {
     this.state.newCancerArr.map(
       (values, i) => console.log("site values :" + values.site.id)

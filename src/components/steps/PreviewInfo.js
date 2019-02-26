@@ -73,7 +73,7 @@ export default class PreviewInfo extends React.Component {
     if (this.props.isCanecerAdded) {
       return (
         <div>
-          <h2>Added Cancer Details</h2>
+          <h4>Added Cancer Details</h4>
           {this.createCancerFields()}
         </div>
       );
@@ -200,7 +200,7 @@ export default class PreviewInfo extends React.Component {
     } else {
       return (
         <div>
-          <h2> Review Details </h2>
+          <h4> Review Details </h4>
           <p>
             {" "}
             No data changes have been made. Please Exit Record or make changes
@@ -211,6 +211,49 @@ export default class PreviewInfo extends React.Component {
     }
   }
 
+  displayLiveDate() {
+    if (this.props.isCanecerAdded || this.props.isCancerEdited) {
+      return (
+        <div>
+          <table className="CancerEditTab">
+            <tbody>
+              <tr>
+                <th>Column Name</th>
+                <th>Previous Value</th>
+                <th>New Value</th>
+              </tr>
+              <tr>
+                <td> Live Date</td>
+                <td />
+                <td />
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      );
+    }
+  }
+  revievBeforreSave() {
+    if (this.props.isCanecerAdded || this.props.isCancerEdited) {
+      return (
+        <div>
+          <h4> Review Details </h4>
+          <p>
+            {" "}
+            Please ensure the below updates are correct before clicking "Save to
+            Database" .
+          </p>
+        </div>
+      );
+    }
+  }
+  setHeaderPanel() {
+    return (
+      <div>
+        <HeaderPanel patientDetials={this.state.patientData} />
+      </div>
+    );
+  }
   // createUI() {
   //     this.state.isInPreviewScreen = true;
   //     if (this.props.isCanecerAdded || this.props.isCancerEdited) {
@@ -231,14 +274,9 @@ export default class PreviewInfo extends React.Component {
   render() {
     return (
       <div>
-        <HeaderPanel patientDetials={this.state.patientData} />
-        <h3> Review Details </h3>
-        <p>
-          {" "}
-          Please ensure the below updates are correct before clicking "Save to
-          Database" .
-        </p>
-
+        {this.setHeaderPanel()}
+        {this.revievBeforreSave()}
+        {this.displayLiveDate()}
         {this.createTablePersonDetails()}
 
         {this.createUI()}

@@ -1689,7 +1689,7 @@ class CancerInfo extends React.Component {
                   Site:
                 </div>
                 <div className="col-sm-5 control-margin">
-                  <Autocomplete
+                  {/* <Autocomplete
                     items={this.state.siteData}
                     shouldItemRender={(item, value) =>
                       item.code.toUpperCase().indexOf(value.toUpperCase()) > -1
@@ -1715,7 +1715,28 @@ class CancerInfo extends React.Component {
                     onSelect={this.setSiteNew.bind(this)}
                     //   onSelect={value => this.setState({ value })}
                     //   on
-                  />
+                  /> */}
+                  <select
+                    /**disabled={this.state.isAlive}**/ className="form-control dorp-box"
+                    value={this.state.newSiteValue}
+                    onChange={this.setSiteNew.bind(this)}
+                    name="currentDeathColumn"
+                  >
+                    <option>{"Choose One"}</option>
+                    {this.state.siteData.map((siteGroup, i) => {
+                      // console.log("location ID :  " + siteGroup.id);
+
+                      this.state.siteGroup = siteGroup.description;
+                      return (
+                        <option
+                          key={siteGroup.value}
+                          defaultValue={siteGroup.id}
+                        >
+                          {siteGroup.code /*+" | "+siteGroup.description*/}
+                        </option>
+                      );
+                    })}
+                  </select>
                 </div>
               </div>
               <div className="row form-check form-check-inline">

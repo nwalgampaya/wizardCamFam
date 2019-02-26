@@ -1316,6 +1316,7 @@ class CancerInfo extends React.Component {
     }
   }
   render() {
+    const modelSizeStyle = { width: "800px", height: "800px" };
     let validation = this.submitted // if the form has been submitted at least once
       ? this.validator.validate(this.state) // then check validity every time we render
       : this.state.validation; // otherwise just use what's in state
@@ -1368,7 +1369,6 @@ class CancerInfo extends React.Component {
         <div>
           <Modal
             backdrop={false}
-            dialogClassName="dialogclassname"
             show={this.state.show}
             onHide={this.handleClose}
             keyboard={false}
@@ -1385,9 +1385,23 @@ class CancerInfo extends React.Component {
               {/* <input type="text" onChange={this.handleTxtChange}  value = {this.state.selectedId=='' ? this.state.cancerInfo[0].age : this.state.cancerInfo[this.state.selectedId].age}/> */}
 
               <div className="row form-check form-check-inline">
-                <div className="col-sm-5">Site:</div>
-                <div className="col-sm-5">
+                <div className="col-sm-5 control-margin">Site:</div>
+                <div className="col-sm-5 control-margin">
                   <Autocomplete
+                    wrapperStyle={{ width: "100%" }}
+                    inputProps={{
+                      style: {
+                        width: "100%",
+                        height: "42px",
+                        border: "1px solid #e6e6e6",
+                        padding: "0 35px 0 19px",
+                        color: "#999",
+                        bordeRadius: "4px"
+                      },
+                      placeholder: "Enter Family ID"
+                    }}
+                    wrapperStyle={{ width: "100%" }}
+                    className="form-control-modal"
                     items={this.state.siteData}
                     shouldItemRender={(item, value) =>
                       item.code.toUpperCase().indexOf(value.toUpperCase()) > -1
@@ -1428,14 +1442,12 @@ class CancerInfo extends React.Component {
                   {/* } */}
                   {/* </select> */}
                 </div>
-                <br />
-                <br />
               </div>
               <div className="row form-check form-check-inline">
-                <div className="col-sm-5">Lateral:</div>
-                <div className="col-sm-5">
+                <div className="col-sm-5 control-margin">Lateral:</div>
+                <div className="col-sm-5 control-margin">
                   <select
-                    /**disabled={this.state.isAlive}**/ className="form-control dorp-box"
+                    /**disabled={this.state.isAlive}**/ className="form-control-modal"
                     value={this.state.lateralFromDb}
                     onChange={this.setLateral.bind(this)}
                     name="currentDeathColumn"
@@ -1457,14 +1469,12 @@ class CancerInfo extends React.Component {
                     }
                   </select>
                 </div>
-                <br />
-                <br />
               </div>
               <div className="row form-check form-check-inline">
-                <div className="col-sm-5">Histology:</div>
-                <div className="col-sm-5">
+                <div className="col-sm-5 control-margin">Histology:</div>
+                <div className="col-sm-5 control-margin">
                   <select
-                    /**disabled={this.state.isAlive}**/ className="form-control dorp-box"
+                    /**disabled={this.state.isAlive}**/ className="form-control-modal"
                     value={this.state.histocodesFromDb}
                     onChange={this.setHistology.bind(this)}
                     name="currentDeathColumn"
@@ -1486,14 +1496,12 @@ class CancerInfo extends React.Component {
                     })}
                   </select>
                 </div>
-                <br />
-                <br />
               </div>
               <div className="row form-check form-check-inline">
-                <div className="col-sm-5">Behaviour:</div>
-                <div className="col-sm-5">
+                <div className="col-sm-5 control-margin">Behaviour:</div>
+                <div className="col-sm-5 control-margin">
                   <select
-                    /**disabled={this.state.isAlive}**/ className="form-control dorp-box"
+                    /**disabled={this.state.isAlive}**/ className="form-control-modal"
                     value={this.state.behaviourcodesFromDb}
                     onChange={this.setbehaviourcodes.bind(this)}
                     name="currentDeathColumn"
@@ -1516,12 +1524,12 @@ class CancerInfo extends React.Component {
                     )}
                   </select>
                 </div>
-                <br />
-                <br />
               </div>
               <div className="row form-check form-check-inline">
-                <div className="col-sm-5">Date Of Diagnosis:</div>
-                <div className="col-sm-5">
+                <div className="col-sm-5 control-margin">
+                  Date Of Diagnosis:
+                </div>
+                <div className="col-sm-5 control-margin">
                   <DateSelect
                     onPropertyChange={this.setDateOfDiag}
                     isAlive={false}
@@ -1550,21 +1558,20 @@ class CancerInfo extends React.Component {
                     value={this.state.currentDOB}
                   /> */}
                 </div>
-                <br />
-                <br />
               </div>
               {/* "{validation.ageDiagnosisFromDb.isInvalid && 'has-error'}"  */}
               <div className="row form-check form-check-inline">
-                <div className="col-sm-5">Age Of Diagnosis:</div>
+                <div className="col-sm-5 control-margin">Age Of Diagnosis:</div>
                 {/* console.log("dod EXIST" + this.state.dodExist) */}
                 {/* {this.setState.dateOfDiagFromDb != '' ? this.state.dodExist = true : this.state.dodExist = false} */}
                 <div
-                  className="col-sm-4"
+                  className="col-sm-4 control-margin"
                   disabled={console.log(
                     "dod EXIST" + this.state.dateOfDiagFromDb
                   )}
                 >
                   <input
+                    className="form-control-modal"
                     disabled={this.state.dateOfDiagFromDb != "" ? false : false}
                     false="text"
                     placeholder="age"
@@ -1573,18 +1580,17 @@ class CancerInfo extends React.Component {
                     name="ageDiagnosisFromDb"
                   />
                 </div>
-                <br />
-                <br />
+
                 <span className="help-block">
                   {validation.ageDiagnosisFromDb.message}
                 </span>
               </div>
               <div className="row form-check form-check-inline">
-                <div className="col-sm-5">Source:</div>
-                <div className="col-sm-5">
+                <div className="col-sm-5 control-margin">Source:</div>
+                <div className="col-sm-5 control-margin">
                   <select
                     disabled={this.state.isAlive}
-                    className="form-control dorp-box"
+                    className="form-control-modal"
                     value={this.state.diagSourceFromDb}
                     onChange={this.setDiagSource.bind(this)}
                     name="currentDeathColumn"
@@ -1604,15 +1610,13 @@ class CancerInfo extends React.Component {
                     })}
                   </select>
                 </div>
-                <br />
-                <br />
               </div>
               <div className="row form-check form-check-inline">
-                <div className="col-sm-5">Tissue:</div>
-                <div className="col-sm-5">
+                <div className="col-sm-5 control-margin">Tissue:</div>
+                <div className="col-sm-5 control-margin">
                   <select
                     disabled={this.state.isAlive}
-                    className="form-control dorp-box"
+                    className="form-control-modal"
                     value={this.state.tissueFromDb}
                     onChange={this.setTissue.bind(this)}
                     name="currentDeathColumn"
@@ -1637,8 +1641,11 @@ class CancerInfo extends React.Component {
               </div>
             </Modal.Body>
             <Modal.Footer>
-              <Button onClick={this.handleClose}>Close</Button>
+              <Button className="btn btn-primary" onClick={this.handleClose}>
+                Close
+              </Button>
               <Button
+                className="btn btn-primary"
                 disabled={!this.state.enableSaveButton}
                 onClick={this.handleSaveEditCancer}
               >
@@ -1651,7 +1658,6 @@ class CancerInfo extends React.Component {
         {/* Modal for Adding New Cancer - START*/}
         <Modal
           backdrop={false}
-          dialogClassName="dialogclassname"
           show={this.state.showAddCancer}
           onHide={this.handleCloseAddCancer}
           keyboard={false}
@@ -1670,8 +1676,10 @@ class CancerInfo extends React.Component {
               {/* <input type="text" onChange={this.handleTxtChange}  value = {this.state.selectedId=='' ? this.state.cancerInfo[0].age : this.state.cancerInfo[this.state.selectedId].age}/> */}
 
               <div className="row form-check form-check-inline">
-                <div className="col-sm-5 asteric-required">Site:</div>
-                <div className="col-sm-5">
+                <div className="col-sm-5 asteric-required control-margin">
+                  Site:
+                </div>
+                <div className="col-sm-5 control-margin">
                   <Autocomplete
                     items={this.state.siteData}
                     shouldItemRender={(item, value) =>
@@ -1700,16 +1708,16 @@ class CancerInfo extends React.Component {
                     //   on
                   />
                 </div>
-                <br />
-                <br />
               </div>
               <div className="row form-check form-check-inline">
-                <div className="col-sm-5 asteric-required">Lateral:</div>
-                <div className="col-sm-5">
+                <div className="col-sm-5 asteric-required control-margin">
+                  Lateral:
+                </div>
+                <div className="col-sm-5 control-margin">
                   <select
                     required="true"
                     disabled={this.state.isAlive}
-                    className="form-control dorp-box"
+                    className="form-control-modal"
                     value={this.state.newLateralListValue}
                     onChange={this.setLateralNew.bind(this)}
                     name="newLateralColumn"
@@ -1733,15 +1741,15 @@ class CancerInfo extends React.Component {
                     }
                   </select>
                 </div>
-                <br />
-                <br />
               </div>
               <div className="row form-check form-check-inline">
-                <div className="col-sm-5 asteric-required">Histology:</div>
-                <div className="col-sm-5">
+                <div className="col-sm-5 asteric-required control-margin">
+                  Histology:
+                </div>
+                <div className="col-sm-5 control-margin">
                   <select
                     disabled={this.state.isAlive}
-                    className="form-control dorp-box"
+                    className="form-control-modal"
                     value={this.state.newHistocodesValue}
                     onChange={this.setHistologyNew.bind(this)}
                     name="newHistoColumn"
@@ -1764,15 +1772,15 @@ class CancerInfo extends React.Component {
                     })}
                   </select>
                 </div>
-                <br />
-                <br />
               </div>
               <div className="row form-check form-check-inline">
-                <div className="col-sm-5 asteric-required">Behaviour:</div>
-                <div className="col-sm-5">
+                <div className="col-sm-5 asteric-required control-margin">
+                  Behaviour:
+                </div>
+                <div className="col-sm-5 control-margin">
                   <select
                     disabled={this.state.isAlive}
-                    className="form-control dorp-box"
+                    className="form-control-modal"
                     value={this.state.newBehaviourcodesValue}
                     onChange={this.setbehaviourcodesNew.bind(this)}
                     name="newBehaviorColumn"
@@ -1796,8 +1804,6 @@ class CancerInfo extends React.Component {
                     )}
                   </select>
                 </div>
-                <br />
-                <br />
               </div>
               <div className="row form-check form-check-inline">
                 <div className="col-sm-5 asteric-required">
@@ -1819,15 +1825,14 @@ class CancerInfo extends React.Component {
                     value={this.state.currentDOB}
                   /> */}
                 </div>
-                <br />
-                <br />
               </div>
-              <div className="row form-check form-check-inline">
-                <div className="col-sm-5 asteric-required">
+              <div className="row form-check form-check-inline ">
+                <div className="col-sm-5 asteric-required control-margin">
                   Age Of Diagnosis:
                 </div>
-                <div className="col-sm-4">
+                <div className="col-sm-4 control-margin">
                   <Field
+                    classNAme="form-control-modal"
                     type="text"
                     placeholder="age"
                     name="ageDiagnosisFromDb"
@@ -1839,16 +1844,16 @@ class CancerInfo extends React.Component {
                       )}
                   </div>
                 </div>
-                <br />
-                <br />
               </div>
 
               <div className="row form-check form-check-inline">
-                <div className="col-sm-5 asteric-required">Source:</div>
-                <div className="col-sm-5">
+                <div className="col-sm-5 asteric-required control-margin">
+                  Source:
+                </div>
+                <div className="col-sm-5 control-margin">
                   <select
                     disabled={this.state.isAlive}
-                    className="form-control dorp-box"
+                    className="form-control-modal "
                     value={this.state.newDiagSourceValue}
                     onChange={this.setDiagSourceNew.bind(this)}
                     name="newSourceColumn"
@@ -1869,15 +1874,15 @@ class CancerInfo extends React.Component {
                     })}
                   </select>
                 </div>
-                <br />
-                <br />
               </div>
               <div className="row form-check form-check-inline">
-                <div className="col-sm-5 asteric-required">Tissue:</div>
-                <div className="col-sm-5">
+                <div className="col-sm-5 asteric-required control-margin">
+                  Tissue:
+                </div>
+                <div className="col-sm-5 control-margin">
                   <select
                     disabled={this.state.isAlive}
-                    className="form-control dorp-box"
+                    className="form-control-modal"
                     value={this.state.newTissueValue}
                     onChange={this.setTissueNew.bind(this)}
                     name="currentDeathColumn"
@@ -1898,8 +1903,6 @@ class CancerInfo extends React.Component {
                     })}
                   </select>
                 </div>
-                <br />
-                <br />
               </div>
               {/* <hr /> */}
             </Modal.Body>
@@ -1907,7 +1910,11 @@ class CancerInfo extends React.Component {
               {/* <button type="submit">submit</button>
                     <button type="submit" onClick={this.handleCloseAddCancer} >Close</button> */}
 
-              <button type="button" onClick={this.handleCloseAddCancer}>
+              <button
+                className="btn btn-primary"
+                type="button"
+                onClick={this.handleCloseAddCancer}
+              >
                 Close
               </button>
               {/* <Button onClick={this.handleCloseAddCancer} >Close</Button> */}
@@ -1915,7 +1922,12 @@ class CancerInfo extends React.Component {
               {/* <button  type= "submit" disabled={isSubmitting}>Save</button> */}
               {/* <Button disabled= {!this.state.enableSaveButton} onClick={this.handleSave}>Save</Button> */}
 
-              <Button onClick={this.handleSaveAddCancer}>Save</Button>
+              <Button
+                className="btn btn-primary"
+                onClick={this.handleSaveAddCancer}
+              >
+                Save
+              </Button>
             </Modal.Footer>
           </Form>
         </Modal>

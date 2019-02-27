@@ -32,7 +32,7 @@ class CancerInfo extends React.Component {
       },
       {
         field: "dateOfDiagFromDb",
-        method: this.negativeAge,
+        method: this.validateDiagnosisDate,
         validWhen: true,
         message: "Dx Date should be greater than DOB and less than Death Date"
       }
@@ -144,6 +144,8 @@ class CancerInfo extends React.Component {
     this.handleTxtChange = this.handleTxtChange.bind(this);
     this.setCurrentSource = this.setCurrentSource.bind(this);
     this.state.patientData = this.props.patientDataValue;
+    this.convertToGetDate = this.convertToGetDate.bind(this);
+
 
     // this.handleSubmit = this.handleSubmit.bind(this);
     // handleSubmit
@@ -154,14 +156,83 @@ class CancerInfo extends React.Component {
 
   // }
 
+  convertToGetDate(date) {
+    var formatDatestr = date;
+    // console.log( "year: "+ str.slice(0,4) )
+    // console.log( "mon: "+ str.slice(4,6) )
+    // console.log( "date: "+ str.slice(6,8) )
+
+    // formatDatestr = formatDatestr!=null ? formatDatestr : 0;
+    if (formatDatestr != null) {
+
+      var year = formatDatestr.slice(0, 4);
+      var month = formatDatestr.slice(4, 6);
+      var date = formatDatestr.slice(6, 8)
+
+      formatDatestr = year + "," + month + "," + date;
+
+    } else formatDatestr = "N/A";
+    console.log("formatDatestr : " + formatDatestr)
+
+    formatDatestr = this.getDate(date, month, year);
+    return formatDatestr;
+
+  }
+
+  getDate(d, m, y) {
+    var currentDate;
+    if (d == "99" && m != "99" && y != "9999") {
+      currentDate = new Date(parseInt(y), parseInt(m), 15);
+      // currentDate = new Date(parseInt(y), parseInt(m) - 1, parseInt(d));
+
+      console.log("if---1 : " + currentDate)
+    } else if (d == "99" && m == "99" && y != "9999") {
+      currentDate = new Date(parseInt(y), 7, 1);
+      console.log("if---2 : " + currentDate)
+
+    } else if (d != "99" && m != "99" && y != "9999") {
+      currentDate = new Date(parseInt(y), parseInt(m) - 1, parseInt(d));
+      console.log("if---3 : " + currentDate)
+
+    }
+    return currentDate;
+  }
+
+  validateDiagnosisDate = () => {
+    // var currentDeathDate = this.getDate(d, m, y);
+    var currentDeathDate = this.convertToGetDate(this.state.selectedPersonData.dateOfDeath);
+
+    // if (this.state.isValidLKDSelected) {
+    var currentLKDDate = this.getDate(
+      this.state.selectedEditDate,
+      this.state.selectedEditMonth,
+      this.state.selectedEditYear,
+    );
+
+    if (
+      typeof currentLKDDate !== "undefined" &&
+      typeof currentDeathDate !== "undefined"
+    ) {
+      if (currentDeathDate > currentLKDDate) {
+        console.log("In validateDiagnosisDate() ")
+        return true;
+        // errors.currentdodColumn =
+        //   "Death date should be greater than LKD date";
+      } else return false
+    }
+
+  }
   negativeAge = () => {
     console.log("In Negative : " + this.state.ageDiagnosisFromDb);
     console.log("In Negative : " + this.state.selectedPersonData.dateOfDeath);
     console.log("In Negative : " + this.state.dateOfDiagFromDb);
 
-    var locaDoDeath = new Date(this.convertDateFormat(this.state.selectedPersonData.dateOfDeath));
-    var locaDoDiag = new Date(this.convertDateFormat(this.state.dateOfDiagFromDb));
-
+    var locaDoDeath = this.convertToGetDate(this.state.selectedPersonData.dateOfDeath);
+    // new Date(this.convertDateFormat(this.state.selectedPersonData.dateOfDeath));
+    var locaDoDiag = this.convertToGetDate(this.state.dateOfDiagFromDb);
+    // new Date(this.convertDateFormat(this.state.dateOfDiagFromDb));
+    console.log("locaDoDeath : " + locaDoDeath);
+    console.log("locaDoDiag : " + locaDoDiag);
     console.log("In Negative difference: " + Math.floor((locaDoDeath - locaDoDiag) / 31536000000));
 
     console.log(

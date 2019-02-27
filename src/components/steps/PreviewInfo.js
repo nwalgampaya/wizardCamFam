@@ -135,7 +135,7 @@ export default class PreviewInfo extends React.Component {
     if (this.props.isCancerEdited) {
       return (
         <div>
-          <h4>Updated Cancer Details |</h4>
+          <h4 className="reviewStyle">Updated Cancer Details |</h4>
           {this.showCancerEditedFields()}
         </div>
       );
@@ -154,7 +154,7 @@ export default class PreviewInfo extends React.Component {
     // if(this.props.isCancerEdited){
     return this.props.arrayEditedData.map(
       (values, i) => (
-        <table className="CancerEditTab">
+        <table className="CancerPreviewTabs">
           <tbody>
             <tr>
               <th>Column Name</th>
@@ -200,22 +200,27 @@ export default class PreviewInfo extends React.Component {
     } else {
       return (
         <div>
-          <h4> Review Details </h4>
-          <p>
-            {" "}
-            No data changes have been made. Please Exit Record or make changes
-            to Save to Database.
-          </p>
+          <h4 className="reviewStyle"> Review Details </h4>
+          <div className="boxPreview headerPanelPreview">
+            <p>
+              {" "}
+              No data changes have been made. Please Exit Record or make changes
+              to Save to Database.
+            </p>
+          </div>
         </div>
       );
     }
   }
 
   displayLiveDate() {
-    if (this.props.isCanecerAdded || this.props.isCancerEdited) {
+    if (
+      this.props.isCanecerAdded ||
+      (this.props.isCancerEdited && !this.props.isCanFamEdited)
+    ) {
       return (
         <div>
-          <table className="CancerEditTab">
+          <table className="CancerPreviewTabs">
             <tbody>
               <tr>
                 <th>Column Name</th>
@@ -237,12 +242,14 @@ export default class PreviewInfo extends React.Component {
     if (this.props.isCanecerAdded || this.props.isCancerEdited) {
       return (
         <div>
-          <h4> Review Details </h4>
-          <p>
-            {" "}
-            Please ensure the below updates are correct before clicking "Save to
-            Database" .
-          </p>
+          <h4 className="reviewStyle"> Review Details </h4>
+          <div>
+            <p>
+              {" "}
+              Please ensure the below updates are correct before clicking "Save
+              to Database" .
+            </p>
+          </div>
         </div>
       );
     }

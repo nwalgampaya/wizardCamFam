@@ -52,19 +52,19 @@ export default class FamilySearch extends React.Component {
 
     // console.log("Mnt" + mnth)
     var mnths = {
-      Jan: "01",
-      Feb: "02",
-      Mar: "03",
-      Apr: "04",
-      May: "05",
-      Jun: "06",
-      Jul: "07",
-      Aug: "08",
-      Sep: "09",
-      Oct: "10",
-      Nov: "11",
-      Dec: "12"
-    },
+        Jan: "01",
+        Feb: "02",
+        Mar: "03",
+        Apr: "04",
+        May: "05",
+        Jun: "06",
+        Jul: "07",
+        Aug: "08",
+        Sep: "09",
+        Oct: "10",
+        Nov: "11",
+        Dec: "12"
+      },
       date = str2.split(" ");
 
     // console.log("date new 1" + date[1])
@@ -128,7 +128,7 @@ export default class FamilySearch extends React.Component {
           <th> Select </th>
           <th> Individual id</th>
         </tr>
-      )
+      );
     }
   }
   showFamilyId() {
@@ -190,7 +190,7 @@ export default class FamilySearch extends React.Component {
 
     var familyIdValue = this.state.familyIdValue;
     const urlIndividualId =
-      properties.baseUrl + "patients/family/";//+ familyIdValue;
+      properties.baseUrl + "patients/family/" + familyIdValue;
     let status;
     fetch(urlIndividualId)
       .then(response => {
@@ -316,7 +316,11 @@ export default class FamilySearch extends React.Component {
     const leftMargin = {
       marginLeft: "15px",
       // marginLeft: "40%"
-      marginRight: "15px",
+      marginRight: "15px"
+    };
+    const comboStyle = {
+      marginBottom: "14px",
+      backgroundColor: "white"
     };
     return (
       <div>
@@ -328,8 +332,13 @@ export default class FamilySearch extends React.Component {
         <p>Please enter the Family ID that you would like to update: </p>
 
         <div className="row" style={leftMargin}>
-          <div className="col-sm-4" style={{ backgroundColor: "#dfcaca" }}>
-            <div className="col-sm-12 control-margin" style={{ marginBottom: "14px" }}>Family ID:</div>
+          <div className="col-sm-4" style={{ backgroundColor: "#f9f6f1" }}>
+            <div
+              className="col-sm-12 control-margin"
+              style={{ marginBottom: "14px" }}
+            >
+              Family ID:
+            </div>
             <div className="col-sm-12 control-margin">
               <Autocomplete
                 wrapperStyle={{ width: "100%" }}
@@ -363,16 +372,16 @@ export default class FamilySearch extends React.Component {
                 //   onChange={this.setFamilyValue.bind(this)}
                 onChange={e => this.setState({ familyIdValue: e.target.value })}
                 onSelect={this.setFamilyValue.bind(this)}
-              // onSelect={familyIdValue => this.setState({ familyIdValue })}
-              //   on
+                // onSelect={familyIdValue => this.setState({ familyIdValue })}
+                //   on
               />
             </div>
           </div>
 
-          <div className="col-sm-4 " >
+          <div className="col-sm-4 " style={{ backgroundColor: "#f9f6f1" }}>
             <div className="col-sm-12 control-margin">Source:</div>
 
-            <div className="col-sm-12"  >
+            <div className="col-sm-12" style={comboStyle}>
               <select
                 className="form-control "
                 value={this.state.selectedSrlCode}
@@ -393,9 +402,17 @@ export default class FamilySearch extends React.Component {
             </div>
           </div>
 
-          <div className="col-sm-4 " style={{ backgroundColor: "#dfcaca" }}>
-            <div className="col-sm-12 control-margin" style={{ backgroundColor: "#dfcaca" }}>LKD Date:</div>
-            <div className="col-sm-12 control-margin" style={{ marginBottom: "18px" }} >
+          <div className="col-sm-4 " style={{ backgroundColor: "#f9f6f1" }}>
+            <div
+              className="col-sm-12 control-margin"
+              style={{ backgroundColor: "#f9f6f1" }}
+            >
+              LKD Date:
+            </div>
+            <div
+              className="col-sm-12 control-margin"
+              style={{ marginBottom: "18px" }}
+            >
               <DatePicker
                 onChange={this.handleLkd}
                 value={this.state.currentLKD}

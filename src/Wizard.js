@@ -15,7 +15,7 @@ import cFamImg from "../src/img/cfr-banner.jpg";
 import Styles from "./Styles";
 
 import "./App.css";
-
+import "./index.css";
 export default class Wizard extends React.Component {
   static propTypes = {
     onSubmit: PropTypes.func.isRequired
@@ -140,12 +140,16 @@ export default class Wizard extends React.Component {
   previous = () => {
     const { onCancerInfoPage } = this.props;
 
-    console.log("PAGE NO" + this.state.page);
+    console.log("PAGE NO PREVIOUS " + this.state.page);
     // && this.state.page > 1
     if (this.props.choosePathFamily == true) {
       if (this.state.page == 7) {
         this.setState(state => ({
           page: 6
+        }));
+      } else if (this.state.page == 6) {
+        this.setState(state => ({
+          page: 0
         }));
       } else {
         this.setState(state => ({
@@ -305,21 +309,22 @@ export default class Wizard extends React.Component {
                     )}
 
                     {/* { page == 3 && (<button className="btn btn-primary" type="button" onClick={this.previous}> Back</button>)} */}
-                    {page > 0 &&
-                      page != 2 &&
-                      page != 1 &&
-                      (!this.props.choosePathFamily ||
-                        page != 6 ||
-                        page == 7) && (
-                        <button
-                          className="btn btn-primary"
-                          type="button"
-                          onClick={this.previous}
-                        >
-                          {" "}
-                          Previous
-                        </button>
-                      )}
+                    {/* (!this.props.choosePathFamily ||page != 6 ||page == 7) && */}
+                    {page > 0 && page != 2 && page != 1 && (
+                      <button
+                        className="btn btn-primary"
+                        type="button"
+                        onClick={this.previous}
+                      >
+                        {" "}
+                        Previous
+                      </button>
+                    )}
+                    {page == 1 && (
+                      <button className="invisible" type="button">
+                        Invisible
+                      </button>
+                    )}
 
                     {(page == 3 || page == 4 || page == 2) && (
                       <button className="invisible" type="button">
@@ -395,7 +400,7 @@ export default class Wizard extends React.Component {
                     {/* TODo add condition to disable save button when nothing edited or new added */}
                     {page == 4 && (
                       <button
-                        /*disabled ={false ? this.props.choosePathFamily: true} */ className="btn btn-primary pull-right"
+                        /*disabled ={false ? this.props.choosePathFamily: true} */ className=" btnOverWrite pull-right btn-primaryOverWrite"
                         type="submit"
                       >
                         Save to database

@@ -2333,7 +2333,7 @@ class CancerFamilyReg extends React.Component {
                           type="text"
                           value={this.state.currentaodeath}
                           name="currentaodeathColumn"
-                          class="form-control"
+                          className="form-control"
                           pattern="^-?[0-9]\d*\.?\d*$"
                           disabled={
                             this.state.isAlive ||

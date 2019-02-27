@@ -157,13 +157,42 @@ class CancerInfo extends React.Component {
   negativeAge = () => {
     console.log("In Negative : " + this.state.ageDiagnosisFromDb);
     console.log("In Negative : " + this.state.selectedPersonData.dateOfDeath);
+    console.log("In Negative : " + this.state.dateOfDiagFromDb);
 
-    if (
-      this.state.ageDiagnosisFromDb < 0 ||
-      this.state.selectedPersonData.dateOfDeath
-    ) {
+    var locaDoDeath = new Date(this.convertDateFormat(this.state.selectedPersonData.dateOfDeath));
+    var locaDoDiag = new Date(this.convertDateFormat(this.state.dateOfDiagFromDb));
+
+    console.log("In Negative difference: " + Math.floor((locaDoDeath - locaDoDiag) / 31536000000));
+
+    console.log(
+      "In Negative :  dateOfDeath: " +
+      new Date(
+        this.convertDateFormat(this.state.selectedPersonData.dateOfDeath)
+      )
+    );
+
+    console.log(
+      "In Negative : dateOfDiagFromDb  : " +
+      new Date(this.convertDateFormat(this.state.dateOfDiagFromDb))
+    )
+
+    // Math.floor((dodiag - dob) / 31536000000);
+    if (Math.floor((locaDoDeath - locaDoDiag) / 31536000000) > 0) {
+      console.log("dateOfDeath is greater TRUE")
       return true;
-    } else return false;
+    } else {
+      console.log("dateOfDeath is greater FALSE")
+      return false;
+    }
+    if (this.state.ageDiagnosisFromDb < 0) {
+      console.log("dateOfDeath is greater")
+      return true;
+    } else {
+      console.log("dateOfDeath is lesser")
+
+      return false;
+    }
+
   };
 
   componentDidMount() {
@@ -183,11 +212,11 @@ class CancerInfo extends React.Component {
     // }
     console.log(
       "LLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLL" +
-        this.props.editedRecordCount
+      this.props.editedRecordCount
     );
     console.log(
       "LLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLL Length" +
-        this.state.arrayEditedData.length
+      this.state.arrayEditedData.length
     );
 
     // const urlProfession = properties.baseUrl + "practitionerscore/" ;
@@ -222,12 +251,12 @@ class CancerInfo extends React.Component {
     this.state.newCancerModalId = Math.floor(Math.random() * 10);
     console.log(
       "site &&&&&&&&&&&&&&&&&&&&&77 intGender : " +
-        this.props.patientDataValue.intGender
+      this.props.patientDataValue.intGender
     );
 
     console.log(
       "site &&&&&&&&&&&&&&&&&&&&&77" +
-        this.props.patientDataValue.cancerList[0].id
+      this.props.patientDataValue.cancerList[0].id
     );
     // this.state.profession.push(data);
 
@@ -463,7 +492,7 @@ class CancerInfo extends React.Component {
     // console.log("in handleSave tumorNo before"  + this.state.cancerInfoEdited[this.state.tumorNo].site.code)
     console.log(
       "in handleSave tumorNo before" +
-        this.state.cancerInfo[this.state.tumorNo].site.code
+      this.state.cancerInfo[this.state.tumorNo].site.code
     );
 
     // if(this.state.siteEditDlg!="undefined"){
@@ -500,8 +529,8 @@ class CancerInfo extends React.Component {
     if (
       this.state.cancerInfoCopy[this.state.tumorNo].dateOfDiagnosis !=
       this.state.selectedEditYear +
-        this.state.selectedEditMonth +
-        this.state.selectedEditDate
+      this.state.selectedEditMonth +
+      this.state.selectedEditDate
     ) {
       console.log("IN createEditedArray : ");
       this.state.dateOfDiagFromDb =
@@ -542,11 +571,11 @@ class CancerInfo extends React.Component {
     console.log("in " + this.state.siteEditDlg);
     console.log(
       "in handleSave age afterin handleSave age after" +
-        this.state.cancerInfo[this.state.tumorNo].site.id
+      this.state.cancerInfo[this.state.tumorNo].site.id
     );
     console.log(
       "in handleSave age afterin changedParameters age after" +
-        this.state.cancerInfoCopy[this.state.tumorNo].site.code
+      this.state.cancerInfoCopy[this.state.tumorNo].site.code
     );
     // console.log("in handleSave age afterin handleSave age after" + this.state.cancerInfoEdited[this.state.tumorNo].site.description)
     console.log("in handleSave age tumor No" + this.state.tumorNo);
@@ -929,7 +958,7 @@ class CancerInfo extends React.Component {
     console.log("loadDataToEditDialog TUmorNo : " + id);
     console.log(
       "loadDataToEditDialog TUmorNo : " +
-        this.state.selectedPersonData.personCID
+      this.state.selectedPersonData.personCID
     );
     //ToDu
     // save the changed row in to an array , this will be compaired with the original data in the review.
@@ -982,7 +1011,7 @@ class CancerInfo extends React.Component {
 
     console.log(
       "siteEditDlg behaviourcodesFromDb' diagSourceFromDbFromDb" +
-        this.state.diagSourceFromDb
+      this.state.diagSourceFromDb
     );
   }
   setCurrentSource() {
@@ -1222,12 +1251,12 @@ class CancerInfo extends React.Component {
       var dob = new Date(
         this.convertDateFormat(this.state.selectedPersonData.dateOfBirth)
       );
-      var dodiag = new Date(
-        this.state.selectedEditYear +
-          "/" +
-          this.state.selectedEditMonth +
-          "/" +
-          this.state.selectedEditDate
+
+      this.setState({
+        dateOfDiagFromDb: this.state.selectedEditYear + this.state.selectedEditMonth + this.state.selectedEditDate
+      });
+      var dodiag = new Date(this.convertDateFormat(this.state.dateOfDiagFromDb),
+
       );
       console.log("In didupdate NOT NULL dob : " + dob);
       console.log("In didupdate NOT NULL DIAG DATE : " + dodiag);
@@ -1235,6 +1264,7 @@ class CancerInfo extends React.Component {
       var dt1 = Math.floor((dodiag - dob) / 31536000000);
       console.log("In didupdate NOT NULL DIAG DATE : " + dt1);
       // this.state.ageDiagnosisFromDb = dt1
+
 
       this.setState({
         ageDiagnosisFromDb: dt1
@@ -1278,7 +1308,7 @@ class CancerInfo extends React.Component {
   closeDialog() {
     console.log(
       "CloseDialog Only when Add Cancer save----------------------------" +
-        this.props.values.ageOfDigColumn
+      this.props.values.ageOfDigColumn
     );
 
     this.state.showAddCancer = false;
@@ -1488,7 +1518,7 @@ class CancerInfo extends React.Component {
                         </option>
                       );
                     })
-                    // <option >{"Hospital Rec"}</option>
+                      // <option >{"Hospital Rec"}</option>
                     }
                   </select>
                 </div>
@@ -1595,7 +1625,7 @@ class CancerInfo extends React.Component {
                 >
                   <input
                     className="form-control-modal"
-                    disabled={this.state.dateOfDiagFromDb != "" ? false : false}
+                    disabled={this.state.dateOfDiagFromDb != "" ? true : false}
                     false="text"
                     placeholder="age"
                     value={this.state.ageDiagnosisFromDb}
@@ -1780,7 +1810,7 @@ class CancerInfo extends React.Component {
                         </option>
                       );
                     })
-                    // <option >{"Hospital Rec"}</option>
+                      // <option >{"Hospital Rec"}</option>
                     }
                     }
                   </select>
@@ -1996,10 +2026,10 @@ const PersonRow = props => {
       <td>
         {props.cancerInfo.dateOfDiagnosis != null
           ? props.cancerInfo.dateOfDiagnosis.slice(4, 6) +
-            "/" +
-            props.cancerInfo.dateOfDiagnosis.slice(6, 8) +
-            "/" +
-            props.cancerInfo.dateOfDiagnosis.slice(0, 4)
+          "/" +
+          props.cancerInfo.dateOfDiagnosis.slice(6, 8) +
+          "/" +
+          props.cancerInfo.dateOfDiagnosis.slice(0, 4)
           : "N/A"}
       </td>
       <td>{props.cancerInfo.ageDiagnosis}</td>

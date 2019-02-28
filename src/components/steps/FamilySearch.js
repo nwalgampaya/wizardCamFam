@@ -36,43 +36,43 @@ export default class FamilySearch extends React.Component {
       currentLKD: currentLKD
     });
 
-    this.state.sendCurrentLKD = this.convert(currentLKD);
+    this.state.sendCurrentLKD = this.convertDate(currentLKD);
 
     console.log(
       "currentDOB : ddddddddddddddddddddddd : " + this.state.sendCurrentLKD
     );
   }
-  convert(str) {
-    console.log("ddddddddddddddddddddddd" + str);
-    var str2 = "" + str;
+  // convert(str) {
+  //   console.log("ddddddddddddddddddddddd" + str);
+  //   var str2 = "" + str;
 
-    // var mnth = str2.slice(4,7)
-    // var date = str2.slice(9,10)
-    // var year = str2.slice(12,15)
+  //   // var mnth = str2.slice(4,7)
+  //   // var date = str2.slice(9,10)
+  //   // var year = str2.slice(12,15)
 
-    // console.log("Mnt" + mnth)
-    var mnths = {
-        Jan: "01",
-        Feb: "02",
-        Mar: "03",
-        Apr: "04",
-        May: "05",
-        Jun: "06",
-        Jul: "07",
-        Aug: "08",
-        Sep: "09",
-        Oct: "10",
-        Nov: "11",
-        Dec: "12"
-      },
-      date = str2.split(" ");
+  //   // console.log("Mnt" + mnth)
+  //   var mnths = {
+  //     Jan: "01",
+  //     Feb: "02",
+  //     Mar: "03",
+  //     Apr: "04",
+  //     May: "05",
+  //     Jun: "06",
+  //     Jul: "07",
+  //     Aug: "08",
+  //     Sep: "09",
+  //     Oct: "10",
+  //     Nov: "11",
+  //     Dec: "12"
+  //   },
+  //     date = str2.split(" ");
 
-    // console.log("date new 1" + date[1])
-    // console.log("date new 2" + date[2])
-    // console.log("date new 3" + date[3])
-    // return [ date[3], mnths[date[1]], date[2] ].join("-");
-    return [date[3], mnths[date[1]], date[2]].join("");
-  }
+  //   // console.log("date new 1" + date[1])
+  //   // console.log("date new 2" + date[2])
+  //   // console.log("date new 3" + date[3])
+  //   // return [ date[3], mnths[date[1]], date[2] ].join("-");
+  //   return [date[3], mnths[date[1]], date[2]].join("");
+  // }
 
   componentDidMount() {
     const urlfamilyId = properties.baseUrl + "patients/family/";
@@ -126,7 +126,8 @@ export default class FamilySearch extends React.Component {
       return (
         <tr>
           <th> Select </th>
-          <th> Individual id</th>
+          <th> Individual Id</th>
+          <th> LKD Date</th>
         </tr>
       );
     }
@@ -151,7 +152,9 @@ export default class FamilySearch extends React.Component {
           </td>
 
           {/* <td><input onChange={this.setfamilyId.bind(this)} value={i} type="radio" name="familyId"/></td> */}
-          <td>{value}</td>
+          <td>{value.patientIDs}</td>
+          <td>{value.lkdDate}</td>
+
         </tr>
       ));
     }
@@ -185,12 +188,30 @@ export default class FamilySearch extends React.Component {
   setErrortrue() {
     this.setState({ error: true });
   }
+
+  convertDate(str) {
+    console.log("ddddddddddddddddddddddd" + str);
+    var str2 = "" + str;
+    var mnths = {
+
+      Jan: "01", Feb: "02", Mar: "03", Apr: "04", May: "05", Jun: "06", Jul: "07", Aug: "08", Sep: "09", Oct: "10", Nov: "11", Dec: "12"
+    },
+      date = str2.split(" ");
+
+
+    return [date[3], mnths[date[1]], date[2]].join("");
+  }
+
   handleSearchGetFamily() {
     console.log("individualId : " + this.state.value);
+    // var lkdDate = "20000204"
+    var lkdDate = this.state.sendCurrentLKD;
 
     var familyIdValue = this.state.familyIdValue;
     const urlIndividualId =
-      properties.baseUrl + "patients/family/" + familyIdValue;
+      // properties.baseUrl + "patients/family/" + familyIdValue;
+      properties.baseUrl + "/patients/familyId/" + familyIdValue + "?lkd=" + lkdDate;
+
     let status;
     fetch(urlIndividualId)
       .then(response => {
@@ -207,7 +228,8 @@ export default class FamilySearch extends React.Component {
           this.state.isSearched = true;
 
           this.state.individualId.map((value, i) => {
-            console.log("individual : " + value);
+            console.log("individual : " + value.patientIDs);
+            // console.log("individual : " + value[i].patientIDs);
           });
         } else if (status == 404) {
           console.log(data);
@@ -372,8 +394,8 @@ export default class FamilySearch extends React.Component {
                 //   onChange={this.setFamilyValue.bind(this)}
                 onChange={e => this.setState({ familyIdValue: e.target.value })}
                 onSelect={this.setFamilyValue.bind(this)}
-                // onSelect={familyIdValue => this.setState({ familyIdValue })}
-                //   on
+              // onSelect={familyIdValue => this.setState({ familyIdValue })}
+              //   on
               />
             </div>
           </div>

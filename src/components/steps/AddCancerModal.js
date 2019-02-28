@@ -26,7 +26,10 @@ export default class AddCancerModal extends React.Component {
     var dt2 = new Date(date2);
     return Math.floor((Date.UTC(dt2.getFullYear(), dt2.getMonth(), dt2.getDate()) - Date.UTC(dt1.getFullYear(), dt1.getMonth(), dt1.getDate())) / (1000 * 60 * 60 * 24));
   }
-
+  convertDate(dateStr) {
+    const [day, month, year] = dateStr.split("-")
+    return new Date(year, month - 1, day)
+  }
   date_split(dateOfDiagFromDb) {
     console.log("Year : " + dateOfDiagFromDb.substr(0, 4));
     console.log("Year : " + dateOfDiagFromDb.substr(4, 2));
@@ -76,11 +79,45 @@ export default class AddCancerModal extends React.Component {
     }
     return currentDate;
   }
+  convert(str) {
+    console.log("ddddddddddddddddddddddd" + str);
+    var str2 = "" + str;
+
+    // var mnth = str2.slice(4,7)
+    // var date = str2.slice(9,10)
+    // var year = str2.slice(12,15)
+
+    // console.log("Mnt" + mnth)
+    var mnths = {
+      Jan: "01",
+      Feb: "02",
+      Mar: "03",
+      Apr: "04",
+      May: "05",
+      Jun: "06",
+      Jul: "07",
+      Aug: "08",
+      Sep: "09",
+      Oct: "10",
+      Nov: "11",
+      Dec: "12"
+    },
+      date = str2.split(" ");
+
+    // console.log("date new 1" + date[1])
+    // console.log("date new 2" + date[2])
+    // console.log("date new 3" + date[3])
+    // return [ date[3], mnths[date[1]], date[2] ].join("-");
+    return [date[3], mnths[date[1]], date[2]].join("");
+  }
   componentDidMount() {
 
 
-    console.log("getDate : " + this.passToGetDate("20000102"));
-    console.log("getDate : " + this.getDate("02", "01", "2000"));
+    // console.log("getDate : " + this.passToGetDate("20000102"));
+    // console.log("getDate : " + this.getDate("02", "01", "2000"));
+    console.log("new Date : " + (new Date()));
+    console.log("getDate : " + this.convert(new Date()));
+
     // this.date_split("20040317")
 
     // var d1 = new Date("12/31/1885")

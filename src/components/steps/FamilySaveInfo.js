@@ -63,7 +63,9 @@ export default class FamilySaveInfo extends React.Component {
           </tr>
           {this.props.chkBoxId.map((value, i) => (
             <tr key={i}>
-              <td>{value}</td>
+              <td>{value[i].patientIDs}</td>
+              <td>{value[i].lkdDate}</td>
+              {console.log("value : " + value[i].lkdDate)}
             </tr>
           ))}
         </tbody>

@@ -180,19 +180,24 @@ class CancerInfo extends React.Component {
   }
 
   getDate(d, m, y) {
+    console.log("getDate Month : " + m)
     var currentDate;
     if (d == "99" && m != "99" && y != "9999") {
       currentDate = new Date(parseInt(y), parseInt(m), 15);
       // currentDate = new Date(parseInt(y), parseInt(m) - 1, parseInt(d));
 
       console.log("if---1 : " + currentDate)
+    } else if (d != "99" && m == "99" && y != "9999") {
+      currentDate = new Date(parseInt(y), 7, parseInt(d));
+      console.log("if---2 : " + currentDate)
+
     } else if (d == "99" && m == "99" && y != "9999") {
       currentDate = new Date(parseInt(y), 7, 1);
-      console.log("if---2 : " + currentDate)
+      console.log("if---3 : " + currentDate)
 
     } else if (d != "99" && m != "99" && y != "9999") {
       currentDate = new Date(parseInt(y), parseInt(m) - 1, parseInt(d));
-      console.log("if---3 : " + currentDate)
+      console.log("if---4 : " + currentDate)
 
     }
     return currentDate;
@@ -488,7 +493,7 @@ class CancerInfo extends React.Component {
       // alert("Saving" + this.state.cancerInfo[this.state.selectedId].age)
       this.setState({ show: false });
     } else {
-      alert("NOT Valid ");
+      // alert("NOT Valid ");
     }
   };
   //capture edited records and compair with the original data
@@ -1275,8 +1280,8 @@ class CancerInfo extends React.Component {
     console.log("Month Picked : " + selectedEditMonth);
     this.setState({
       selectedEditMonth: selectedEditMonth != "Month" ? selectedEditMonth : ""
-      // }, () => {
-      //   this.calculateAgeOfDiag();
+    }, () => {
+      this.calculateAgeOfDiag();
     });
   };
   handleYearPickedDiag = (selectedEditYear, e) => {
@@ -1304,14 +1309,14 @@ class CancerInfo extends React.Component {
     console.log("Date    Picked : " + selectedEditDate);
     this.setState({
       selectedEditDate: selectedEditDate != "Day" ? selectedEditDate : ""
-      // }, () => {
-      //   this.calculateAgeOfDiag();
+    }, () => {
+      this.calculateAgeOfDiag();
     });
 
     // this.calculateAgeOfDiag();
   };
 
-  calculateAgeOfDiag() {
+  calculateAgeOfDiag = () => {
     console.log("In calculateAgeOfDiag: " + dob);
 
     if (
@@ -1319,30 +1324,60 @@ class CancerInfo extends React.Component {
       this.state.selectedEditMonth != "" &&
       this.state.selectedEditDate != ""
     ) {
-      var dob = new Date(
-        this.convertDateFormat(this.state.selectedPersonData.dateOfBirth)
-      );
+      var dob = this.convertToGetDate(this.state.selectedPersonData.dateOfBirth);
+      // var currentDeathDate = this.convertToGetDate(this.state.selectedPersonData.dateOfDeath);
+      //  new Date(        this.convertDateFormat(this.state.selectedPersonData.dateOfBirth)      );
 
       this.setState({
         dateOfDiagFromDb: this.state.selectedEditYear + this.state.selectedEditMonth + this.state.selectedEditDate
       });
-      var dodiag = new Date(this.convertDateFormat(this.state.dateOfDiagFromDb),
+      // var dodiag = new Date(this.convertDateFormat(this.state.dateOfDiagFromDb));
+      var dodiag = this.getDate(this.state.selectedEditDate, this.state.selectedEditMonth, this.state.selectedEditYear);
 
-      );
+      // 
       console.log("In didupdate NOT NULL dob : " + dob);
       console.log("In didupdate NOT NULL DIAG DATE : " + dodiag);
 
-      var dt1 = Math.floor((dodiag - dob) / 31536000000);
+      // var dt1 = Math.floor((dodiag - dob) / 31536000000);
+      var dt1 = this.getAge(dob, dodiag)
+
       console.log("In didupdate NOT NULL DIAG DATE : " + dt1);
       // this.state.ageDiagnosisFromDb = dt1
 
 
       this.setState({
         ageDiagnosisFromDb: dt1
+        // }, () => {
+        //   this.getAge(dob, dodiag);
       });
 
       this.state.enableSaveButton = true;
     }
+  }
+  getAge = (birthDateLocal, dateOfDiagLocal) => {
+
+
+    var curYear = birthDateLocal.getFullYear();
+    var dobYear = dateOfDiagLocal.getFullYear();
+    var age = dobYear - curYear;
+
+    var curMonth = birthDateLocal.getMonth();
+    var dobMonth = dateOfDiagLocal.getMonth();
+    if (dobMonth > curMonth) {
+      // this year can't be counted!
+      age;
+    } else if (dobMonth == curMonth) {
+      // same month? check for day
+
+      var curDay = birthDateLocal.getDate();
+      var dobDay = dateOfDiagLocal.getDate();
+      if (dobDay > curDay) {
+        // this year can't be counted!
+        age;
+      }
+    }
+
+    return age;
   }
   /* Diagnostic Date values END*/
 

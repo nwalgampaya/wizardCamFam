@@ -7,25 +7,32 @@ import DatePicker from "react-date-picker";
 export default class FamilySearch extends React.Component {
   constructor(props) {
     super(props);
-    this.state = {
-      value: "",
-      familyData: [],
-      individualId: [],
-      currentLKD: "",
-      sendCurrentLKD: "",
-      isSearched: false,
-      srlcodesRest: [],
-      selectedSrlCode: "",
-      familyIdValue: "",
-      chkBoxId: [],
-      apierror: { debugMessage: "", status: "", timestamp: "", message: "" },
-      error: false,
-      errorMsg: ""
-      // { id:'',
-      //   value:'',
+    this._id = FamilySearch.incrementId(),
+      this.state = {
+        value: "",
+        familyData: [],
+        individualId: [],
+        currentLKD: "",
+        sendCurrentLKD: "",
+        isSearched: false,
+        srlcodesRest: [],
+        selectedSrlCode: "",
+        familyIdValue: "",
+        checkboxObj: {
+          lkdDate: '',
+          patientIDs: ''
 
-      // },
-    };
+        },
+        chkBoxId: [],
+        apierror: { debugMessage: "", status: "", timestamp: "", message: "" },
+        error: false,
+        errorMsg: "",
+        isChecked: false,
+        // { id:'',
+        //   value:'',
+
+        // },
+      };
     this.handleLkd = this.handleLkd.bind(this);
     this.handleSearchGetFamily = this.handleSearchGetFamily.bind(this);
   }
@@ -144,8 +151,9 @@ export default class FamilySearch extends React.Component {
             <input
               className="form-check-input"
               type="checkbox"
-              id={i}
-              value={value}
+              // id={i}
+              id={value.patientIDs}
+              value={value.lkdDate}
               name="individualChkbx"
               onChange={this.setCheckBoxValues.bind(this)}
             />
@@ -159,22 +167,53 @@ export default class FamilySearch extends React.Component {
       ));
     }
   }
-
+  static incrementId() {
+    if (!this.latestId) this.latestId = 1
+    else this.latestId++
+    return this.latestId
+  }
   setCheckBoxValues(event) {
+    var idGen = this._id++
+    console.log("chkBoxId id:" + event.target.value);
+    console.log("chkBoxId key:" + event.target.key);
     console.log("chkBoxId id:" + event.target.id);
-    console.log("chkBoxId value :" + event.target.value);
+    console.log("chkBoxId value :" + idGen);
 
-    // Get all the checked values into an array
-    this.state.chkBoxId[event.target.id] = event.target.value;
+    // Get all the checked values into an array 
+    this.state.checkboxObj.lkdDate = event.target.value;
+    this.state.checkboxObj.patientIDs = event.target.id;
 
+    this.state.chkBoxId[idGen] = this.state.checkboxObj
+    // this.state.chkBoxId[idGen].patientIDs = event.target.value;
+    // this.state.chkBoxId[idGen].lkdDate = event.target.value;
+
+    if (event.target.value != null) {
+      this.setState({
+        isChecked: true
+      },
+        () => {
+          this.onSelectCheckBox();
+        }
+
+      );
+      // this.state.isChked=true;
+    }
     this.setState({
       chkBoxId: this.state.chkBoxId
     });
 
+    for (var key in this.state.chkBoxId) {
+      if (this.state.chkBoxId.hasOwnProperty(key)) {
+        console.log(key, this.state.chkBoxId[key].lkdDate);
+        console.log(key, this.state.chkBoxId[key].patientIDs);
+      }
+    }
+
+
     //ToDo remove this code
-    // this.state.chkBoxId.map((value) => {
-    //     console.log("Selected chkbx values : " + value)
-    // })
+    this.state.chkBoxId.map((value, i) => {
+      console.log("Selected chkbx values : " + value[i])
+    })
   }
   setFamilyValue(value) {
     console.log("family Id :" + value);
@@ -260,12 +299,19 @@ export default class FamilySearch extends React.Component {
       selectedSrlCode: event.target.value
     });
   }
+
+  onSelectCheckBox() {
+    this.props.onProceedButton(
+      this.state.isChecked);
+  }
+
+
   onSelectCancerFamId(e) {
     console.log(" onSelectCancerFamId onSelectCancerFamId ");
     this.props.onFamilySearch(
       this.state.chkBoxId,
       this.state.selectedSrlCode,
-      this.state.sendCurrentLKD
+      this.state.sendCurrentLKD,
     );
   }
 

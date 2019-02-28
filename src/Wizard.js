@@ -363,9 +363,9 @@ export default class Wizard extends React.Component {
                     {!isLastPage &&
                       page > 0 &&
                       page != 2 &&
-                      page != 1 &&
+                      (page != 1) &&
                       page != 4 && (
-                        <button
+                        <button disabled={!this.props.isChecked && this.props.choosePathFamily}
                           className="btn btn-primary pull-right"
                           type="button"
                           onClick={() => this.next()}

@@ -183,7 +183,8 @@ export default class FamilySearch extends React.Component {
     this.state.checkboxObj.lkdDate = event.target.value;
     this.state.checkboxObj.patientIDs = event.target.id;
 
-    this.state.chkBoxId[idGen] = this.state.checkboxObj
+    //this.state.chkBoxId[idGen] = this.state.checkboxObj
+    this.state.chkBoxId.push(this.state.checkboxObj);
     // this.state.chkBoxId[idGen].patientIDs = event.target.value;
     // this.state.chkBoxId[idGen].lkdDate = event.target.value;
 

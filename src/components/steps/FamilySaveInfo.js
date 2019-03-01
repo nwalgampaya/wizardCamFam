@@ -18,9 +18,13 @@ export default class FamilySaveInfo extends React.Component {
 
   onSaveCancerFamilyID(e) {
     console.log("onSaveCancerFamilyID");
-    this.state.PatientLKDDTO.patientIDs = this.props.chkBoxId;
-    this.state.PatientLKDDTO.lkdDate = this.props.currentLKD;
-    this.state.PatientLKDDTO.lkdSource.code = this.props.selectedSrlCode;
+    this.props.chkBoxId.map((value, i) => (
+      console.log(" patient id map " + value.patientIDs),
+      this.state.PatientLKDDTO.patientIDs[i] = value.patientIDs
+
+    ));
+    this.state.PatientLKDDTO.lkdDate = this.props.currentLKD,
+      this.state.PatientLKDDTO.lkdSource.code = this.props.selectedSrlCode
 
     const urlSavefamilyId = properties.baseUrl + "patients/lkd";
 
@@ -60,12 +64,15 @@ export default class FamilySaveInfo extends React.Component {
         <tbody>
           <tr>
             <th>Selected Individual Id</th>
+            <th>Lkd Date Old</th>
+            <th>Lkd Date New</th>
           </tr>
           {this.props.chkBoxId.map((value, i) => (
             <tr key={i}>
               {console.log("value saveFam: " + value)}
               <td>{value.patientIDs}</td>
               <td>{value.lkdDate}</td>
+              <td>{this.props.currentLKD}</td>
               {/* {console.log("value : " + value[i].lkdDate)} */}
             </tr>
           ))}
